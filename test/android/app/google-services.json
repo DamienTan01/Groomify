@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "940883811102",
+    "project_id": "flutter-projects-aa7e2",
+    "storage_bucket": "flutter-projects-aa7e2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:940883811102:android:34a38ed42a7c7e27d5470f",
+        "android_client_info": {
+          "package_name": "com.example.groomify"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAjt5cS7speuejdkOpsDK8OI3NoKHygHM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
