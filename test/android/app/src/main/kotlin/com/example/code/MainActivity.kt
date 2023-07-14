@@ -1,4 +1,4 @@
-package com.example.groomify
+package com.example.code
 
 import io.flutter.embedding.android.FlutterActivity
 

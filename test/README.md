@@ -1,6 +1,6 @@
-# groomify
+# code
 
-Pet Grooming Booking App
+A new Flutter project.
 
 ## Getting Started
 
