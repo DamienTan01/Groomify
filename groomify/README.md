@@ -1,6 +1,6 @@
 # groomify
 
-Pet Grooming Booking App
+A pet grooming booking app
 
 ## Getting Started
 
