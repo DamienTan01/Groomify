@@ -1,5 +1,6 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dartz';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,28 +33,25 @@ class _MyAppState extends State<MyApp> {
         ),
         appBarTheme: AppBarTheme(backgroundColor: Color(0xFF731942)),
       ),
-      initialRoute: LoginPage.routeName,
-      routes: {
-        LoginPage.routeName: (context) => const LoginPage(),
-        HomePage.routeName: (context) => HomePage(
-          comicList: [],
-          novelList: [],
-        ),
-        UserProfile.routeName: (context) => UserProfile(),
-        BookmarkPage.routeName: (context) => BookmarkPage(),
-        ComicBookmarkPage.routeName: (context) => ComicBookmarkPage(),
-        NovelBookmarkPage.routeName: (context) => NovelBookmarkPage(),
-        ComicPage.routeName: (context) => ComicPage(),
-        ComicListPage.routeName: (context) => ComicListPage(),
-        ComicDetailPage.routeName: (context) => ComicDetailPage(
-          refreshUI: refresh,
-        ),
-        NovelPage.routeName: (context) => NovelPage(),
-        NovelListPage.routeName: (context) => NovelListPage(),
-        NovelDetailPage.routeName: (context) => NovelDetailPage(
-          refreshUI: refresh,
-        ),
-      },
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage();
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+
+      ),
     );
   }
 }
