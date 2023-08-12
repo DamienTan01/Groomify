@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "822749471304",
+    "project_id": "groomify-30c70",
+    "storage_bucket": "groomify-30c70.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:822749471304:android:fb8957d2913f6a20816e7d",
+        "android_client_info": {
+          "package_name": "com.example.groomify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "822749471304-aol21rc6elcknfts57060p2bnhl721q9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvpBjk9R-b12RDyWOAvl3WPwTI6izdoqc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "822749471304-aol21rc6elcknfts57060p2bnhl721q9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
