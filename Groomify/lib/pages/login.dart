@@ -19,6 +19,17 @@ class _LoginPageState extends State<LoginPage> {
           Container(
             width: w,
             height: h*0.3,
+            margin: EdgeInsets.only(top: 20),
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                  "asset/logo.png",
+                ),
+              ),
+            ),
+          ),
+          Container(
+            
           ),
         ],
       ),
