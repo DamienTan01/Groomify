@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:groomify/pages/login.dart';
+import 'package:groomify/pages/signup.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Color(0xffF7D1CD),
         primarySwatch: Colors.blue,
       ),
-      home: const LoginPage(),
+      home: const SignupPage(),
     );
   }
 }
