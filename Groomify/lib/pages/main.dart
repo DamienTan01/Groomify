@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:groomify/pages/home.dart';
 import 'package:groomify/pages/login.dart';
 import 'package:groomify/pages/signup.dart';
 
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Color(0xffF7D1CD),
         primarySwatch: Colors.blue,
       ),
-      home: const SignupPage(),
+      home: const HomePage(),
     );
   }
 }
