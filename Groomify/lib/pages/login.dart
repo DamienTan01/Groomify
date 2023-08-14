@@ -1,4 +1,7 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:groomify/pages/signup.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,7 +19,9 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Column(
         children: [
-          SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
           //Logo
           Container(
             width: w,
@@ -47,13 +52,17 @@ class _LoginPageState extends State<LoginPage> {
               height: 50,
               child: TextField(
                 style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,),
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
                 decoration: InputDecoration(
                     hintText: 'Email',
-                    hintStyle: TextStyle(
-                        color: Colors.white),
+                    prefixIcon: Icon(
+                      Icons.email,
+                      color: Color(0xff735D78),
+                    ),
+                    hintStyle: TextStyle(color: Colors.white),
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(color: Colors.grey, width: 1.0)),
@@ -88,6 +97,10 @@ class _LoginPageState extends State<LoginPage> {
                     fontSize: 20),
                 decoration: InputDecoration(
                     hintText: 'Password',
+                    prefixIcon: Icon(
+                      Icons.password,
+                      color: Color(0xff735D78),
+                    ),
                     hintStyle: TextStyle(color: Colors.white),
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -145,7 +158,9 @@ class _LoginPageState extends State<LoginPage> {
                       color: Colors.blue,
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
-                    ))
+                    ),
+                  recognizer: TapGestureRecognizer()..onTap=()=>Get.to(()=>SignupPage())
+                )
               ]))
         ],
       ),
