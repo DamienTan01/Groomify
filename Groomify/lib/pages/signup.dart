@@ -14,7 +14,7 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
-  
+
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;

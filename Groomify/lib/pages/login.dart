@@ -119,23 +119,25 @@ class _LoginPageState extends State<LoginPage> {
               height: 60,
             ),
             //Button
-            Container(
-              width: w * 0.3,
-              height: h * 0.06,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Color(0xff735D78),
-                  boxShadow: [
-                    BoxShadow(
-                        blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
-                  ]),
-              child: Center(
-                child: Text(
-                  "Login",
-                  style: TextStyle(
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+            GestureDetector(
+              child: Container(
+                width: w * 0.3,
+                height: h * 0.06,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xff735D78),
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
+                    ]),
+                child: Center(
+                  child: Text(
+                    "Login",
+                    style: TextStyle(
+                      fontSize: 35,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
