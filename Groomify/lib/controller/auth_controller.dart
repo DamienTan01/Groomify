@@ -59,4 +59,28 @@ class AuthController extends GetxController {
       );
     }
   }
+  void login(String email, password) async{
+    //Try/catch is used for exceptions when things go wrong
+    try {
+      await auth.signInWithEmailAndPassword(email: email, password: password);
+    }catch(e) {
+      //Prompt a message when registration failed
+      Get.snackbar("About Login", "Login Message",
+          backgroundColor: Colors.redAccent,
+          snackPosition: SnackPosition.BOTTOM,
+          titleText: Text(
+            "Login Failed",
+          ),
+          messageText: Text(
+            e.toString(),
+            style: TextStyle(
+                color: Colors.white
+            ),
+          )
+      );
+    }
+  }
+  void logout() async{
+    await auth.signOut();
+  }
 }
