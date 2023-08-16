@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:groomify/pages/home.dart';
+import 'package:groomify/controller/auth_controller.dart';
 import 'package:groomify/pages/login.dart';
-import 'package:groomify/pages/signup.dart';
 import 'package:get/get.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+Future<void> main() async {
+  //Wait for binding of firebase and authcontroller
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp().then((value) => Get.put(AuthController()));
   runApp(const MyApp());
 }
 
