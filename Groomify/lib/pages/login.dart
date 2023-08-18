@@ -49,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
                         blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
                   ]),
               child: SizedBox(
-                width: 250,
+                width: 280,
                 height: 50,
                 child: TextField(
                   style: TextStyle(
@@ -89,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                         blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
                   ]),
               child: SizedBox(
-                width: 250,
+                width: 280,
                 height: 50,
                 child: TextField(
                   style: TextStyle(
