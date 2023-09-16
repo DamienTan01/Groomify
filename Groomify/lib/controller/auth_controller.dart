@@ -67,7 +67,6 @@ class AuthController extends GetxController {
         ),
         messageText: Text(
           "Account Creation Failed",
-          // textAlign: TextAlign.center,
           style: TextStyle(
               fontSize: 15,
               color: Colors.white
