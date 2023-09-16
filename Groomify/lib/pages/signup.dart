@@ -38,7 +38,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            //First Name
+            //Full Name
             Container(
               decoration: BoxDecoration(
                   color: Color(0xffD1B3C4),
@@ -51,19 +51,16 @@ class _SignupPageState extends State<SignupPage> {
                 width: 280,
                 height: 50,
                 child: TextFormField(
-                  validator: (value){
-                    if(value!.isEmpty || !RegExp(r'^[a-z A-Z]+$').hasMatch(value!)){
-                      return "Numbers are not allowed";
-                    }else {
-                      return null;
-                    }
-                  },
+                  inputFormatters: [
+                    // only accept letters from a to z
+                    FilteringTextInputFormatter(RegExp(r'[a-zA-Z]'), allow: true)
+                  ],
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 20),
                   decoration: InputDecoration(
-                      hintText: 'First Name',
+                      hintText: 'Full Name',
                       prefixIcon: Icon(Icons.first_page, color: Color(0xff735D78),),
                       hintStyle: TextStyle(color: Colors.white),
                       focusedBorder: OutlineInputBorder(
@@ -79,7 +76,7 @@ class _SignupPageState extends State<SignupPage> {
               ),
             ),
             SizedBox(height: 50,),
-            //Last Name
+            //Username
             Container(
               decoration: BoxDecoration(
                   color: Color(0xffD1B3C4),
@@ -97,7 +94,7 @@ class _SignupPageState extends State<SignupPage> {
                       fontWeight: FontWeight.bold,
                       fontSize: 20),
                   decoration: InputDecoration(
-                      hintText: 'Last Name',
+                      hintText: 'Username',
                       prefixIcon: Icon(Icons.last_page, color: Color(0xff735D78),),
                       hintStyle: TextStyle(color: Colors.white),
                       focusedBorder: OutlineInputBorder(

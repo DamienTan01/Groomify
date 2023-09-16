@@ -45,13 +45,14 @@ class AuthController extends GetxController {
     try {
       await auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      // Future addDetails(String uid, String username, String email) async {
-      //   await FirebaseFirestore.instance.collection('users').add({
-      //     'uid': uid,
-      //     'username': username,
-      //     'email': email,
-      //   });
-      // }
+      Future addDetails(String fullName, String username, String email, String password) async {
+        await FirebaseFirestore.instance.collection('users').add({
+          'fullName': fullName,
+          'username': username,
+          'email': email,
+          'password': password,
+        });
+      }
     } catch (e) {
       //Prompt a message when registration failed
       Get.snackbar(
