@@ -53,7 +53,7 @@ class _SignupPageState extends State<SignupPage> {
                 child: TextFormField(
                   inputFormatters: [
                     // only accept letters from a to z
-                    FilteringTextInputFormatter(RegExp(r'[a-zA-Z]'), allow: true)
+                    FilteringTextInputFormatter(RegExp(r'[a-zA-Z]+|\s'), allow: true)
                   ],
                   style: TextStyle(
                       color: Colors.white,
