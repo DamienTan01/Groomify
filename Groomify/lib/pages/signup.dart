@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:groomify/controller/auth_controller.dart';
 import 'package:groomify/pages/login.dart';
@@ -49,7 +50,14 @@ class _SignupPageState extends State<SignupPage> {
               child: SizedBox(
                 width: 280,
                 height: 50,
-                child: TextField(
+                child: TextFormField(
+                  validator: (value){
+                    if(value!.isEmpty || !RegExp(r'^[a-z A-Z]+$').hasMatch(value!)){
+                      return "Numbers are not allowed";
+                    }else {
+                      return null;
+                    }
+                  },
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

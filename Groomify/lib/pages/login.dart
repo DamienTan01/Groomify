@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:groomify/controller/auth_controller.dart';
 import 'package:groomify/pages/signup.dart';
 
 class LoginPage extends StatefulWidget {
@@ -11,6 +12,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
@@ -52,6 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                 width: 280,
                 height: 50,
                 child: TextField(
+                  controller: emailController,
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -92,6 +96,8 @@ class _LoginPageState extends State<LoginPage> {
                 width: 280,
                 height: 50,
                 child: TextField(
+                  controller: passwordController,
+                  obscureText: true,
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -120,6 +126,9 @@ class _LoginPageState extends State<LoginPage> {
             ),
             //Button
             GestureDetector(
+              onTap: (){
+                AuthController.instance.login(emailController.text.trim(), passwordController.text.trim());
+              },
               child: Container(
                 width: w * 0.3,
                 height: h * 0.06,

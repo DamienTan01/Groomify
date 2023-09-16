@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:groomify/controller/auth_controller.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  String email;
+  HomePage({Key? key, required this.email}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
