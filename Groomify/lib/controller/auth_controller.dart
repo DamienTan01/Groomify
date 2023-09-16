@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -14,6 +15,7 @@ class AuthController extends GetxController {
   late Rx<User?> _user;
   //Firebase auth module
   FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
   void onReady() {
@@ -42,6 +44,13 @@ class AuthController extends GetxController {
     //Try/catch is used for exceptions when things go wrong
     try {
       await auth.createUserWithEmailAndPassword(email: email, password: password);
+      Future addDetails(String uid, String username, String email) async {
+        await FirebaseFirestore.instance.collection('users').add({
+          'uid': uid,
+          'username': username,
+          'email': email,
+        });
+      }
     }catch(e) {
       //Prompt a message when registration failed
       Get.snackbar("About User", "User Message",
@@ -50,12 +59,6 @@ class AuthController extends GetxController {
         titleText: Text(
           "Account Creation Failed",
         ),
-        messageText: Text(
-          e.toString(),
-          style: TextStyle(
-            color: Colors.white
-          ),
-        )
       );
     }
   }
@@ -65,18 +68,18 @@ class AuthController extends GetxController {
       await auth.signInWithEmailAndPassword(email: email, password: password);
     }catch(e) {
       //Prompt a message when registration failed
-      Get.snackbar("About Login", "Login Message",
+      Get.snackbar("About Login", "Empty Fields",
           backgroundColor: Colors.redAccent,
           snackPosition: SnackPosition.BOTTOM,
           titleText: Text(
             "Login Failed",
           ),
-          messageText: Text(
-            e.toString(),
-            style: TextStyle(
-                color: Colors.white
-            ),
-          )
+          // messageText: Text(
+          //   e.toString(),
+          //   style: TextStyle(
+          //       color: Colors.white
+          //   ),
+          // )
       );
     }
   }
