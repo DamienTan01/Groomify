@@ -1,3 +1,5 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:groomify/controller/auth_controller.dart';
 import 'package:groomify/pages/login.dart';
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Color(0xffF7D1CD),
         primarySwatch: Colors.blue,
       ),
-      home: const LoginPage(),
+      home: LoginPage(),
     );
   }
 }
