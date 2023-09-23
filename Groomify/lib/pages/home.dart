@@ -15,34 +15,33 @@ class HomePage extends StatelessWidget {
         child: Column(
           children: [
             //Button
-            // GestureDetector(
-            //   onTap: () {
-            //     AuthController.instance.logout();
-            //   },
-            //   child: Container(
-            //     margin: EdgeInsets.only(top: 100),
-            //     width: w * 0.3,
-            //     height: h * 0.06,
-            //     decoration: BoxDecoration(
-            //         borderRadius: BorderRadius.circular(10),
-            //         color: Color(0xff735D78),
-            //         boxShadow: [
-            //           BoxShadow(
-            //               blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
-            //         ]),
-            //     child: Center(
-            //       child: Text(
-            //         "Logout",
-            //         style: TextStyle(
-            //           fontSize: 35,
-            //           fontWeight: FontWeight.bold,
-            //           color: Colors.white,
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-
+            GestureDetector(
+              onTap: () {
+                AuthController.instance.logout();
+              },
+              child: Container(
+                margin: EdgeInsets.only(top: 100),
+                width: w * 0.3,
+                height: h * 0.06,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xff735D78),
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
+                    ]),
+                child: Center(
+                  child: Text(
+                    "Logout",
+                    style: TextStyle(
+                      fontSize: 35,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

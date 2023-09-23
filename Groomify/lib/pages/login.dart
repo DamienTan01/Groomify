@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:groomify/controller/auth_controller.dart';
+import 'package:groomify/pages/resetPass.dart';
 import 'package:groomify/pages/signup.dart';
 
 class LoginPage extends StatefulWidget {
@@ -154,7 +155,30 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               height: 30,
             ),
-            //Text
+            //Forgot Password
+            RichText(
+              text: TextSpan(
+                text: "Forgot password? ",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18),
+                children: [
+                  TextSpan(
+                    text: "Reset password",
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                      recognizer: TapGestureRecognizer()..onTap=()=>Get.to(()=>ResetPass())
+                  )]
+            ),),
+            SizedBox(
+              height: 25,
+            ),
+            //Signup Page
             RichText(
                 text: TextSpan(
                     text: "Don't have an account?",
@@ -163,17 +187,17 @@ class _LoginPageState extends State<LoginPage> {
                         fontWeight: FontWeight.bold,
                         fontSize: 18),
                     children: [
-                  TextSpan(
-                      text: " Sign up now",
-                      style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    recognizer: TapGestureRecognizer()..onTap=()=>Get.to(()=>SignupPage())
-                  )
-                ]))
+                      TextSpan(
+                          text: " Sign up now",
+                          style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                          recognizer: TapGestureRecognizer()..onTap=()=>Get.to(()=>SignupPage())
+                      )
+                    ])),
           ],
         ),
       ),
