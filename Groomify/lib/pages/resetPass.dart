@@ -160,7 +160,7 @@ class ResetPass extends StatelessWidget {
     ),
     recognizer: TapGestureRecognizer()..onTap=()=>Get.to(()=>ResetPass())
     )]
-    ),),
+    ),)
     );
   }
 }
