@@ -14,7 +14,7 @@ class CustomNavBar extends StatelessWidget {
     return BottomNavigationBar(
       backgroundColor: Color(0xffD1B3C4),
       currentIndex: selectedIndex,
-      iconSize: 30,
+      iconSize: 35,
       unselectedItemColor: Color(0xff735D78),
       selectedItemColor: Colors.black,
       onTap: onItemTapped,
