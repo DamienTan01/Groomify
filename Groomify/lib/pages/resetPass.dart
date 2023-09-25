@@ -146,6 +146,7 @@ class ResetPass extends StatelessWidget {
   }
 }
 
+//Reset Password Function
 class ResetPassModel {
   Future<void> resetPassword(String email, BuildContext context) async {
     try {
