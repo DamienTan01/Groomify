@@ -130,9 +130,6 @@ class LoginPageView extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 38.0),
-
-
-
             ],
           ),
         ),

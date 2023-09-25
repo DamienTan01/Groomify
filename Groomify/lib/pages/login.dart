@@ -13,8 +13,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  var emailController = TextEditingController();
-  var passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
@@ -24,14 +25,11 @@ class _LoginPageState extends State<LoginPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
-              height: 10,
-            ),
             //Logo
             Container(
               width: w,
               height: h * 0.3,
-              margin: EdgeInsets.only(top: 20),
+              margin: EdgeInsets.only(top: 30),
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
