@@ -6,15 +6,20 @@ import 'package:groomify/pages/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:groomify/pages/signup.dart';
 
-class ResetPass extends StatelessWidget {
+class ResetPass extends StatefulWidget {
   const ResetPass({super.key});
+
+  @override
+  State<ResetPass> createState() => _ResetPassState();
+}
+
+class _ResetPassState extends State<ResetPass> {
+  final TextEditingController emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
-
-    final TextEditingController emailController = TextEditingController();
 
     return Scaffold(
       backgroundColor: Color(0xffF7D1CD),
@@ -62,16 +67,12 @@ class ResetPass extends StatelessWidget {
                   child: TextField(
                     controller: emailController,
                     style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
                     decoration: InputDecoration(
                         hintText: 'Email',
-                        prefixIcon: Icon(
-                          Icons.email,
-                          color: Color(0xff735D78),
-                        ),
+                        prefixIcon: Icon(Icons.email, color: Color(0xff735D78),),
                         hintStyle: TextStyle(color: Colors.white),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),

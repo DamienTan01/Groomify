@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:groomify/controller/auth_controller.dart';
+import 'package:groomify/pages/btmNavBar.dart';
 
 class HomePage extends StatelessWidget {
   String email;
@@ -45,26 +46,7 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color(0xffD1B3C4),
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Business',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
-          ),
-        ],
-        // currentIndex: _selectedIndex,
-        selectedItemColor: Color(0xff735D78),
-        // onTap: _onItemTapped,
-      ),
+      // bottomNavigationBar: CustomNavBar(),
     );
   }
 }
