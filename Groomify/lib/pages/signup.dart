@@ -187,6 +187,8 @@ class _SignupPageState extends State<SignupPage> {
               onTap: () {
                 final emailValidationResult = AuthController.instance.validateEmail(emailController.text);
                 final passwordValidationResult = AuthController.instance.validatePassword(passwordController.text);
+                final fullNameValidationResult = AuthController.instance.validateFullName(fullNameController.text);
+                final usernameValidationResult = AuthController.instance.validateUserName(usernameController.text);
 
                 if (emailValidationResult == '' && passwordValidationResult == '') {
                   // Both email and password are valid, proceed with registration
@@ -203,6 +205,12 @@ class _SignupPageState extends State<SignupPage> {
                   }
                   if (passwordValidationResult.isNotEmpty) {
                     AuthController.instance.showErrorPopup(context, 'Password Error',passwordValidationResult);
+                  }
+                  if (fullNameValidationResult.isNotEmpty) {
+                    AuthController.instance.showErrorPopup(context, 'Full Name Error',fullNameValidationResult);
+                  }
+                  if (usernameValidationResult.isNotEmpty) {
+                    AuthController.instance.showErrorPopup(context, 'Username Error',usernameValidationResult);
                   }
                 }
               },

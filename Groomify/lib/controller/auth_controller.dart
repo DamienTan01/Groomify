@@ -82,6 +82,20 @@ class AuthController extends GetxController {
     return '';
   }
 
+  String validateFullName(String fullName) {
+    if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(fullName)) {
+      return 'Enter a valid full name (letters and spaces only)';
+    }
+    return '';
+  }
+
+  String validateUserName(String username) {
+    if (!RegExp(r'^[a-zA-Z0-9]+$').hasMatch(username)) {
+      return 'Enter a valid username (letters and numbers only)';
+    }
+    return '';
+  }
+
   bool isLoginButtonEnabled(String email, String password) {
     final emailValid = validateEmail(email) == '';
     final passwordValid = validatePassword(password) == '';
