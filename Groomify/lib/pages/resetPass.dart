@@ -3,8 +3,8 @@ import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
 import 'package:groomify/pages/login.dart';
-import 'package:groomify/controller/auth_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:groomify/pages/signup.dart';
 
 class ResetPass extends StatelessWidget {
   const ResetPass({super.key});
@@ -117,8 +117,8 @@ class ResetPass extends StatelessWidget {
                 ),
               ),
               //SizedBox
-              SizedBox(height: 20,),
-              //Text
+              SizedBox(height: 30,),
+              //Login Page
               RichText(
                   text: TextSpan(
                       text: "Already have an account?",
@@ -137,7 +137,28 @@ class ResetPass extends StatelessWidget {
                             ),
                             recognizer: TapGestureRecognizer()..onTap=()=>Get.to(()=>LoginPage())
                         )
-                      ]))
+                      ])),
+              SizedBox(height: 25,),
+              //Signup Page
+              RichText(
+                  text: TextSpan(
+                      text: "Don't have an account?",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18),
+                      children: [
+                        TextSpan(
+                            text: " Sign up now",
+                            style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                            recognizer: TapGestureRecognizer()..onTap=()=>Get.to(()=>SignupPage())
+                        )
+                      ])),
             ],
           ),
         ),
@@ -179,7 +200,7 @@ class ResetPassModel {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Error'),
-            content: Text('An error occurred while resetting your password.'),
+            content: Text('Please check that the email entered is valid.'),
             actions: [
               TextButton(
                 onPressed: () {

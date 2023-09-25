@@ -125,8 +125,25 @@ class _LoginPageState extends State<LoginPage> {
             ),
             //Button
             GestureDetector(
-              onTap: (){
-                AuthController.instance.login(emailController.text.trim(), passwordController.text.trim());
+              onTap: () {
+                final emailValidationResult = AuthController.instance.validateEmail(emailController.text);
+                final passwordValidationResult = AuthController.instance.validatePassword(passwordController.text);
+
+                if (emailValidationResult == '' && passwordValidationResult == '') {
+                  // Both email and password are valid, proceed with login
+                  AuthController.instance.login(
+                    emailController.text.trim(),
+                    passwordController.text.trim(),
+                  );
+                } else {
+                  // Show error popups for invalid input
+                  if (emailValidationResult.isNotEmpty) {
+                    AuthController.instance.showErrorPopup(context, 'Email Error', emailValidationResult);
+                  }
+                  if (passwordValidationResult.isNotEmpty) {
+                    AuthController.instance.showErrorPopup(context, 'Password Error', passwordValidationResult);
+                  }
+                }
               },
               child: Container(
                 width: w * 0.3,
@@ -137,7 +154,8 @@ class _LoginPageState extends State<LoginPage> {
                     boxShadow: [
                       BoxShadow(
                           blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
-                    ]),
+                    ]
+                ),
                 child: Center(
                   child: Text(
                     "Login",

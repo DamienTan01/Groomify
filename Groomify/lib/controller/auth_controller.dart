@@ -39,83 +39,72 @@ class AuthController extends GetxController {
     }
   }
 
-  //Function for registration
-  void register(String email, password) async {
-    //Try/catch is used for exceptions when things go wrong
+  void register(String email, String password, String fullName, String username) async {
     try {
-      await auth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      Future addDetails(String fullName, String username, String email, String password) async {
-        await FirebaseFirestore.instance.collection('users').add({
-          'fullName': fullName,
-          'username': username,
-          'email': email,
-          'password': password,
-        });
-      }
+      await auth.createUserWithEmailAndPassword(email: email, password: password);
+      await firestore.collection('users').add({
+        'fullName': fullName,
+        'username': username,
+        'email': email,
+        'password': password,
+      });
     } catch (e) {
-      //Prompt a message when registration failed
-      Get.snackbar(
-        "Groomify",
-        "Account Creation Failed",
-        titleText: Text(
-            "Groomify",
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
-                color: Colors.white
-            )
-        ),
-        messageText: Text(
-          "Account Creation Failed",
-          style: TextStyle(
-              fontSize: 15,
-              color: Colors.white
-          ),
-        ),
-        icon: const Icon(Icons.add_alert),
-        backgroundColor: Color(0xff735D78),
-        margin: EdgeInsets.all(15),
-        duration: Duration(seconds: 3),
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      showErrorPopup(Get.context!, 'Account Creation Failed', 'Invalid Credentials');
     }
   }
 
-  void login(String email, password) async {
-    //Try/catch is used for exceptions when things go wrong
+  void login(String email, String password) async {
     try {
       await auth.signInWithEmailAndPassword(email: email, password: password);
     } catch (e) {
-      //Prompt a message when login failed
-      Get.snackbar(
-        "Groomify",
-        "Login Failed",
-        titleText: Text(
-            "Groomify",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
-              color: Colors.white
-            )
-        ),
-        messageText: Text(
-          "Login Failed",
-          style: TextStyle(
-            fontSize: 15,
-            color: Colors.white
-          ),
-        ),
-        icon: const Icon(Icons.add_alert),
-        backgroundColor: Color(0xff735D78),
-        margin: EdgeInsets.all(15),
-        duration: Duration(seconds: 3),
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      showErrorPopup(Get.context!, 'Login Failed', 'Invalid Credentials');
     }
   }
 
   void logout() async {
     await auth.signOut();
+  }
+
+  String validateEmail(String email) {
+    if (!RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$').hasMatch(email)) {
+      return 'Enter a valid email address';
+    }
+    return '';
+  }
+
+  String validatePassword(String password) {
+    if (password.isEmpty) {
+      return 'Password is required';
+    }
+    if (password.length < 6) {
+      return 'Password must be at least 6 characters';
+    }
+    return '';
+  }
+
+  bool isLoginButtonEnabled(String email, String password) {
+    final emailValid = validateEmail(email) == '';
+    final passwordValid = validatePassword(password) == '';
+    return emailValid && passwordValid;
+  }
+
+  void showErrorPopup(BuildContext context, String title, String errorMessage) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(errorMessage),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

@@ -15,6 +15,8 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController fullNameController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -182,8 +184,27 @@ class _SignupPageState extends State<SignupPage> {
             SizedBox(height: 50,),
             //Button
             GestureDetector(
-              onTap: (){
-                AuthController.instance.register(emailController.text.trim(), passwordController.text.trim());
+              onTap: () {
+                final emailValidationResult = AuthController.instance.validateEmail(emailController.text);
+                final passwordValidationResult = AuthController.instance.validatePassword(passwordController.text);
+
+                if (emailValidationResult == '' && passwordValidationResult == '') {
+                  // Both email and password are valid, proceed with registration
+                  AuthController.instance.register(
+                    emailController.text.trim(),
+                    passwordController.text.trim(),
+                    fullNameController.text.trim(), // Provide full name here
+                    usernameController.text.trim(), // Provide username here
+                  );
+                } else {
+                  // Show error popups for invalid input
+                  if (emailValidationResult.isNotEmpty) {
+                    AuthController.instance.showErrorPopup(context, 'Email Error',emailValidationResult);
+                  }
+                  if (passwordValidationResult.isNotEmpty) {
+                    AuthController.instance.showErrorPopup(context, 'Password Error',passwordValidationResult);
+                  }
+                }
               },
               child: Container(
                 width: w * 0.4,
