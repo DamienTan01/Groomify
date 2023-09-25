@@ -2,9 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:groomify/controller/auth_controller.dart';
 import 'package:groomify/pages/btmNavBar.dart';
 
-class HomePage extends StatelessWidget {
-  String email;
-  HomePage({Key? key, required this.email}) : super(key: key);
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +25,7 @@ class HomePage extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            //Button
+            //Logout Button
             GestureDetector(
               onTap: () {
                 AuthController.instance.logout();
@@ -46,7 +56,10 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      // bottomNavigationBar: CustomNavBar(),
+      bottomNavigationBar: CustomNavBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
+      ),
     );
   }
 }
