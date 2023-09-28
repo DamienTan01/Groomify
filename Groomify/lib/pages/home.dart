@@ -52,32 +52,13 @@ class _HomePageState extends State<HomePage> {
         ],
         elevation: 0,
       ),
-      body: Stack(
+      body: Column(
         children: [
-          Column(
-            children: [
-              //Ads
-              Container(
-                color: Color(0xffB392AC), // Set the background color of the content
-                height: 150, // Set the desired height of the content
-                child: Center(
-                  child: Text(
-                    'Content Goes Here',
-                    style: TextStyle(
-                      fontSize: 24,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+          SizedBox(height: 20),
           //Search Bar
-          Positioned(
-            top: 120, // Adjust the top position to control the overlap
-            left: 40, // Adjust the left position to control the overlap
-            right: 40, // Adjust the right position to control the overlap
+          Center(
             child: Container(
+              width: 350,
               height: 50, // Set the height of the search bar
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -95,35 +76,105 @@ class _HomePageState extends State<HomePage> {
                 decoration: InputDecoration(
                   prefixIconColor: Color(0xff735D78),
                   prefixIcon: Icon(Icons.search),
-                  hintText: 'Search',
+                  hintText: 'Search for Groomers',
                   border: InputBorder.none,
                 ),
               ),
             ),
           ),
+          SizedBox(height: 20),
           //Text
-          Positioned(
-            top: 200, // Adjust the top position to control the container's position
-            left: 20, // Adjust the left position to control the container's position
-            child: Container(
-              child: Text(
-                'Grooming Services',
-                style: TextStyle(
-                  fontSize: 27,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  shadows: [
-                    Shadow(
-                      offset: Offset(2, 2),
-                      blurRadius: 3.0,
-                      color: Colors.grey.withOpacity(0.5),
+          Column(
+            children: [
+              //Text
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.only(left: 15),
+                child: Text(
+                  'Grooming Services',
+                  style: TextStyle(
+                    fontSize: 27,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    shadows: [
+                      Shadow(
+                        offset: Offset(2, 2),
+                        blurRadius: 3.0,
+                        color: Colors.grey.withOpacity(0.5),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              //Services
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      child: IconButton(
+                        icon: Icon(Icons.pets_outlined),
+                        onPressed: () {
+                          // Add your onPressed logic here
+                        },
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.search),
+                      onPressed: () {
+                        // Add your onPressed logic here
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.favorite),
+                      onPressed: () {
+                        // Add your onPressed logic here
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.settings),
+                      onPressed: () {
+                        // Add your onPressed logic here
+                      },
                     ),
                   ],
                 ),
               ),
-            ),
+              SizedBox(height: 20),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.home),
+                      onPressed: () {
+                        // Add your onPressed logic here
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.search),
+                      onPressed: () {
+                        // Add your onPressed logic here
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.favorite),
+                      onPressed: () {
+                        // Add your onPressed logic here
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.settings),
+                      onPressed: () {
+                        // Add your onPressed logic here
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          //
         ],
       ),
       bottomNavigationBar: CustomNavBar(
