@@ -167,24 +167,36 @@ class _HomePageState extends State<HomePage> {
                           // Add cases for the other items as needed
                           }
                         },
-                        child: Container(
-                          width: 150,
-                          height: 150,// Set the width of each item
-                          margin: EdgeInsets.symmetric(horizontal: 10), // Add horizontal margin
-                          decoration: BoxDecoration(
-                            color: Color(0xffD1B3C4),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Item ${index + 1}',
+                        child: Column(
+                          children: [
+                            Container(
+                              width: 150,
+                              height: 150, // Set the width of each item
+                              margin: EdgeInsets.symmetric(horizontal: 10), // Add horizontal margin
+                              decoration: BoxDecoration(
+                                color: Color(0xffD1B3C4),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Item ${index + 1}',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 10), // Space between item and description
+                            Text(
+                              'Description for Item ${index + 1}',
                               style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
                                 color: Colors.black,
                               ),
                             ),
-                          ),
+                          ],
                         ),
                       );
                     }),
