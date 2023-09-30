@@ -146,7 +146,6 @@ class _HomePageState extends State<HomePage> {
               ),
               SizedBox(height: 30),
               //Horizontal scroll
-              // Replace this part of your code with the horizontal scroll view
               Container(
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
