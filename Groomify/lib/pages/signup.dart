@@ -52,6 +52,7 @@ class _SignupPageState extends State<SignupPage> {
                 width: 280,
                 height: 50,
                 child: TextFormField(
+                  controller: fullNameController,
                   inputFormatters: [
                     // only accept letters from a to z
                     FilteringTextInputFormatter(RegExp(r'[a-zA-Z]+|\s'), allow: true)
@@ -90,6 +91,7 @@ class _SignupPageState extends State<SignupPage> {
                 width: 280,
                 height: 50,
                 child: TextField(
+                  controller: usernameController,
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
