@@ -32,10 +32,6 @@ class CustomNavBar extends StatelessWidget {
           icon: Icon(Icons.person),
           label: 'Profile',
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.more_horiz),
-          label: 'More',
-        ),
       ],
     );
   }
