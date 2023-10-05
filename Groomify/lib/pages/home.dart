@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:groomify/controller/auth_controller.dart';
 import 'package:groomify/pages/btmNavBar.dart';
+import 'package:groomify/pages/profile.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,7 +16,21 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
     });
+
+    if (index == 0) {
+      // Navigate to the Profile page
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
+    }
+    if (index == 1) {
+      // Navigate to the Profile page
+      // Navigator.of(context).push(MaterialPageRoute(builder: (context) => ()));
+    }
+    if (index == 2) {
+      // Navigate to the Profile page
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfilePage()));
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +39,7 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           'Groomify',
           style: TextStyle(
