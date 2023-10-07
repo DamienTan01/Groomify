@@ -28,9 +28,8 @@ class AuthController extends GetxController {
     ever(_user, _initialScreen);
   }
 
-  //Navigate user to HomePage
+  //Navigate user to LoginPage if the user is not logged in
   _initialScreen(User? user) {
-    //Navigate user to LoginPage if the user is not logged in
     if (user == null) {
       print("Login Page");
       Get.offAll(() => LoginPage());
@@ -65,6 +64,7 @@ class AuthController extends GetxController {
     await auth.signOut();
   }
 
+  //Error Handling
   String validateEmail(String email) {
     if (!RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$').hasMatch(email)) {
       return 'Enter a valid email address';
@@ -102,6 +102,7 @@ class AuthController extends GetxController {
     return emailValid && passwordValid;
   }
 
+  //Display message box
   void showErrorPopup(BuildContext context, String title, String errorMessage) {
     showDialog(
       context: context,
