@@ -31,7 +31,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
@@ -129,6 +128,7 @@ class _HomePageState extends State<HomePage> {
                 GridView.count(
                   crossAxisCount: 4,
                   shrinkWrap: true,
+                  padding: EdgeInsets.all(8),
                   children: [
                     _buildServiceButton('Pet Bathing', Icons.bathtub),
                     _buildServiceButton('Haircuts', Icons.content_cut),

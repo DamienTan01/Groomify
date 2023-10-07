@@ -19,10 +19,10 @@ class _ProfilePageState extends State<ProfilePage> {
 
   final firestoreController = FirestoreController();
 
+  // Fetch user data from Firestore when the widget is initialized
   @override
   void initState() {
     super.initState();
-    // Fetch user data from Firestore when the widget is initialized
     _fetchUserData();
   }
 
