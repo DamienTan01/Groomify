@@ -100,6 +100,7 @@ class _ProfilePageState extends State<ProfilePage> {
         padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
+            //User Data
             Container(
               child: Center(
                 child: Column(
@@ -118,7 +119,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 25),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -133,7 +134,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 25),
                     //Email
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,7 +150,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 25),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -193,10 +194,21 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 25),
             Container(
               child: Center(
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xff735D78),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    textStyle: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
                   onPressed: () {
 
                   },
