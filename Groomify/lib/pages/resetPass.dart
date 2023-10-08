@@ -88,33 +88,30 @@ class _ResetPassState extends State<ResetPass> {
               ),
               //SizedBox
               SizedBox(
-                height: 60,
+                height: 50,
               ),
-              GestureDetector(
-                onTap: () async {
-                  String email = emailController.text;
-                  ResetPassModel().resetPassword(email, context);
-                },
-                child: Container(
-                  width: w * 0.3,
-                  height: h * 0.06,
-                  decoration: BoxDecoration(
+              //Button
+              Container(
+                width: w * 0.3,
+                height: h * 0.06,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 5,
+                    backgroundColor: Color(0xff735D78),
+                    shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
-                      color: Color(0xff735D78),
-                      boxShadow: [
-                        BoxShadow(
-                            blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
-                      ]),
-                  child: Center(
-                    child: Text(
-                      "Reset",
-                      style: TextStyle(
-                        fontSize: 35,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+                    ),
+                    textStyle: TextStyle(
+                      fontSize: 35,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
                   ),
+                  onPressed: () {
+                    String email = emailController.text;
+                    ResetPassModel().resetPassword(email, context);
+                  },
+                  child: Text('Reset'),
                 ),
               ),
               //SizedBox

@@ -121,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             SizedBox(
-              height: 60,
+              height: 50,
             ),
             //Button
             Container(
