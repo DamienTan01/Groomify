@@ -185,57 +185,53 @@ class _SignupPageState extends State<SignupPage> {
             ),
             SizedBox(height: 50,),
             //Button
-            GestureDetector(
-              onTap: () {
-                final emailValidationResult = AuthController.instance.validateEmail(emailController.text);
-                final passwordValidationResult = AuthController.instance.validatePassword(passwordController.text);
-                final fullNameValidationResult = AuthController.instance.validateFullName(fullNameController.text);
-                final usernameValidationResult = AuthController.instance.validateUserName(usernameController.text);
-
-                if (emailValidationResult == '' && passwordValidationResult == '') {
-                  // Both email and password are valid, proceed with registration
-                  AuthController.instance.register(
-                    emailController.text.trim(),
-                    passwordController.text.trim(),
-                    fullNameController.text.trim(), // Provide full name here
-                    usernameController.text.trim(), // Provide username here
-                  );
-                } else {
-                  // Show error popups for invalid input
-                  if (emailValidationResult.isNotEmpty) {
-                    AuthController.instance.showErrorPopup(context, 'Email Error',emailValidationResult);
-                  }
-                  if (passwordValidationResult.isNotEmpty) {
-                    AuthController.instance.showErrorPopup(context, 'Password Error',passwordValidationResult);
-                  }
-                  if (fullNameValidationResult.isNotEmpty) {
-                    AuthController.instance.showErrorPopup(context, 'Full Name Error',fullNameValidationResult);
-                  }
-                  if (usernameValidationResult.isNotEmpty) {
-                    AuthController.instance.showErrorPopup(context, 'Username Error',usernameValidationResult);
-                  }
-                }
-              },
-              child: Container(
-                width: w * 0.4,
-                height: h * 0.06,
-                decoration: BoxDecoration(
+            Container(
+              width: w * 0.4,
+              height: h * 0.06,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  elevation: 5,
+                  backgroundColor: Color(0xff735D78),
+                  shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
-                    color: Color(0xff735D78),
-                    boxShadow: [
-                      BoxShadow(
-                          blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
-                    ]),
-                child: Center(
-                  child: Text(
-                    "Sign Up",
-                    style: TextStyle(
-                      fontSize: 35,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                  ),
+                  textStyle: TextStyle(
+                    fontSize: 35,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
+                onPressed: () {
+                  final emailValidationResult = AuthController.instance.validateEmail(emailController.text);
+                  final passwordValidationResult = AuthController.instance.validatePassword(passwordController.text);
+                  final fullNameValidationResult = AuthController.instance.validateFullName(fullNameController.text);
+                  final usernameValidationResult = AuthController.instance.validateUserName(usernameController.text);
+
+                  if (emailValidationResult == '' && passwordValidationResult == '') {
+                    // Both email and password are valid, proceed with registration
+                    AuthController.instance.register(
+                      emailController.text.trim(),
+                      passwordController.text.trim(),
+                      fullNameController.text.trim(), // Provide full name here
+                      usernameController.text.trim(), // Provide username here
+                    );
+                  } else {
+                    // Show error popups for invalid input
+                    if (emailValidationResult.isNotEmpty) {
+                      AuthController.instance.showErrorPopup(context, 'Email Error',emailValidationResult);
+                    }
+                    if (passwordValidationResult.isNotEmpty) {
+                      AuthController.instance.showErrorPopup(context, 'Password Error',passwordValidationResult);
+                    }
+                    if (fullNameValidationResult.isNotEmpty) {
+                      AuthController.instance.showErrorPopup(context, 'Full Name Error',fullNameValidationResult);
+                    }
+                    if (usernameValidationResult.isNotEmpty) {
+                      AuthController.instance.showErrorPopup(context, 'Username Error',usernameValidationResult);
+                    }
+                  }
+                },
+                child: Text('Sign Up'),
               ),
             ),
             SizedBox(
