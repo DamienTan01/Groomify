@@ -12,10 +12,12 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  bool showPassword = false;
   int _selectedIndex = 2;
   String? fullName;
   String? username;
   String? email;
+  String? password;
 
   final firestoreController = FirestoreController();
 
@@ -54,6 +56,7 @@ class _ProfilePageState extends State<ProfilePage> {
           fullName = userData['fullName'];
           username = userData['username'];
           email = userData['email'];
+          password = userData['password'];
         });
       }
     }
@@ -95,56 +98,119 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              //Full Name
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Full Name:',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    fullName ?? 'Loading...',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ],
+        child: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black)
               ),
-              SizedBox(height: 20),
-              //Username
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Username:',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    username ?? 'Loading...',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ],
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      children: [
+                        Text(
+                          'Full Name:',
+                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          fullName ?? 'Loading...',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Username:',
+                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          username ?? 'Loading...',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    //Email
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Email:',
+                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          email ?? 'Loading...',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Password:',
+                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          width: 250,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween, // Align the TextField and IconButton horizontally
+                            children: [
+                              Expanded(
+                                child: TextField(
+                                  controller: TextEditingController(text: password ?? 'Loading...'),
+                                  style: TextStyle(fontSize: 20),
+                                  readOnly: true, // Make the field read-only
+                                  obscureText: !showPassword, // Hide/show password based on the showPassword state
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
+                                ),
+                              ),
+                              IconButton(
+                                icon: Icon(
+                                  showPassword ? Icons.visibility : Icons.visibility_off,
+                                  color: Colors.black,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    showPassword = !showPassword; // Toggle password visibility
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(height: 20),
-              //Email
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Email:',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    email ?? 'Loading...',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ],
+            ),
+            SizedBox(height: 20),
+            Container(
+              decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black)
               ),
-            ],
-          ),
+              child: Center(
+                child: ElevatedButton(
+                  onPressed: () {
+
+                  },
+                  child: Text('Change Password'),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: CustomNavBar(
