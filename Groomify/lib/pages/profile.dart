@@ -101,9 +101,6 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Column(
           children: [
             Container(
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black)
-              ),
               child: Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -198,9 +195,6 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             SizedBox(height: 20),
             Container(
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black)
-              ),
               child: Center(
                 child: ElevatedButton(
                   onPressed: () {
