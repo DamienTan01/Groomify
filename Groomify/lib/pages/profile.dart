@@ -107,6 +107,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Full Name:',
@@ -151,68 +152,22 @@ class _ProfilePageState extends State<ProfilePage> {
                       ],
                     ),
                     SizedBox(height: 25),
+                    //Role
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Password:',
+                          'Role:',
                           style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(
-                          width: 250,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween, // Align the TextField and IconButton horizontally
-                            children: [
-                              Expanded(
-                                child: TextField(
-                                  controller: TextEditingController(text: password ?? 'Loading...'),
-                                  style: TextStyle(fontSize: 20),
-                                  readOnly: true, // Make the field read-only
-                                  obscureText: !showPassword, // Hide/show password based on the showPassword state
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                  ),
-                                ),
-                              ),
-                              IconButton(
-                                icon: Icon(
-                                  showPassword ? Icons.visibility : Icons.visibility_off,
-                                  color: Colors.black,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    showPassword = !showPassword; // Toggle password visibility
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
+                        SizedBox(height: 5),
+                        Text(
+                          email ?? 'Loading...',
+                          style: TextStyle(fontSize: 20),
                         ),
                       ],
                     ),
                   ],
-                ),
-              ),
-            ),
-            SizedBox(height: 25),
-            Container(
-              child: Center(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff735D78),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    textStyle: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  onPressed: () {
-
-                  },
-                  child: Text('Change Password'),
                 ),
               ),
             ),

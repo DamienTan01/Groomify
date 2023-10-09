@@ -45,7 +45,6 @@ class AuthController extends GetxController {
         'fullName': fullName,
         'username': username,
         'email': email,
-        'password': password,
       });
     } catch (e) {
       showErrorPopup(Get.context!, 'Account Creation Failed', 'Invalid Credentials');
