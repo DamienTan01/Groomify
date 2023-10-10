@@ -184,6 +184,8 @@ class _SignupPageState extends State<SignupPage> {
               ),
             ),
             SizedBox(height: 50,),
+
+            SizedBox(height: 50,),
             //Button
             Container(
               width: w * 0.4,
