@@ -17,6 +17,7 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
+  String selectedRole = 'User';
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +78,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            SizedBox(height: 50,),
+            SizedBox(height: 45,),
             //Username
             Container(
               decoration: BoxDecoration(
@@ -112,7 +113,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            SizedBox(height: 50,),
+            SizedBox(height: 45,),
             //Email
             Container(
               decoration: BoxDecoration(
@@ -147,7 +148,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            SizedBox(height: 50,),
+            SizedBox(height: 45,),
             //Password
             Container(
               decoration: BoxDecoration(
@@ -183,8 +184,49 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            SizedBox(height: 50,),
-
+            SizedBox(height: 45,),
+            //Role dropdown
+            Container(
+              width: 280,
+              height: 50,
+              decoration: BoxDecoration(
+                color: Color(0xffD1B3C4),
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 3,
+                    offset: Offset(2, 3),
+                    color: Colors.grey,
+                  ),
+                ],
+              ),
+              child: DropdownButtonFormField<String>(
+                value: selectedRole,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedRole = newValue!;
+                  });
+                },
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.people, color: Color(0xff735D78),),
+                  border: InputBorder.none,
+                ),
+                dropdownColor: Color(0xffD1B3C4),
+                items: <String>['User', 'Groomer'].map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(
+                      value,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
             SizedBox(height: 50,),
             //Button
             Container(
@@ -215,7 +257,8 @@ class _SignupPageState extends State<SignupPage> {
                       emailController.text.trim(),
                       passwordController.text.trim(),
                       fullNameController.text.trim(), // Provide full name here
-                      usernameController.text.trim(), // Provide username here
+                      usernameController.text.trim(),
+                      selectedRole,
                     );
                   } else {
                     // Show error popups for invalid input
