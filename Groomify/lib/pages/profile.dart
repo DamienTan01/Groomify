@@ -18,6 +18,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String? username;
   String? email;
   String? password;
+  String? role;
 
   final firestoreController = FirestoreController();
 
@@ -57,6 +58,7 @@ class _ProfilePageState extends State<ProfilePage> {
           username = userData['username'];
           email = userData['email'];
           password = userData['password'];
+          role = userData['role'];
         });
       }
     }
@@ -162,7 +164,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         SizedBox(height: 5),
                         Text(
-                          email ?? 'Loading...',
+                          role ?? 'Loading...',
                           style: TextStyle(fontSize: 20),
                         ),
                       ],
