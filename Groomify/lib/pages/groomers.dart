@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:groomify/controller/auth_controller.dart';
 
-class GroomerPage extends StatelessWidget {
-  const GroomerPage({super.key});
+class GrommerPage extends StatelessWidget {
+  const GrommerPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,6 @@ class GroomerPage extends StatelessWidget {
         ],
         elevation: 0,
       ),
-
     );
   }
 }
