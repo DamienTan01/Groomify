@@ -3,6 +3,7 @@ import 'package:groomify/pages/home.dart';
 import 'package:groomify/pages/btmNavBar.dart';
 import 'package:groomify/controller/auth_controller.dart';
 import 'package:groomify/controller/firestore_controller.dart';
+import 'package:groomify/pages/groomers.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -22,30 +23,30 @@ class _ProfilePageState extends State<ProfilePage> {
 
   final firestoreController = FirestoreController();
 
-  // Fetch user data from Firestore when the widget is initialized
-  @override
-  void initState() {
-    super.initState();
-    _fetchUserData();
-  }
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
 
     if (index == 0) {
-      // Navigate to the Profile page
+      // Navigate to the Home page
       Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
     }
     if (index == 1) {
-      // Navigate to the Profile page
-      // Navigator.of(context).push(MaterialPageRoute(builder: (context) => ()));
+      // Navigate to the Groomer page
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => GroomerPage()));
     }
     if (index == 2) {
       // Navigate to the Profile page
       Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfilePage()));
     }
+  }
+
+  // Fetch user data from Firestore when the widget is initialized
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
   }
 
   Future<void> _fetchUserData() async {

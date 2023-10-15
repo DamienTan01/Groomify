@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:groomify/controller/auth_controller.dart';
 import 'package:groomify/pages/btmNavBar.dart';
+import 'package:groomify/pages/groomers.dart';
 import 'package:groomify/pages/profile.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,12 +19,12 @@ class _HomePageState extends State<HomePage> {
     });
 
     if (index == 0) {
-      // Navigate to the Profile page
+      // Navigate to the Home page
       Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
     }
     if (index == 1) {
-      // Navigate to the Profile page
-      // Navigator.of(context).push(MaterialPageRoute(builder: (context) => ()));
+      // Navigate to the Groomer page
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => GroomerPage()));
     }
     if (index == 2) {
       // Navigate to the Profile page
