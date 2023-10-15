@@ -40,7 +40,8 @@ dependencies:
   firebase_storage: ^11.2.5
   get:
   firebase_core: ^2.15.1
-  animated_splash_screen: ^1.3.0
+  image_picker: ^1.0.4
+  path_provider: ^2.1.1
 
 dev_dependencies:
   flutter_test:

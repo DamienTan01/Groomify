@@ -102,6 +102,29 @@ class _ProfilePageState extends State<ProfilePage> {
         padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
+            // Profile Picture
+            // Profile Picture
+            Container(
+              width: 300,
+              height: 300,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black), // Add a border
+              ),
+              padding: EdgeInsets.all(16.0),
+              child: Align(
+                alignment: Alignment.center,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xff735D78),
+                  ),
+                  onPressed: () async {
+
+                  },
+                  child: Text('Upload Profile Picture'),
+                ),
+              ),
+            ),
+            SizedBox(height: 30),
             //User Data
             Container(
               child: Center(
