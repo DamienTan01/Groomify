@@ -13,8 +13,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  bool showPassword = false;
   int _selectedIndex = 2;
+  bool showPassword = false;
   String? fullName;
   String? username;
   String? email;

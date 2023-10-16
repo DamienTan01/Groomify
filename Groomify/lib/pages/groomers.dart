@@ -1,8 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:groomify/controller/auth_controller.dart';
+import 'package:groomify/pages/btmNavBar.dart';
+import 'package:groomify/pages/home.dart';
+import 'package:groomify/pages/profile.dart';
 
-class GrommerPage extends StatelessWidget {
-  const GrommerPage({super.key});
+class GroomerPage extends StatefulWidget {
+  const GroomerPage({super.key});
+
+  @override
+  State<GroomerPage> createState() => _GroomerPageState();
+}
+
+class _GroomerPageState extends State<GroomerPage> {
+  int _selectedIndex = 1;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    if (index == 0) {
+      // Navigate to the Home page
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
+    }
+    if (index == 1) {
+      // Navigate to the Groomer page
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => GroomerPage()));
+    }
+    if (index == 2) {
+      // Navigate to the Profile page
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfilePage()));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +39,7 @@ class GrommerPage extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          'Groomify',
+          'Groomers',
           style: TextStyle(
             color: Colors.black,
             fontSize: 27,
@@ -37,6 +66,10 @@ class GrommerPage extends StatelessWidget {
           )
         ],
         elevation: 0,
+      ),
+      bottomNavigationBar: CustomNavBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
       ),
     );
   }
