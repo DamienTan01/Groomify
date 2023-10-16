@@ -78,16 +78,7 @@ class _GroomerPageState extends State<GroomerPage> {
                   height: 200,
                   margin: EdgeInsets.only(left: 10),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Color(0xffB392AC),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2,
-                          blurRadius: 7,
-                          offset: Offset(2, 3),
-                        ),
-                      ]
+                    border: Border.all(color: Colors.black.withOpacity(0.2)),
                   ),
                   child: Column(
                     children: [
@@ -111,21 +102,25 @@ class _GroomerPageState extends State<GroomerPage> {
                         ),
                       ),
                       SizedBox(height: 10),
-                      Container(
-                        margin: EdgeInsets.only(left: 10, right: 10),
+                      Align(
+                        alignment: Alignment.centerLeft,
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Name: Pet groomer',
+                              'Pet Shop',
                               style: TextStyle(
                                 fontSize: 16,
+                                fontWeight: FontWeight.bold,
                                 color: Colors.black,
                               ),
                             ),
+                            SizedBox(height: 2),
                             Text(
-                              'Rating:5 stars',
+                              'Rating: 5 stars',
                               style: TextStyle(
                                 fontSize: 16,
+                                fontWeight: FontWeight.bold,
                                 color: Colors.black,
                               ),
                             ),
@@ -141,16 +136,7 @@ class _GroomerPageState extends State<GroomerPage> {
                   height: 200,
                   margin: EdgeInsets.only(right: 10),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Color(0xffB392AC),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2,
-                          blurRadius: 7,
-                          offset: Offset(2, 3),
-                        ),
-                      ]
+                    border: Border.all(color: Colors.black.withOpacity(0.2)),
                   ),
                   child: Column(
                     children: [
@@ -174,21 +160,25 @@ class _GroomerPageState extends State<GroomerPage> {
                         ),
                       ),
                       SizedBox(height: 10),
-                      Container(
-                        margin: EdgeInsets.only(left: 10, right: 10),
+                      Align(
+                        alignment: Alignment.centerLeft,
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Name: Pet groomer',
+                              'Name',
                               style: TextStyle(
                                 fontSize: 16,
+                                fontWeight: FontWeight.bold,
                                 color: Colors.black,
                               ),
                             ),
+                            SizedBox(height: 2),
                             Text(
-                              'Rating:5 stars',
+                              'Rating',
                               style: TextStyle(
                                 fontSize: 16,
+                                fontWeight: FontWeight.bold,
                                 color: Colors.black,
                               ),
                             ),
