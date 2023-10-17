@@ -3,7 +3,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 class FirestoreController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseStorage _storage = FirebaseStorage.instance;
 
   // Retrieve user data by email
   Future<Map<String, dynamic>?> getUserDataByEmail(String email) async {
@@ -24,4 +23,6 @@ class FirestoreController {
       return null;
     }
   }
+
+
 }
