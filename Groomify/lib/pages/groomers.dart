@@ -71,6 +71,34 @@ class _GroomerPageState extends State<GroomerPage> {
         child: Column(
           children: [
             SizedBox(height: 20),
+            //Search Bar
+            Center(
+              child: Container(
+                width: 350,
+                height: 50, // Set the height of the search bar
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: TextField(
+                  decoration: InputDecoration(
+                    prefixIconColor: Color(0xff735D78),
+                    prefixIcon: Icon(Icons.search),
+                    hintText: 'Search for Groomers',
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
             Row(
               children: [
                 Container(

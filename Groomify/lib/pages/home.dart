@@ -72,38 +72,19 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 30),
-            //Search Bar
-            Center(
-              child: Container(
-                width: 350,
-                height: 50, // Set the height of the search bar
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: TextField(
-                  decoration: InputDecoration(
-                    prefixIconColor: Color(0xff735D78),
-                    prefixIcon: Icon(Icons.search),
-                    hintText: 'Search for Groomers',
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 30),
             //Text
             Column(
               children: [
+                //Ads
+               SingleChildScrollView(
+                 child: Container(
+                   decoration: BoxDecoration(
+                     border: Border.all(color: Colors.black)
+                   ),
+                   height: 140,
+                 ),
+               ),
+                SizedBox(height: 10),
                 //Text
                 Container(
                   alignment: Alignment.centerLeft,
@@ -124,7 +105,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 10),
                 //Services
                 GridView.count(
                   crossAxisCount: 4,
