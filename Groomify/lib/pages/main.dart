@@ -21,10 +21,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Groomify',
       theme: ThemeData(
-        scaffoldBackgroundColor: Color(0xffF7D1CD),
+        scaffoldBackgroundColor: const Color(0xffF7D1CD),
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(),
+      home: const LoginPage(),
     );
   }
 }

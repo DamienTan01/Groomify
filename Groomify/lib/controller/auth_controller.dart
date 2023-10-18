@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:groomify/pages/home.dart';
@@ -32,7 +31,7 @@ class AuthController extends GetxController {
   _initialScreen(User? user) {
     if (user == null) {
       print("Login Page");
-      Get.offAll(() => LoginPage());
+      Get.offAll(() => const LoginPage());
     } else {
       Get.offAll(() => HomePage());
     }
@@ -120,7 +119,7 @@ class AuthController extends GetxController {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
-import 'package:flutter/services.dart';
 import 'package:groomify/pages/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:groomify/pages/signup.dart';
@@ -22,7 +21,7 @@ class _ResetPassState extends State<ResetPass> {
     double h = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Color(0xffF7D1CD),
+      backgroundColor: const Color(0xffF7D1CD),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -31,8 +30,8 @@ class _ResetPassState extends State<ResetPass> {
               Container(
                 width: w,
                 height: h * 0.3,
-                margin: EdgeInsets.only(top: 30),
-                decoration: BoxDecoration(
+                margin: const EdgeInsets.only(top: 30),
+                decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage(
                       "asset/logo.png",
@@ -42,8 +41,8 @@ class _ResetPassState extends State<ResetPass> {
               ),
               //Reset Password
               Container(
-                margin: EdgeInsets.only(bottom: 50),
-                child: Text(
+                margin: const EdgeInsets.only(bottom: 50),
+                child: const Text(
                   'Reset Password',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -55,9 +54,9 @@ class _ResetPassState extends State<ResetPass> {
               //Email
               Container(
                 decoration: BoxDecoration(
-                    color: Color(0xffD1B3C4),
+                    color: const Color(0xffD1B3C4),
                     borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                           blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
                     ]),
@@ -66,17 +65,17 @@ class _ResetPassState extends State<ResetPass> {
                   height: 50,
                   child: TextField(
                     controller: emailController,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 20),
                     decoration: InputDecoration(
                         hintText: 'Email',
-                        prefixIcon: Icon(Icons.email, color: Color(0xff735D78),),
-                        hintStyle: TextStyle(color: Colors.white),
+                        prefixIcon: const Icon(Icons.email, color: Color(0xff735D78),),
+                        hintStyle: const TextStyle(color: Colors.white),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Colors.grey, width: 1.0)),
+                            borderSide: const BorderSide(color: Colors.grey, width: 1.0)),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             borderSide: BorderSide(
@@ -87,21 +86,21 @@ class _ResetPassState extends State<ResetPass> {
                 ),
               ),
               //SizedBox
-              SizedBox(
+              const SizedBox(
                 height: 50,
               ),
               //Button
-              Container(
+              SizedBox(
                 width: w * 0.3,
                 height: h * 0.06,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     elevation: 5,
-                    backgroundColor: Color(0xff735D78),
+                    backgroundColor: const Color(0xff735D78),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontSize: 35,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -111,50 +110,50 @@ class _ResetPassState extends State<ResetPass> {
                     String email = emailController.text;
                     ResetPassModel().resetPassword(email, context);
                   },
-                  child: Text('Reset'),
+                  child: const Text('Reset'),
                 ),
               ),
               //SizedBox
-              SizedBox(height: 30,),
+              const SizedBox(height: 30,),
               //Login Page
               RichText(
                   text: TextSpan(
                       text: "Already have an account?",
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 18),
                       children: [
                         TextSpan(
                             text: " Login Here",
-                            style: TextStyle(
+                            style: const TextStyle(
                               decoration: TextDecoration.underline,
                               color: Colors.blue,
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
                             ),
-                            recognizer: TapGestureRecognizer()..onTap=()=>Get.to(()=>LoginPage())
+                            recognizer: TapGestureRecognizer()..onTap=()=>Get.to(()=>const LoginPage())
                         )
                       ])),
-              SizedBox(height: 25,),
+              const SizedBox(height: 25,),
               //Signup Page
               RichText(
                   text: TextSpan(
                       text: "Don't have an account?",
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 18),
                       children: [
                         TextSpan(
                             text: " Sign up now",
-                            style: TextStyle(
+                            style: const TextStyle(
                               decoration: TextDecoration.underline,
                               color: Colors.blue,
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
                             ),
-                            recognizer: TapGestureRecognizer()..onTap=()=>Get.to(()=>SignupPage())
+                            recognizer: TapGestureRecognizer()..onTap=()=>Get.to(()=>const SignupPage())
                         )
                       ])),
             ],
@@ -176,15 +175,15 @@ class ResetPassModel {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Password Reset'),
-            content: Text('A Password Reset email has been sent to your inbox. '),
+            title: const Text('Password Reset'),
+            content: const Text('A Password Reset email has been sent to your inbox. '),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.pop(context); // Close the dialog
                   Navigator.pop(context); // Navigate back to the previous page (login page)
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -197,14 +196,14 @@ class ResetPassModel {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Error'),
-            content: Text('Please check that the email entered is valid.'),
+            title: const Text('Error'),
+            content: const Text('Please check that the email entered is valid.'),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.pop(context); // Close the dialog
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );

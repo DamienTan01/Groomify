@@ -41,7 +41,6 @@ dependencies:
   get:
   firebase_core: ^2.15.1
   image_picker: ^1.0.4
-  path_provider: ^2.1.1
 
 dev_dependencies:
   flutter_test:

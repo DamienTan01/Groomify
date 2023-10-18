@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
 
 class FirestoreController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -23,5 +24,14 @@ class FirestoreController {
     }
   }
 
-
+  pickImage(ImageSource source) async{
+    final ImagePicker _imagePicker = ImagePicker();
+    //To select image from gallery
+    XFile? _file = await _imagePicker.pickImage(source: source);
+    //Check if the file has image
+    if (_file != null) {
+      return await _file.readAsBytes();
+    }
+    print('No Images Selected');
+  }
 }

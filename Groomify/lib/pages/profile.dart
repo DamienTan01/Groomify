@@ -1,9 +1,11 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:groomify/pages/home.dart';
 import 'package:groomify/pages/btmNavBar.dart';
 import 'package:groomify/controller/auth_controller.dart';
 import 'package:groomify/controller/firestore_controller.dart';
 import 'package:groomify/pages/groomers.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -20,6 +22,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String? email;
   String? password;
   String? role;
+  Uint8List? _image;
 
   final firestoreController = FirestoreController();
 
@@ -36,12 +39,12 @@ class _ProfilePageState extends State<ProfilePage> {
     if (index == 1) {
       // Navigate to the Groomer page
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => GroomerPage()));
+          .push(MaterialPageRoute(builder: (context) => const GroomerPage()));
     }
     if (index == 2) {
       // Navigate to the Profile page
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => ProfilePage()));
+          .push(MaterialPageRoute(builder: (context) => const ProfilePage()));
     }
   }
 
@@ -69,6 +72,13 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  void selectImage() async {
+    Uint8List img = await firestoreController.pickImage(ImageSource.gallery);
+    setState(() {
+      _image = img;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
             fontWeight: FontWeight.bold,
             shadows: [
               Shadow(
-                offset: Offset(2, 2),
+                offset: const Offset(2, 2),
                 blurRadius: 3.0,
                 color: Colors.grey.withOpacity(0.5),
               ),
@@ -93,9 +103,9 @@ class _ProfilePageState extends State<ProfilePage> {
         actions: [
           // Log out Button
           IconButton(
-            icon: Icon(Icons.logout),
+            icon: const Icon(Icons.logout),
             iconSize: 35,
-            color: Color(0xff735D78),
+            color: const Color(0xff735D78),
             onPressed: () {
               AuthController.instance.logout();
             },
@@ -110,15 +120,19 @@ class _ProfilePageState extends State<ProfilePage> {
           // Profile Picture
           Stack(
             children: [
-              const CircleAvatar(
-                radius: 90,
-                backgroundImage: NetworkImage(
-                  'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg'
-                ),
-              ),
+              _image != null
+                  ? CircleAvatar(
+                      radius: 90,
+                      backgroundImage: MemoryImage(_image!),
+                    )
+                  : const CircleAvatar(
+                      radius: 90,
+                      backgroundImage: NetworkImage(
+                          'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg'),
+                    ),
               Positioned(
                 bottom: -10,
-                left: 140,
+                left: 120,
                 child: IconButton(
                   iconSize: 30,
                   onPressed: () {},
@@ -129,78 +143,76 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           const SizedBox(height: 50),
           //User Data
-          Container(
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Full Name:',
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        fullName ?? 'Loading...',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 25),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Username:',
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        username ?? 'Loading...',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 25),
-                  //Email
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Email:',
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        email ?? 'Loading...',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 25),
-                  //Role
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Role:',
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        role ?? 'Loading...',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+          Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Full Name:',
+                      style: TextStyle(
+                          fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      fullName ?? 'Loading...',
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 25),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Username:',
+                      style: TextStyle(
+                          fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      username ?? 'Loading...',
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 25),
+                //Email
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Email:',
+                      style: TextStyle(
+                          fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      email ?? 'Loading...',
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 25),
+                //Role
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Role:',
+                      style: TextStyle(
+                          fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      role ?? 'Loading...',
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ],

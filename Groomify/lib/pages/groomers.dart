@@ -25,11 +25,11 @@ class _GroomerPageState extends State<GroomerPage> {
     }
     if (index == 1) {
       // Navigate to the Groomer page
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => GroomerPage()));
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GroomerPage()));
     }
     if (index == 2) {
       // Navigate to the Profile page
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfilePage()));
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ProfilePage()));
     }
   }
 
@@ -46,20 +46,20 @@ class _GroomerPageState extends State<GroomerPage> {
             fontWeight: FontWeight.bold,
             shadows: [
               Shadow(
-                offset: Offset(2, 2),
+                offset: const Offset(2, 2),
                 blurRadius: 3.0,
                 color: Colors.grey.withOpacity(0.5),
               ),
             ],
           ),
         ),
-        backgroundColor: Color(0xffD1B3C4),
+        backgroundColor: const Color(0xffD1B3C4),
         actions: [
           //Log out Button
           IconButton(
-              icon: Icon(Icons.logout),
+              icon: const Icon(Icons.logout),
               iconSize: 35,
-              color: Color(0xff735D78),
+              color: const Color(0xff735D78),
               onPressed: () {
                 AuthController.instance.logout();
               }
@@ -70,7 +70,7 @@ class _GroomerPageState extends State<GroomerPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             //Search Bar
             Center(
               child: Container(
@@ -84,11 +84,11 @@ class _GroomerPageState extends State<GroomerPage> {
                       color: Colors.grey.withOpacity(0.5),
                       spreadRadius: 2,
                       blurRadius: 5,
-                      offset: Offset(0, 3),
+                      offset: const Offset(0, 3),
                     ),
                   ],
                 ),
-                child: TextField(
+                child: const TextField(
                   decoration: InputDecoration(
                     prefixIconColor: Color(0xff735D78),
                     prefixIcon: Icon(Icons.search),
@@ -98,13 +98,13 @@ class _GroomerPageState extends State<GroomerPage> {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               children: [
                 Container(
                   width: 190,
                   height: 200,
-                  margin: EdgeInsets.only(left: 10),
+                  margin: const EdgeInsets.only(left: 10),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black.withOpacity(0.2)),
                   ),
@@ -115,10 +115,10 @@ class _GroomerPageState extends State<GroomerPage> {
                         width: 190,
                         height: 130,
                         decoration: BoxDecoration(
-                          color: Color(0xffD1B3C4),
+                          color: const Color(0xffD1B3C4),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Center(
+                        child: const Center(
                           child: Text(
                             'Item',
                             style: TextStyle(
@@ -129,8 +129,8 @@ class _GroomerPageState extends State<GroomerPage> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 10),
-                      Align(
+                      const SizedBox(height: 10),
+                      const Align(
                         alignment: Alignment.centerLeft,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,11 +158,11 @@ class _GroomerPageState extends State<GroomerPage> {
                     ],
                   ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Container(
                   width: 190,
                   height: 200,
-                  margin: EdgeInsets.only(right: 10),
+                  margin: const EdgeInsets.only(right: 10),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black.withOpacity(0.2)),
                   ),
@@ -173,10 +173,10 @@ class _GroomerPageState extends State<GroomerPage> {
                         width: 190,
                         height: 130,
                         decoration: BoxDecoration(
-                          color: Color(0xffD1B3C4),
+                          color: const Color(0xffD1B3C4),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Center(
+                        child: const Center(
                           child: Text(
                             'Item',
                             style: TextStyle(
@@ -187,8 +187,8 @@ class _GroomerPageState extends State<GroomerPage> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 10),
-                      Align(
+                      const SizedBox(height: 10),
+                      const Align(
                         alignment: Alignment.centerLeft,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

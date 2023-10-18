@@ -29,8 +29,8 @@ class _LoginPageState extends State<LoginPage> {
             Container(
               width: w,
               height: h * 0.3,
-              margin: EdgeInsets.only(top: 30),
-              decoration: BoxDecoration(
+              margin: const EdgeInsets.only(top: 30),
+              decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
                     "asset/logo.png",
@@ -38,15 +38,15 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             //Email
             Container(
               decoration: BoxDecoration(
-                  color: Color(0xffD1B3C4),
+                  color: const Color(0xffD1B3C4),
                   borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                         blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
                   ]),
@@ -55,21 +55,21 @@ class _LoginPageState extends State<LoginPage> {
                 height: 50,
                 child: TextField(
                   controller: emailController,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                   ),
                   decoration: InputDecoration(
                       hintText: 'Email',
-                      prefixIcon: Icon(
+                      prefixIcon: const Icon(
                         Icons.email,
                         color: Color(0xff735D78),
                       ),
-                      hintStyle: TextStyle(color: Colors.white),
+                      hintStyle: const TextStyle(color: Colors.white),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey, width: 1.0)),
+                          borderSide: const BorderSide(color: Colors.grey, width: 1.0)),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
@@ -79,15 +79,15 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
             //Password
             Container(
               decoration: BoxDecoration(
-                  color: Color(0xffD1B3C4),
+                  color: const Color(0xffD1B3C4),
                   borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                         blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
                   ]),
@@ -97,20 +97,20 @@ class _LoginPageState extends State<LoginPage> {
                 child: TextField(
                   controller: passwordController,
                   obscureText: true,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 20),
                   decoration: InputDecoration(
                       hintText: 'Password',
-                      prefixIcon: Icon(
+                      prefixIcon: const Icon(
                         Icons.password,
                         color: Color(0xff735D78),
                       ),
-                      hintStyle: TextStyle(color: Colors.white),
+                      hintStyle: const TextStyle(color: Colors.white),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey, width: 1.0)),
+                          borderSide: const BorderSide(color: Colors.grey, width: 1.0)),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
@@ -120,21 +120,21 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
             //Button
-            Container(
+            SizedBox(
               width: w * 0.3,
               height: h * 0.06,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   elevation: 5,
-                  backgroundColor: Color(0xff735D78),
+                  backgroundColor: const Color(0xff735D78),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontSize: 35,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -160,53 +160,53 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   }
                 },
-                child: Text('Login'),
+                child: const Text('Login'),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             //Forgot Password
             RichText(
               text: TextSpan(
                 text: "Forgot password? ",
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 18),
                 children: [
                   TextSpan(
                     text: "Reset password",
-                    style: TextStyle(
+                    style: const TextStyle(
                       decoration: TextDecoration.underline,
                       color: Colors.blue,
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
                     ),
-                      recognizer: TapGestureRecognizer()..onTap=()=>Get.to(()=>ResetPass())
+                      recognizer: TapGestureRecognizer()..onTap=()=>Get.to(()=>const ResetPass())
                   )]
             ),),
-            SizedBox(
+            const SizedBox(
               height: 25,
             ),
             //Signup Page
             RichText(
                 text: TextSpan(
                     text: "Don't have an account?",
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 18),
                     children: [
                       TextSpan(
                           text: " Sign up now",
-                          style: TextStyle(
+                          style: const TextStyle(
                             decoration: TextDecoration.underline,
                             color: Colors.blue,
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
                           ),
-                          recognizer: TapGestureRecognizer()..onTap=()=>Get.to(()=>SignupPage())
+                          recognizer: TapGestureRecognizer()..onTap=()=>Get.to(()=>const SignupPage())
                       )
                     ])),
           ],

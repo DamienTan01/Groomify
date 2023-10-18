@@ -31,8 +31,8 @@ class _SignupPageState extends State<SignupPage> {
             Container(
               width: w,
               height: h * 0.3,
-              margin: EdgeInsets.only(top: 30),
-              decoration: BoxDecoration(
+              margin: const EdgeInsets.only(top: 30),
+              decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
                     "asset/logo.png",
@@ -43,9 +43,9 @@ class _SignupPageState extends State<SignupPage> {
             //Full Name
             Container(
               decoration: BoxDecoration(
-                  color: Color(0xffD1B3C4),
+                  color: const Color(0xffD1B3C4),
                   borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                         blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
                   ]),
@@ -58,17 +58,17 @@ class _SignupPageState extends State<SignupPage> {
                     // only accept letters from a to z
                     FilteringTextInputFormatter(RegExp(r'[a-zA-Z]+|\s'), allow: true)
                   ],
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 20),
                   decoration: InputDecoration(
                       hintText: 'Full Name',
-                      prefixIcon: Icon(Icons.first_page, color: Color(0xff735D78),),
-                      hintStyle: TextStyle(color: Colors.white),
+                      prefixIcon: const Icon(Icons.first_page, color: Color(0xff735D78),),
+                      hintStyle: const TextStyle(color: Colors.white),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey, width: 1.0)),
+                          borderSide: const BorderSide(color: Colors.grey, width: 1.0)),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
@@ -78,13 +78,13 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            SizedBox(height: 45,),
+            const SizedBox(height: 45,),
             //Username
             Container(
               decoration: BoxDecoration(
-                  color: Color(0xffD1B3C4),
+                  color: const Color(0xffD1B3C4),
                   borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                         blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
                   ]),
@@ -93,17 +93,17 @@ class _SignupPageState extends State<SignupPage> {
                 height: 50,
                 child: TextField(
                   controller: usernameController,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 20),
                   decoration: InputDecoration(
                       hintText: 'Username',
-                      prefixIcon: Icon(Icons.last_page, color: Color(0xff735D78),),
-                      hintStyle: TextStyle(color: Colors.white),
+                      prefixIcon: const Icon(Icons.last_page, color: Color(0xff735D78),),
+                      hintStyle: const TextStyle(color: Colors.white),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey, width: 1.0)),
+                          borderSide: const BorderSide(color: Colors.grey, width: 1.0)),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
@@ -113,13 +113,13 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            SizedBox(height: 45,),
+            const SizedBox(height: 45,),
             //Email
             Container(
               decoration: BoxDecoration(
-                  color: Color(0xffD1B3C4),
+                  color: const Color(0xffD1B3C4),
                   borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                         blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
                   ]),
@@ -128,17 +128,17 @@ class _SignupPageState extends State<SignupPage> {
                 height: 50,
                 child: TextField(
                   controller: emailController,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 20),
                   decoration: InputDecoration(
                       hintText: 'Email',
-                      prefixIcon: Icon(Icons.email, color: Color(0xff735D78),),
-                      hintStyle: TextStyle(color: Colors.white),
+                      prefixIcon: const Icon(Icons.email, color: Color(0xff735D78),),
+                      hintStyle: const TextStyle(color: Colors.white),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey, width: 1.0)),
+                          borderSide: const BorderSide(color: Colors.grey, width: 1.0)),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
@@ -148,13 +148,13 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            SizedBox(height: 45,),
+            const SizedBox(height: 45,),
             //Password
             Container(
               decoration: BoxDecoration(
-                  color: Color(0xffD1B3C4),
+                  color: const Color(0xffD1B3C4),
                   borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                         blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
                   ]),
@@ -164,17 +164,17 @@ class _SignupPageState extends State<SignupPage> {
                 child: TextField(
                   controller: passwordController,
                   obscureText: true,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 20),
                   decoration: InputDecoration(
                       hintText: 'Password',
-                      prefixIcon: Icon(Icons.password, color: Color(0xff735D78),),
-                      hintStyle: TextStyle(color: Colors.white),
+                      prefixIcon: const Icon(Icons.password, color: Color(0xff735D78),),
+                      hintStyle: const TextStyle(color: Colors.white),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey, width: 1.0)),
+                          borderSide: const BorderSide(color: Colors.grey, width: 1.0)),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
@@ -184,15 +184,15 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            SizedBox(height: 45,),
+            const SizedBox(height: 45,),
             //Role dropdown
             Container(
               width: 280,
               height: 50,
               decoration: BoxDecoration(
-                color: Color(0xffD1B3C4),
+                color: const Color(0xffD1B3C4),
                 borderRadius: BorderRadius.circular(10),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     blurRadius: 3,
                     offset: Offset(2, 3),
@@ -207,17 +207,17 @@ class _SignupPageState extends State<SignupPage> {
                     selectedRole = newValue!;
                   });
                 },
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   prefixIcon: Icon(Icons.people, color: Color(0xff735D78),),
                   border: InputBorder.none,
                 ),
-                dropdownColor: Color(0xffD1B3C4),
+                dropdownColor: const Color(0xffD1B3C4),
                 items: <String>['User', 'Groomer'].map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(
                       value,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                         color: Colors.white,
@@ -227,19 +227,19 @@ class _SignupPageState extends State<SignupPage> {
                 }).toList(),
               ),
             ),
-            SizedBox(height: 50,),
+            const SizedBox(height: 50,),
             //Button
-            Container(
+            SizedBox(
               width: w * 0.4,
               height: h * 0.06,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   elevation: 5,
-                  backgroundColor: Color(0xff735D78),
+                  backgroundColor: const Color(0xff735D78),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontSize: 35,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -276,30 +276,30 @@ class _SignupPageState extends State<SignupPage> {
                     }
                   }
                 },
-                child: Text('Sign Up'),
+                child: const Text('Sign Up'),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             //Text
             RichText(
                 text: TextSpan(
                     text: "Already have an account?",
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 18),
                     children: [
                       TextSpan(
                           text: " Login Here",
-                          style: TextStyle(
+                          style: const TextStyle(
                             decoration: TextDecoration.underline,
                             color: Colors.blue,
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
                           ),
-                          recognizer: TapGestureRecognizer()..onTap=()=>Get.to(()=>LoginPage())
+                          recognizer: TapGestureRecognizer()..onTap=()=>Get.to(()=>const LoginPage())
                       )
                     ]))
           ],
