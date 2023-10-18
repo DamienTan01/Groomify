@@ -24,14 +24,5 @@ class FirestoreController {
     }
   }
 
-  pickImage(ImageSource source) async{
-    final ImagePicker _imagePicker = ImagePicker();
-    //To select image from gallery
-    XFile? _file = await _imagePicker.pickImage(source: source);
-    //Check if the file has image
-    if (_file != null) {
-      return await _file.readAsBytes();
-    }
-    print('No Images Selected');
-  }
+  
 }

@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:groomify/pages/home.dart';
 import 'package:groomify/pages/btmNavBar.dart';
@@ -22,7 +21,6 @@ class _ProfilePageState extends State<ProfilePage> {
   String? email;
   String? password;
   String? role;
-  Uint8List? _image;
 
   final firestoreController = FirestoreController();
 
@@ -72,13 +70,6 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  void selectImage() async {
-    Uint8List img = await firestoreController.pickImage(ImageSource.gallery);
-    setState(() {
-      _image = img;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,16 +111,11 @@ class _ProfilePageState extends State<ProfilePage> {
           // Profile Picture
           Stack(
             children: [
-              _image != null
-                  ? CircleAvatar(
-                      radius: 90,
-                      backgroundImage: MemoryImage(_image!),
-                    )
-                  : const CircleAvatar(
-                      radius: 90,
-                      backgroundImage: NetworkImage(
-                          'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg'),
-                    ),
+              const CircleAvatar(
+                radius: 90,
+                backgroundImage: NetworkImage(
+                    'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg'),
+              ),
               Positioned(
                 bottom: -10,
                 left: 120,
