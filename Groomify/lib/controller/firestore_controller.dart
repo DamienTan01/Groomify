@@ -59,7 +59,7 @@ class FirestoreController {
 
       if (querySnapshot.docs.isNotEmpty) {
         final userDoc = querySnapshot.docs.first;
-        final userData = userDoc.data() as Map<String, dynamic>;
+        final userData = userDoc.data();
         return userData['profile_picture'] as String?;
       }
       return null; // User not found
@@ -68,5 +68,4 @@ class FirestoreController {
       return null;
     }
   }
-
 }
