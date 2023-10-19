@@ -20,6 +20,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String? email;
   String? password;
   String? role;
+  String? profilePictureURL;
 
   final firestoreController = FirestoreController();
 
@@ -50,6 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
     _fetchUserData();
+    _fetchProfilePicture();
   }
 
   Future<void> _fetchUserData() async {
@@ -64,8 +66,18 @@ class _ProfilePageState extends State<ProfilePage> {
           email = userData['email'];
           password = userData['password'];
           role = userData['role'];
+          profilePictureURL = userData['profile_picture'];
         });
       }
+    }
+  }
+
+  Future<void> _fetchProfilePicture() async {
+    final profilePictureURL = await firestoreController.getProfilePictureURL(email!);
+    if (profilePictureURL != null) {
+      setState(() {
+        this.profilePictureURL = profilePictureURL;
+      });
     }
   }
 
@@ -110,10 +122,13 @@ class _ProfilePageState extends State<ProfilePage> {
           // Profile Picture
           Stack(
             children: [
-              const CircleAvatar(
+              CircleAvatar(
                 radius: 90,
-                backgroundImage: NetworkImage(
-                    'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg'),
+                backgroundImage: profilePictureURL != null
+                    ? NetworkImage(profilePictureURL!)
+                    : const NetworkImage(
+                  'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg',
+                ),
               ),
               Positioned(
                 bottom: -10,

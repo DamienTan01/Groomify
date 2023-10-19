@@ -51,5 +51,22 @@ class FirestoreController {
     }
   }
 
-  
+  //Retrieve image url
+  Future<String?> getProfilePictureURL(String email) async {
+    try {
+      final userRef = _firestore.collection('users').where('email', isEqualTo: email);
+      final querySnapshot = await userRef.get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        final userDoc = querySnapshot.docs.first;
+        final userData = userDoc.data() as Map<String, dynamic>;
+        return userData['profile_picture'] as String?;
+      }
+      return null; // User not found
+    } catch (e) {
+      print('Error fetching profile picture URL: $e');
+      return null;
+    }
+  }
+
 }
