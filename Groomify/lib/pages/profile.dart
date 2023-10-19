@@ -4,7 +4,6 @@ import 'package:groomify/pages/btmNavBar.dart';
 import 'package:groomify/controller/auth_controller.dart';
 import 'package:groomify/controller/firestore_controller.dart';
 import 'package:groomify/pages/groomers.dart';
-import 'package:image_picker/image_picker.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -121,7 +120,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 left: 120,
                 child: IconButton(
                   iconSize: 30,
-                  onPressed: () {},
+                  onPressed: () {
+                    firestoreController.uploadProfilePicture(email!);
+                  },
                   icon: const Icon(Icons.add_a_photo),
                 ),
               )
