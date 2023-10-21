@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:groomify/pages/home.dart';
 import 'package:groomify/pages/btmNavBar.dart';
@@ -21,6 +23,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String? password;
   String? role;
   String? profilePictureURL;
+  File? selectedImage;
 
   final firestoreController = FirestoreController();
 
@@ -57,7 +60,8 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> _fetchUserData() async {
     final user = AuthController.instance.auth.currentUser;
     if (user != null) {
-      final userData = await firestoreController.getUserDataByEmail(user.email!);
+      final userData =
+      await firestoreController.getUserDataByEmail(user.email!);
       if (userData != null) {
         setState(() {
           fullName = userData['fullName'];
@@ -68,16 +72,7 @@ class _ProfilePageState extends State<ProfilePage> {
           profilePictureURL = userData['profile_picture'];
         });
       }
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('User Data Fetched Successfully'),
-        duration: const Duration(seconds: 2), // Adjust the duration as needed
-      ));
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Error Fetching User Data'),
-          duration: const Duration(seconds: 2), // Adjust the duration as needed
-        ));
-      }
+    }
   }
 
   Future<void> _fetchProfilePicture() async {
@@ -86,16 +81,11 @@ class _ProfilePageState extends State<ProfilePage> {
       setState(() {
         this.profilePictureURL = profilePictureURL;
       });
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Profile picture uploaded successfully'),
-        duration: const Duration(seconds: 2), // Adjust the duration as needed
-      ));
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Error uploading profile picture'),
-          duration: const Duration(seconds: 2), // Adjust the duration as needed
-        ));
-      }
+    }
+  }
+
+  void refreshPage() {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
   }
 
   @override
@@ -141,7 +131,9 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               CircleAvatar(
                 radius: 90,
-                backgroundImage: profilePictureURL != null
+                backgroundImage: selectedImage != null
+                    ? FileImage(selectedImage!)
+                    : profilePictureURL != null
                     ? NetworkImage(profilePictureURL!)
                     : const NetworkImage(
                   'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg',
