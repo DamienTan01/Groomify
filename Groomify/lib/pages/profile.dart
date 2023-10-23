@@ -131,9 +131,7 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               CircleAvatar(
                 radius: 90,
-                backgroundImage: selectedImage != null
-                    ? FileImage(selectedImage!)
-                    : profilePictureURL != null
+                backgroundImage: profilePictureURL != null
                     ? NetworkImage(profilePictureURL!)
                     : const NetworkImage(
                   'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg',
