@@ -1,11 +1,11 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:groomify/pages/home.dart';
 import 'package:groomify/pages/btmNavBar.dart';
 import 'package:groomify/controller/auth_controller.dart';
 import 'package:groomify/controller/firestore_controller.dart';
 import 'package:groomify/pages/groomers.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -57,6 +57,10 @@ class _ProfilePageState extends State<ProfilePage> {
     _fetchProfilePicture();
   }
 
+  void refreshPage() {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
+  }
+
   Future<void> _fetchUserData() async {
     final user = AuthController.instance.auth.currentUser;
     if (user != null) {
@@ -84,12 +88,11 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  void refreshPage() {
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
-  }
-
   @override
   Widget build(BuildContext context) {
+    double w = MediaQuery.of(context).size.width;
+    double h = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -222,6 +225,35 @@ class _ProfilePageState extends State<ProfilePage> {
                   ],
                 ),
               ],
+            ),
+          ),
+          const SizedBox(height: 50),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Container(
+              margin: const EdgeInsets.only(right: 20), // Adjust the margin as needed
+              child: SizedBox(
+                width: w * 0.3,
+                height: h * 0.05,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 5,
+                    backgroundColor: const Color(0xff735D78),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    textStyle: const TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  onPressed: () {
+
+                  },
+                  child: const Text('Update'),
+                ),
+              ),
             ),
           ),
         ],
