@@ -23,7 +23,6 @@ class _ProfilePageState extends State<ProfilePage> {
   String? password;
   String? role;
   String? profilePictureURL;
-  File? selectedImage;
 
   final firestoreController = FirestoreController();
 
@@ -249,7 +248,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   onPressed: () {
-
+                    refreshPage();
                   },
                   child: const Text('Update'),
                 ),
