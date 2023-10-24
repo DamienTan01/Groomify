@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:groomify/controller/auth_controller.dart';
-import 'package:groomify/pages/groomerHome.dart';
+import 'package:groomify/pages/groomer_home.dart';
 import 'package:groomify/pages/home.dart';
 import 'package:groomify/pages/login.dart';
 
