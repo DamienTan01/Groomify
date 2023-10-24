@@ -271,7 +271,7 @@ class _SignupPageState extends State<SignupPage> {
                     } else {
                       // Handle other roles or cases as needed
                     }
-
+                    AuthController.instance.navigateBasedOnRole(selectedRole);
                   } else {
                     // Show error popups for invalid input
                     if (emailValidationResult.isNotEmpty) {
@@ -287,7 +287,6 @@ class _SignupPageState extends State<SignupPage> {
                       AuthController.instance.showErrorPopup(context, 'Username Error',usernameValidationResult);
                     }
                   }
-                  AuthController.instance.navigateBasedOnRole(selectedRole);
                 },
                 child: const Text('Sign Up'),
               ),

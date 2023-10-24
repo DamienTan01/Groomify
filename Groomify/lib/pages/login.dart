@@ -150,6 +150,8 @@ class _LoginPageState extends State<LoginPage> {
                       emailController.text.trim(),
                       passwordController.text.trim(),
                     );
+                    // After successful login, navigate based on the user's role
+                    AuthController.instance.navigateBasedOnRole(emailController.text.trim());
                   } else {
                     // Show error popups for invalid input
                     if (emailValidationResult.isNotEmpty) {
@@ -159,8 +161,6 @@ class _LoginPageState extends State<LoginPage> {
                       AuthController.instance.showErrorPopup(context, 'Password Error', passwordValidationResult);
                     }
                   }
-                  // After successful login, navigate based on the user's role
-                  AuthController.instance.navigateBasedOnRole(emailController.text.trim());
                 },
                 child: const Text('Login'),
               ),
