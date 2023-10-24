@@ -33,7 +33,7 @@ class FirestoreController {
 
     if (pickedFile != null) {
       final file = File(pickedFile.path);
-      final storageReference = FirebaseStorage.instance.ref().child('user_profile_images/$email.jpg');
+      final storageReference = FirebaseStorage.instance.ref().child('profile_picture/$email.jpg');
       final uploadTask = storageReference.putFile(file);
 
       await uploadTask.whenComplete(() async {
@@ -65,6 +65,24 @@ class FirestoreController {
       return null; // User not found
     } catch (e) {
       print('Error fetching profile picture URL: $e');
+      return null;
+    }
+  }
+
+  //Retrieve role data from firestore
+  Future<String?> getUserRolebyEmail(String email) async{
+    try {
+      final userRef = _firestore.collection('users').where('email', isEqualTo: email);
+      final querySnapshot = await userRef.get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        final userDoc = querySnapshot.docs.first;
+        final userData = userDoc.data();
+        return userData['role'] as String?;
+      }
+      return null; // User not found
+    } catch (e) {
+      print('Error fetching user role: $e');
       return null;
     }
   }
