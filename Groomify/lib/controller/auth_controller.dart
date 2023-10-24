@@ -75,11 +75,18 @@ class AuthController extends GetxController {
 
   void login(String email, String password) async {
     try {
-      await auth.signInWithEmailAndPassword(email: email, password: password);
+      final UserCredential userCredential = await auth.signInWithEmailAndPassword(email: email, password: password);
+
+      if (userCredential.user != null) {
+        navigateBasedOnRole(email);
+      } else {
+        showErrorPopup(Get.context!, 'Login Failed', 'Invalid Credentials');
+      }
     } catch (e) {
       showErrorPopup(Get.context!, 'Login Failed', 'Invalid Credentials');
     }
   }
+
 
   void logout() async {
     await auth.signOut();
