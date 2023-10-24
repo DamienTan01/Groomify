@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:groomify/controller/auth_controller.dart';
+import 'package:groomify/pages/btmNavBar.dart';
+import 'package:groomify/pages/profile.dart';
 
 class GroomerHome extends StatefulWidget {
   const GroomerHome({super.key});
@@ -9,6 +11,27 @@ class GroomerHome extends StatefulWidget {
 }
 
 class _GroomerHomeState extends State<GroomerHome> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    if (index == 0) {
+      // Navigate to the Home page
+      // Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HomePage()));
+    }
+    if (index == 1) {
+      // Navigate to the Groomer page
+      // Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GroomerPage()));
+    }
+    if (index == 2) {
+      // Navigate to the Profile page
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ProfilePage()));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +68,11 @@ class _GroomerHomeState extends State<GroomerHome> {
       ),
       body: const SingleChildScrollView (
         
-      )
+      ),
+      bottomNavigationBar: CustomNavBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
+      ),
     );
   }
 }

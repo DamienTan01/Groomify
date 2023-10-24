@@ -211,7 +211,7 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-//Icons
+//Services Icons
 Widget _buildServiceButton(String label, IconData iconData) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,

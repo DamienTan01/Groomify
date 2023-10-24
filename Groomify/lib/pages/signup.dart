@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:groomify/controller/auth_controller.dart';
+import 'package:groomify/pages/groomerHome.dart';
+import 'package:groomify/pages/home.dart';
 import 'package:groomify/pages/login.dart';
 
 class SignupPage extends StatefulWidget {
@@ -260,6 +262,16 @@ class _SignupPageState extends State<SignupPage> {
                       usernameController.text.trim(),
                       selectedRole,
                     );
+
+                    // Based on the selected role, navigate to the appropriate page
+                    if (selectedRole == 'User') {
+                      Get.to(const HomePage());
+                    } else if (selectedRole == 'Groomer') {
+                      Get.to(const GroomerHome());
+                    } else {
+                      // Handle other roles or cases as needed
+                    }
+
                   } else {
                     // Show error popups for invalid input
                     if (emailValidationResult.isNotEmpty) {
@@ -275,6 +287,7 @@ class _SignupPageState extends State<SignupPage> {
                       AuthController.instance.showErrorPopup(context, 'Username Error',usernameValidationResult);
                     }
                   }
+                  AuthController.instance.navigateBasedOnRole(selectedRole);
                 },
                 child: const Text('Sign Up'),
               ),
