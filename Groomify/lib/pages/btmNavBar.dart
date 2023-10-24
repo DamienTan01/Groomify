@@ -4,7 +4,7 @@ class CustomNavBar extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
 
-  const CustomNavBar({
+  const CustomNavBar({super.key,
     required this.selectedIndex,
     required this.onItemTapped,
   });
@@ -19,16 +19,16 @@ class CustomNavBar extends StatelessWidget {
       selectedItemColor: Colors.black,
       onTap: onItemTapped,
       type: BottomNavigationBarType.fixed,
-      items: [
-        const BottomNavigationBarItem(
+      items: const [
+        BottomNavigationBarItem(
           icon: Icon(Icons.home),
           label: 'Home',
         ),
-        const BottomNavigationBarItem(
+        BottomNavigationBarItem(
           icon: Icon(Icons.pets),
           label: 'Groomers',
         ),
-        const BottomNavigationBarItem(
+        BottomNavigationBarItem(
           icon: Icon(Icons.person),
           label: 'Profile',
         ),

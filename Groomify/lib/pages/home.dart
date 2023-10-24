@@ -5,6 +5,8 @@ import 'package:groomify/pages/groomers.dart';
 import 'package:groomify/pages/profile.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -19,7 +21,7 @@ class _HomePageState extends State<HomePage> {
 
     if (index == 0) {
       // Navigate to the Home page
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HomePage()));
     }
     if (index == 1) {
       // Navigate to the Groomer page

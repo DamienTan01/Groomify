@@ -32,7 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
     if (index == 0) {
       // Navigate to the Home page
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => HomePage()));
+          .push(MaterialPageRoute(builder: (context) => const HomePage()));
     }
     if (index == 1) {
       // Navigate to the Groomer page

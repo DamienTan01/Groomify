@@ -2,6 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:groomify/controller/firestore_controller.dart';
+import 'package:groomify/pages/groomerHome.dart';
+import 'package:groomify/pages/home.dart';
 import 'package:groomify/pages/login.dart';
 
 //Use to navigate users to all pages
@@ -28,12 +31,26 @@ class AuthController extends GetxController {
   }
 
   //Navigate user to LoginPage if the user is not logged in
-  _initialScreen(User? user) {
+  _initialScreen(User? user) async {
     if (user == null) {
-      print("Login Page");
       Get.to(() => const LoginPage());
     } else {
+      // Call the navigateBasedOnRole method with the user's role
+      final userRole = await FirestoreController().getUserRoleByEmail(user.email ?? '');
+      navigateBasedOnRole(userRole!);
+    }
+  }
 
+  //Navigate the user to pages based on their role
+  Future<void> navigateBasedOnRole(String email) async {
+    final userRole = await FirestoreController().getUserRoleByEmail(email);
+
+    if (userRole == 'User') {
+      Get.to(const HomePage());
+    } else if (userRole == 'Groomer') {
+      Get.to(const GroomerHome());
+    } else {
+      // Handle other roles or cases as needed
     }
   }
 

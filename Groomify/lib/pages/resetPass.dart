@@ -167,12 +167,13 @@ class _ResetPassState extends State<ResetPass> {
 //Reset Password Function
 class ResetPassModel {
   Future<void> resetPassword(String email, BuildContext context) async {
+    final localContext = context;
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
 
       // Show success dialog
       showDialog(
-        context: context,
+        context: localContext,
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Password Reset'),
@@ -190,7 +191,6 @@ class ResetPassModel {
         },
       );
     } catch (error) {
-      print('Error resetting password: $error');
       // Show error dialog - an error occurred
       showDialog(
         context: context,
