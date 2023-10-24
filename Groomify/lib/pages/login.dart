@@ -2,6 +2,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:groomify/controller/auth_controller.dart';
+import 'package:groomify/controller/firestore_controller.dart';
+import 'package:groomify/pages/groomerHome.dart';
+import 'package:groomify/pages/home.dart';
 import 'package:groomify/pages/resetPass.dart';
 import 'package:groomify/pages/signup.dart';
 
@@ -15,6 +18,19 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  Future<void> navigateBasedOnRole(String email) async {
+    final userRole = await FirestoreController().getUserRoleByEmail(email);
+
+    if (userRole == 'user') {
+      Get.to(HomePage());
+    } else if (userRole == 'Groomer') {
+      Get.to(const GroomerHome());
+    } else {
+      // Handle other roles or cases as needed
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +156,7 @@ class _LoginPageState extends State<LoginPage> {
                     color: Colors.white,
                   ),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   final emailValidationResult = AuthController.instance.validateEmail(emailController.text);
                   final passwordValidationResult = AuthController.instance.validatePassword(passwordController.text);
 
@@ -159,6 +175,8 @@ class _LoginPageState extends State<LoginPage> {
                       AuthController.instance.showErrorPopup(context, 'Password Error', passwordValidationResult);
                     }
                   }
+                  // After successful login, navigate based on the user's role
+                  navigateBasedOnRole(emailController.text.trim());
                 },
                 child: const Text('Login'),
               ),

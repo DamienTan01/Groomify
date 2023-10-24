@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:groomify/pages/login.dart';
 import 'package:image_picker/image_picker.dart';
 
 class FirestoreController {
@@ -69,8 +70,8 @@ class FirestoreController {
     }
   }
 
-  //Retrieve role data from firestore
-  Future<String?> getUserRolebyEmail(String email) async{
+  // Retrieve the 'role' field for a user by email
+  Future<String?> getUserRoleByEmail(String email) async {
     try {
       final userRef = _firestore.collection('users').where('email', isEqualTo: email);
       final querySnapshot = await userRef.get();
@@ -80,7 +81,7 @@ class FirestoreController {
         final userData = userDoc.data();
         return userData['role'] as String?;
       }
-      return null; // User not found
+      return null; // User not found or 'role' field is not set
     } catch (e) {
       print('Error fetching user role: $e');
       return null;

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:groomify/pages/home.dart';
 import 'package:groomify/pages/login.dart';
 
 //Use to navigate users to all pages
@@ -14,6 +13,7 @@ class AuthController extends GetxController {
   late Rx<User?> _user;
   //Firebase auth module
   FirebaseAuth auth = FirebaseAuth.instance;
+  //Firebase firestore module
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
@@ -31,9 +31,9 @@ class AuthController extends GetxController {
   _initialScreen(User? user) {
     if (user == null) {
       print("Login Page");
-      Get.offAll(() => const LoginPage());
+      Get.to(() => const LoginPage());
     } else {
-      Get.offAll(() => HomePage());
+
     }
   }
 
