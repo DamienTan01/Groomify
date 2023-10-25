@@ -73,22 +73,13 @@ class _HomePageState extends State<HomePage> {
             //Text
             Column(
               children: [
-                //Ads
-               SingleChildScrollView(
-                 child: Container(
-                   decoration: BoxDecoration(
-                     border: Border.all(color: Colors.black)
-                   ),
-                   height: 140,
-                 ),
-               ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 20),
                 //Text
                 Container(
-                  alignment: Alignment.centerLeft,
+                  alignment: Alignment.center,
                   padding: const EdgeInsets.only(left: 15),
                   child: Text(
-                    'Grooming Services',
+                    'Appointments',
                     style: TextStyle(
                       fontSize: 27,
                       fontWeight: FontWeight.bold,
@@ -104,21 +95,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                //Services
-                GridView.count(
-                  crossAxisCount: 4,
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(8),
-                  children: [
-                    _buildServiceButton('Pet Bathing', Icons.bathtub),
-                    _buildServiceButton('Haircuts', Icons.content_cut),
-                    _buildServiceButton('Nail Trim', Icons.content_paste),
-                    _buildServiceButton('Teeth Clean', Icons.brush),
-                    _buildServiceButton('Ear Clean', Icons.hearing),
-                    _buildServiceButton('Flea & Tick Treatment', Icons.bug_report),
-                    _buildServiceButton('Anal Gland Expression', Icons.face),
-                    _buildServiceButton('Paw Pad Care', Icons.pets),
-                  ],
+                //Calendar to show appointments
+                Container(
+
                 ),
                 const SizedBox(height: 30),
                 //Text
@@ -141,7 +120,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 20),
                 //Horizontal scroll
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
