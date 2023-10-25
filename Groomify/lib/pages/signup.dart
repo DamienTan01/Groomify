@@ -254,19 +254,27 @@ class _SignupPageState extends State<SignupPage> {
                   final usernameValidationResult = AuthController.instance.validateUserName(usernameController.text);
 
                   if (emailValidationResult == '' && passwordValidationResult == '') {
-                    // Both email and password are valid, proceed with registration
-                    AuthController.instance.register(
-                      emailController.text.trim(),
-                      passwordController.text.trim(),
-                      fullNameController.text.trim(), // Provide full name here
-                      usernameController.text.trim(),
-                      selectedRole,
-                    );
-
                     // Based on the selected role, navigate to the appropriate page
                     if (selectedRole == 'User') {
+                      // Both email and password are valid, proceed with registration
+                      AuthController.instance.register(
+                        emailController.text.trim(),
+                        passwordController.text.trim(),
+                        fullNameController.text.trim(), // Provide full name here
+                        usernameController.text.trim(),
+                        selectedRole,
+                      );
+
                       Get.to(const HomePage());
                     } else if (selectedRole == 'Groomer') {
+                      AuthController.instance.groomerRegister(
+                        emailController.text.trim(),
+                        passwordController.text.trim(),
+                        fullNameController.text.trim(), // Provide full name here
+                        usernameController.text.trim(),
+                        selectedRole,
+                      );
+
                       Get.to(const GroomerHome());
                     } else {
                       // Handle other roles or cases as needed

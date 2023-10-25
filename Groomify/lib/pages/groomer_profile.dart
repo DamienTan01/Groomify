@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:groomify/pages/btmNavBar.dart';
 import 'package:groomify/controller/auth_controller.dart';
 import 'package:groomify/controller/firestore_controller.dart';
+import 'package:groomify/pages/groomer_home.dart';
 
 class GroomerProfile extends StatefulWidget {
   const GroomerProfile({super.key});
@@ -29,7 +30,7 @@ class _ProfilePageState extends State<GroomerProfile> {
 
     if (index == 0) {
       // Navigate to the Home page
-      // Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HomePage()));
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GroomerHome()));
     }
     if (index == 1) {
       // Navigate to the Groomer page
@@ -57,7 +58,7 @@ class _ProfilePageState extends State<GroomerProfile> {
     final user = AuthController.instance.auth.currentUser;
     if (user != null) {
       final userData =
-      await firestoreController.getUserDataByEmail(user.email!);
+      await firestoreController.getGroomerDataByEmail(user.email!);
       if (userData != null) {
         setState(() {
           fullName = userData['fullName'];
@@ -138,7 +139,7 @@ class _ProfilePageState extends State<GroomerProfile> {
                 child: IconButton(
                   iconSize: 30,
                   onPressed: () {
-                    firestoreController.uploadProfilePicture(email!);
+                    firestoreController.uploadGroomerProfilePicture(email!);
                   },
                   icon: const Icon(Icons.add_a_photo),
                 ),

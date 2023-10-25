@@ -54,10 +54,31 @@ class AuthController extends GetxController {
     }
   }
 
+  //User registration
   void register(String email, String password, String fullName, String username, String role) async {
     try {
       await auth.createUserWithEmailAndPassword(email: email, password: password);
       await firestore.collection('users').add({
+        'fullName': fullName,
+        'username': username,
+        'email': email,
+        'role': role,
+      });
+    } catch (e) {
+      if (e.toString().contains('email-already-in-use')) {
+        // Handle the case where the email is already registered
+        showErrorPopup(Get.context!, 'Registration Failed', 'Email is already in use.');
+      } else {
+        showErrorPopup(Get.context!, 'Account Creation Failed', 'Invalid Credentials');
+      }
+    }
+  }
+
+  //Groomers registration
+  void groomerRegister(String email, String password, String fullName, String username, String role) async {
+    try {
+      await auth.createUserWithEmailAndPassword(email: email, password: password);
+      await firestore.collection('groomers').add({
         'fullName': fullName,
         'username': username,
         'email': email,

@@ -20,7 +20,7 @@ class _GroomerHomeState extends State<GroomerHome> {
 
     if (index == 0) {
       // Navigate to the Home page
-      // Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HomePage()));
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GroomerHome()));
     }
     if (index == 1) {
       // Navigate to the Groomer page

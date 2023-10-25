@@ -77,7 +77,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> _fetchProfilePicture() async {
-    final profilePictureURL = await firestoreController.getProfilePictureURL(email!);
+    final profilePictureURL = await firestoreController.getGroomerProfilePictureURL(email!);
     if (profilePictureURL != null) {
       setState(() {
         this.profilePictureURL = profilePictureURL;
@@ -143,7 +143,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: IconButton(
                   iconSize: 30,
                   onPressed: () {
-                    firestoreController.uploadProfilePicture(email!);
+                    firestoreController.uploadGroomerProfilePicture(email!);
                   },
                   icon: const Icon(Icons.add_a_photo),
                 ),
