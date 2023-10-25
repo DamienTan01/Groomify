@@ -46,7 +46,7 @@ class _ProfilePageState extends State<GroomerProfile> {
   @override
   void initState() {
     super.initState();
-    _fetchUserData();
+    _fetchGroomerData();
     _fetchProfilePicture();
   }
 
@@ -54,7 +54,7 @@ class _ProfilePageState extends State<GroomerProfile> {
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const GroomerProfile()));
   }
 
-  Future<void> _fetchUserData() async {
+  Future<void> _fetchGroomerData() async {
     final user = AuthController.instance.auth.currentUser;
     if (user != null) {
       final userData =
