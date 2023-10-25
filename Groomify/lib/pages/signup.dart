@@ -276,9 +276,8 @@ class _SignupPageState extends State<SignupPage> {
                       );
 
                       Get.to(const GroomerHome());
-                    } else {
-                      // Handle other roles or cases as needed
                     }
+
                     AuthController.instance.navigateBasedOnRole(selectedRole);
                   } else {
                     // Show error popups for invalid input
