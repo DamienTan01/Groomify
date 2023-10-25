@@ -26,26 +26,6 @@ class FirestoreController {
     }
   }
 
-  // Retrieve groomer data by email
-  Future<Map<String, dynamic>?> getGroomerDataByEmail(String email) async {
-    try {
-      final QuerySnapshot userSnapshot = await _firestore
-          .collection('groomers')
-          .where('email', isEqualTo: email)
-          .get();
-
-      if (userSnapshot.docs.isNotEmpty) {
-        final userData = userSnapshot.docs.first.data() as Map<String, dynamic>;
-        return userData;
-      } else {
-        return null; // User not found
-      }
-    } catch (e) {
-      print('Error fetching user data: $e');
-      return null;
-    }
-  }
-
   //Upload profile picture (Users)
   Future<void> uploadProfilePicture(String email) async {
     final picker = ImagePicker();
@@ -71,6 +51,44 @@ class FirestoreController {
     }
   }
 
+  //Retrieve image url (Users)
+  Future<String?> getProfilePictureURL(String email) async {
+    try {
+      final userRef = _firestore.collection('users').where('email', isEqualTo: email);
+      final querySnapshot = await userRef.get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        final userDoc = querySnapshot.docs.first;
+        final userData = userDoc.data();
+        return userData['profile_picture'] as String?;
+      }
+      return null; // User not found
+    } catch (e) {
+      print('Error fetching profile picture URL: $e');
+      return null;
+    }
+  }
+
+  // Retrieve groomer data by email
+  Future<Map<String, dynamic>?> getGroomerDataByEmail(String email) async {
+    try {
+      final QuerySnapshot userSnapshot = await _firestore
+          .collection('groomers')
+          .where('email', isEqualTo: email)
+          .get();
+
+      if (userSnapshot.docs.isNotEmpty) {
+        final userData = userSnapshot.docs.first.data() as Map<String, dynamic>;
+        return userData;
+      } else {
+        return null; // User not found
+      }
+    } catch (e) {
+      print('Error fetching user data: $e');
+      return null;
+    }
+  }
+
   //Upload profile picture (Groomers)
   Future<void> uploadGroomerProfilePicture(String email) async {
     final picker = ImagePicker();
@@ -93,24 +111,6 @@ class FirestoreController {
           }
         });
       });
-    }
-  }
-
-  //Retrieve image url (Users)
-  Future<String?> getProfilePictureURL(String email) async {
-    try {
-      final userRef = _firestore.collection('users').where('email', isEqualTo: email);
-      final querySnapshot = await userRef.get();
-
-      if (querySnapshot.docs.isNotEmpty) {
-        final userDoc = querySnapshot.docs.first;
-        final userData = userDoc.data();
-        return userData['profile_picture'] as String?;
-      }
-      return null; // User not found
-    } catch (e) {
-      print('Error fetching profile picture URL: $e');
-      return null;
     }
   }
 

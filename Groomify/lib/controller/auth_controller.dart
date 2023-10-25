@@ -49,8 +49,6 @@ class AuthController extends GetxController {
       Get.to(const HomePage());
     } else if (userRole == 'Groomer') {
       Get.to(const GroomerHome());
-    } else {
-      // Handle other roles or cases as needed
     }
   }
 
