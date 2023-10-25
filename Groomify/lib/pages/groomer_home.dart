@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:groomify/controller/auth_controller.dart';
-import 'package:groomify/pages/btmNavBar.dart';
 import 'package:groomify/pages/groomer_manage.dart';
 import 'package:groomify/pages/groomer_profile.dart';
 import 'package:groomify/pages/groomer_btmNavBar.dart';
@@ -69,7 +68,7 @@ class _GroomerHomeState extends State<GroomerHome> {
         elevation: 0,
       ),
       body: const SingleChildScrollView (
-        
+
       ),
       bottomNavigationBar: GroomerNavBar(
         selectedIndex: _selectedIndex,
