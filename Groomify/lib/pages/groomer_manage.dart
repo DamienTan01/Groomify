@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:groomify/controller/auth_controller.dart';
 import 'package:groomify/pages/btmNavBar.dart';
-import 'package:groomify/pages/groomer_manage.dart';
+import 'package:groomify/pages/groomer_home.dart';
 import 'package:groomify/pages/groomer_profile.dart';
 import 'package:groomify/pages/groomer_btmNavBar.dart';
 
-class GroomerHome extends StatefulWidget {
-  const GroomerHome({super.key});
+class GroomerManage extends StatefulWidget {
+  const GroomerManage({super.key});
 
   @override
-  State<GroomerHome> createState() => _GroomerHomeState();
+  State<GroomerManage> createState() => _GroomerManageState();
 }
 
-class _GroomerHomeState extends State<GroomerHome> {
-  int _selectedIndex = 0;
+class _GroomerManageState extends State<GroomerManage> {
+  int _selectedIndex = 1;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -69,7 +69,7 @@ class _GroomerHomeState extends State<GroomerHome> {
         elevation: 0,
       ),
       body: const SingleChildScrollView (
-        
+
       ),
       bottomNavigationBar: GroomerNavBar(
         selectedIndex: _selectedIndex,

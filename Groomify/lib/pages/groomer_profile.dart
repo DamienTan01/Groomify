@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:groomify/pages/groomer_btmNavBar.dart';
 import 'package:groomify/pages/btmNavBar.dart';
 import 'package:groomify/controller/auth_controller.dart';
 import 'package:groomify/controller/firestore_controller.dart';
 import 'package:groomify/pages/groomer_home.dart';
+import 'package:groomify/pages/groomer_manage.dart';
 
 class GroomerProfile extends StatefulWidget {
   const GroomerProfile({super.key});
@@ -34,7 +36,7 @@ class _ProfilePageState extends State<GroomerProfile> {
     }
     if (index == 1) {
       // Navigate to the Groomer page
-      // Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GroomerPage()));
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GroomerManage()));
     }
     if (index == 2) {
       // Navigate to the Profile page
@@ -251,7 +253,7 @@ class _ProfilePageState extends State<GroomerProfile> {
           ),
         ],
       ),
-      bottomNavigationBar: CustomNavBar(
+      bottomNavigationBar: GroomerNavBar(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
       ),
