@@ -136,14 +136,22 @@ class FirestoreController {
   Future<String?> getUserRoleByEmail(String email) async {
     try {
       final userRef = _firestore.collection('users').where('email', isEqualTo: email);
-      final querySnapshot = await userRef.get();
+      final groomerRef = _firestore.collection('groomers').where('email', isEqualTo: email);
 
-      if (querySnapshot.docs.isNotEmpty) {
-        final userDoc = querySnapshot.docs.first;
+      final userQuerySnapshot = await userRef.get();
+      final groomerQuerySnapshot = await groomerRef.get();
+
+      if (userQuerySnapshot.docs.isNotEmpty) {
+        final userDoc = userQuerySnapshot.docs.first;
         final userData = userDoc.data();
         return userData['role'] as String?;
+      } else if (groomerQuerySnapshot.docs.isNotEmpty) {
+        final groomerDoc = groomerQuerySnapshot.docs.first;
+        final groomerData = groomerDoc.data();
+        return groomerData['role'] as String?;
       }
-      return null; // User not found or 'role' field is not set
+
+      return null; // User not found in either collection or 'role' field is not set
     } catch (e) {
       print('Error fetching user role: $e');
       return null;
