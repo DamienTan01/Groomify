@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 class FirestoreController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Retrieve user data by email
+  // Retrieve data by email (Users)
   Future<Map<String, dynamic>?> getUserDataByEmail(String email) async {
     try {
       final QuerySnapshot userSnapshot = await _firestore
@@ -69,7 +69,7 @@ class FirestoreController {
     }
   }
 
-  // Retrieve groomer data by email
+  // Retrieve data by email (Groomers)
   Future<Map<String, dynamic>?> getGroomerDataByEmail(String email) async {
     try {
       final QuerySnapshot userSnapshot = await _firestore
