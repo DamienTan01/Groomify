@@ -25,10 +25,6 @@ class GroomerNavBar extends StatelessWidget {
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.settings),
-          label: 'Manage',
-        ),
-        BottomNavigationBarItem(
           icon: Icon(Icons.person),
           label: 'Profile',
         ),

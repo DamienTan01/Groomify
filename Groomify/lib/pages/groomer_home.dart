@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:groomify/controller/auth_controller.dart';
-import 'package:groomify/pages/groomer_manage.dart';
 import 'package:groomify/pages/groomer_profile.dart';
 import 'package:groomify/pages/groomer_btmNavBar.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -25,10 +24,6 @@ class _GroomerHomeState extends State<GroomerHome> {
       Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GroomerHome()));
     }
     if (index == 1) {
-      // Navigate to the Groomer page
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GroomerManage()));
-    }
-    if (index == 2) {
       // Navigate to the Profile page
       Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GroomerProfile()));
     }

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:groomify/pages/groomer_btmNavBar.dart';
-import 'package:groomify/pages/btmNavBar.dart';
 import 'package:groomify/controller/auth_controller.dart';
 import 'package:groomify/controller/firestore_controller.dart';
 import 'package:groomify/pages/groomer_home.dart';
-import 'package:groomify/pages/groomer_manage.dart';
 
 class GroomerProfile extends StatefulWidget {
   const GroomerProfile({super.key});
@@ -14,7 +12,7 @@ class GroomerProfile extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<GroomerProfile> {
-  int _selectedIndex = 2;
+  int _selectedIndex = 1;
   bool showPassword = false;
   String? fullName;
   String? username;
@@ -35,10 +33,6 @@ class _ProfilePageState extends State<GroomerProfile> {
       Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GroomerHome()));
     }
     if (index == 1) {
-      // Navigate to the Groomer page
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GroomerManage()));
-    }
-    if (index == 2) {
       // Navigate to the Profile page
       Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GroomerProfile()));
     }
@@ -83,6 +77,42 @@ class _ProfilePageState extends State<GroomerProfile> {
     }
   }
 
+  // Create a list of items with their respective states (checked or unchecked).
+  List<CheckboxListTileModel> list = <CheckboxListTileModel>[
+    CheckboxListTileModel(
+      title: 'Pet Bathing',
+      isSelected: false,
+    ),
+    CheckboxListTileModel(
+      title: 'Haircuts',
+      isSelected: false,
+    ),
+    CheckboxListTileModel(
+      title: 'Nail Trim',
+      isSelected: false,
+    ),
+    CheckboxListTileModel(
+      title: 'Teeth Clean',
+      isSelected: false,
+    ),
+    CheckboxListTileModel(
+      title: 'Ear Clean',
+      isSelected: false,
+    ),
+    CheckboxListTileModel(
+      title: 'Flea & Tick Treatment',
+      isSelected: false,
+    ),
+    CheckboxListTileModel(
+      title: 'Anal Gland Expression',
+      isSelected: false,
+    ),
+    CheckboxListTileModel(
+      title: 'Paw Pad Care',
+      isSelected: false,
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
@@ -120,38 +150,38 @@ class _ProfilePageState extends State<GroomerProfile> {
         ],
         elevation: 0,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const SizedBox(height: 50),
-          // Profile Picture
-          Stack(
-            children: [
-              CircleAvatar(
-                radius: 90,
-                backgroundImage: profilePictureURL != null
-                    ? NetworkImage(profilePictureURL!)
-                    : const NetworkImage(
-                  'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg',
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 50),
+            // Profile Picture
+            Stack(
+              children: [
+                CircleAvatar(
+                  radius: 90,
+                  backgroundImage: profilePictureURL != null
+                      ? NetworkImage(profilePictureURL!)
+                      : const NetworkImage(
+                    'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg',
+                  ),
                 ),
-              ),
-              Positioned(
-                bottom: -10,
-                left: 120,
-                child: IconButton(
-                  iconSize: 30,
-                  onPressed: () {
-                    firestoreController.uploadGroomerProfilePicture(email!);
-                  },
-                  icon: const Icon(Icons.add_a_photo),
-                ),
-              )
-            ],
-          ),
-          const SizedBox(height: 50),
-          //User Data
-          Center(
-            child: Column(
+                Positioned(
+                  bottom: -10,
+                  left: 120,
+                  child: IconButton(
+                    iconSize: 30,
+                    onPressed: () {
+                      firestoreController.uploadGroomerProfilePicture(email!);
+                    },
+                    icon: const Icon(Icons.add_a_photo),
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(height: 50),
+            //User Data
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Column(
@@ -221,37 +251,73 @@ class _ProfilePageState extends State<GroomerProfile> {
                 ),
               ],
             ),
-          ),
-          const SizedBox(height: 50),
-          Align(
-            alignment: Alignment.centerRight,
-            child: Container(
-              margin: const EdgeInsets.only(right: 20), // Adjust the margin as needed
-              child: SizedBox(
-                width: w * 0.3,
-                height: h * 0.05,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    elevation: 5,
-                    backgroundColor: const Color(0xff735D78),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    textStyle: const TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+            const SizedBox(height: 30),
+            //Services
+            Column(
+              children: [
+                const Text(
+                  'Services:',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
                   ),
-                  onPressed: () {
-                    refreshPage();
-                  },
-                  child: const Text('Update'),
+                ),
+                const SizedBox(height: 5),
+                // Add padding here
+                Padding(
+                  padding: const EdgeInsets.all(16.0), // Adjust the padding as needed
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: list.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return CheckboxListTile(
+                        title: Text(list[index].title),
+                        value: list[index].isSelected,
+                        onChanged: (bool? value) {
+                          if (value != null) {
+                            setState(() {
+                              list[index].isSelected = value;
+                            });
+                          }
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Container(
+                margin: const EdgeInsets.only(right: 20), // Adjust the margin as needed
+                child: SizedBox(
+                  width: w * 0.3,
+                  height: h * 0.05,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 5,
+                      backgroundColor: const Color(0xff735D78),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      textStyle: const TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    onPressed: () {
+                      refreshPage();
+                    },
+                    child: const Text('Update'),
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+            const SizedBox(height: 20),
+          ],
+        ),
       ),
       bottomNavigationBar: GroomerNavBar(
         selectedIndex: _selectedIndex,
@@ -259,4 +325,14 @@ class _ProfilePageState extends State<GroomerProfile> {
       ),
     );
   }
+}
+
+class CheckboxListTileModel {
+  String title;
+  bool isSelected;
+
+  CheckboxListTileModel({
+    required this.title,
+    required this.isSelected,
+  });
 }
