@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:groomify/controller/provider.dart';
 import 'package:groomify/pages/groomer_btmNavBar.dart';
 import 'package:groomify/controller/auth_controller.dart';
 import 'package:groomify/controller/firestore_controller.dart';
 import 'package:groomify/pages/groomer_home.dart';
+import 'package:provider/provider.dart';
 
 class GroomerProfile extends StatefulWidget {
   const GroomerProfile({super.key});
@@ -121,6 +123,8 @@ class _ProfilePageState extends State<GroomerProfile> {
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
+    // Use the provider to access selected service states
+    final selectedServicesProvider = Provider.of<SelectedServicesProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -276,13 +280,10 @@ class _ProfilePageState extends State<GroomerProfile> {
                     itemBuilder: (BuildContext context, int index) {
                       return CheckboxListTile(
                         title: Text(list[index].title),
-                        value: selectedServices[index], // Use selectedServiceStates
+                        value: selectedServicesProvider.selectedServiceStates[index],
                         onChanged: (bool? value) {
                           if (value != null) {
-                            setState(() {
-                              list[index].isSelected = value;
-                              selectedServices[index] = value; // Update selectedServiceStates
-                            });
+                            selectedServicesProvider.toggleServiceState(index);
                           }
                         },
                       );
@@ -312,12 +313,20 @@ class _ProfilePageState extends State<GroomerProfile> {
                         color: Colors.white,
                       ),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       // Create an instance of FirestoreController
                       final firestoreController = FirestoreController();
 
-                      // Call the updateSelectedServices function to save the selected services
-                      firestoreController.updateSelectedServices(email!, list);
+                      // Create a list of selected service titles based on the selectedServiceStates
+                      final selectedServiceTitles = list
+                          .where((item) => selectedServicesProvider.selectedServiceStates[list.indexOf(item)])
+                          .map((service) => service.title)
+                          .toList();
+
+                      // Update the 'services' field in Firestore
+                      await firestoreController.updateSelectedServices(email!, selectedServiceTitles);
+
+                      // Refresh the page after updating
                       refreshPage();
                     },
                     child: const Text('Update'),
