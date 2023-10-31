@@ -23,6 +23,7 @@ class _ProfilePageState extends State<GroomerProfile> {
   String? role;
   String? profilePictureURL;
   List<bool> selectedServices = [];
+  late SelectedServicesProvider selectedServicesProvider;
 
   final firestoreController = FirestoreController();
 
@@ -47,9 +48,10 @@ class _ProfilePageState extends State<GroomerProfile> {
     super.initState();
     _fetchGroomerData();
     _fetchProfilePicture();
+    _fetchSelectedServices();
 
-    // Initialize the selectedServiceStates list based on the initial state of checkboxes
-    selectedServices = list.map((item) => item.isSelected).toList();
+    // Initialize selectedServices based on the data from Firestore
+    selectedServices = List.generate(list.length, (index) => false);
   }
 
   void refreshPage() {
@@ -81,6 +83,24 @@ class _ProfilePageState extends State<GroomerProfile> {
         this.profilePictureURL = profilePictureURL;
       });
     }
+  }
+
+  Future<void> _fetchSelectedServices() async {
+    // Fetch selected services from Firestore
+    final selectedServicesFromFirestore = await firestoreController.getSelectedServices(email!);
+
+    // Update the selectedServiceStates list based on the data from Firestore
+    if (selectedServicesFromFirestore != null) {
+      for (int index = 0; index < list.length; index++) {
+        final serviceTitle = list[index].title;
+        selectedServicesProvider.selectedServiceStates[index] = selectedServicesFromFirestore.contains(serviceTitle);
+      }
+    }
+
+    // Set the selectedServices list
+    setState(() {
+      selectedServices = selectedServices;
+    });
   }
 
   // Create a list of items with their respective states (checked or unchecked).

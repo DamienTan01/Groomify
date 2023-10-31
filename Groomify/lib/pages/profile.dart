@@ -55,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void refreshPage() {
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ProfilePage()));
   }
 
   Future<void> _fetchUserData() async {
@@ -245,7 +245,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       color: Colors.white,
                     ),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     refreshPage();
                   },
                   child: const Text('Update'),

@@ -174,4 +174,24 @@ class FirestoreController {
       print('Error updating selected services: $e');
     }
   }
+
+  Future<List<String>?> getSelectedServices(String email) async {
+    try {
+      final userRef = _firestore.collection('groomers').where('email', isEqualTo: email);
+      final querySnapshot = await userRef.get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        final userDoc = querySnapshot.docs.first;
+        final userData = userDoc.data();
+        final selectedServices = userData['services'] as List<dynamic>?;
+        if (selectedServices != null) {
+          return selectedServices.map((service) => service.toString()).toList();
+        }
+      }
+      return null;
+    } catch (e) {
+      print('Error fetching selected services: $e');
+      return null;
+    }
+  }
 }

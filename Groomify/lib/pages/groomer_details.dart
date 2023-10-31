@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:groomify/controller/auth_controller.dart';
-import 'package:groomify/pages/groomer_profile.dart';
-import 'package:groomify/pages/groomer_btmNavBar.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:groomify/pages/groomers.dart';
+import 'package:groomify/pages/home.dart';
+import 'package:groomify/pages/profile.dart';
 
 class GroomerHome extends StatefulWidget {
   const GroomerHome({super.key});
@@ -21,11 +21,15 @@ class _GroomerHomeState extends State<GroomerHome> {
 
     if (index == 0) {
       // Navigate to the Home page
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GroomerHome()));
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HomePage()));
     }
     if (index == 1) {
+      // Navigate to the Groomer page
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GroomerPage()));
+    }
+    if (index == 2) {
       // Navigate to the Profile page
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GroomerProfile()));
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ProfilePage()));
     }
   }
 
