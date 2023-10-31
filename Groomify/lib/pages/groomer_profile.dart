@@ -20,6 +20,7 @@ class _ProfilePageState extends State<GroomerProfile> {
   String? password;
   String? role;
   String? profilePictureURL;
+  
   final firestoreController = FirestoreController();
 
   void _onItemTapped(int index) {
