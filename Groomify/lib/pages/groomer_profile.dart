@@ -20,6 +20,7 @@ class _ProfilePageState extends State<GroomerProfile> {
   String? password;
   String? role;
   String? profilePictureURL;
+  List<bool> selectedServices = [];
 
   final firestoreController = FirestoreController();
 
@@ -44,10 +45,13 @@ class _ProfilePageState extends State<GroomerProfile> {
     super.initState();
     _fetchGroomerData();
     _fetchProfilePicture();
+
+    // Initialize the selectedServiceStates list based on the initial state of checkboxes
+    selectedServices = list.map((item) => item.isSelected).toList();
   }
 
   void refreshPage() {
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const GroomerProfile()));
+    _fetchGroomerData();
   }
 
   Future<void> _fetchGroomerData() async {
@@ -272,11 +276,12 @@ class _ProfilePageState extends State<GroomerProfile> {
                     itemBuilder: (BuildContext context, int index) {
                       return CheckboxListTile(
                         title: Text(list[index].title),
-                        value: list[index].isSelected,
+                        value: selectedServices[index], // Use selectedServiceStates
                         onChanged: (bool? value) {
                           if (value != null) {
                             setState(() {
                               list[index].isSelected = value;
+                              selectedServices[index] = value; // Update selectedServiceStates
                             });
                           }
                         },
