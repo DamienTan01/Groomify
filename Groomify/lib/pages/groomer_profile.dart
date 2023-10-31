@@ -4,7 +4,6 @@ import 'package:groomify/pages/groomer_btmNavBar.dart';
 import 'package:groomify/controller/auth_controller.dart';
 import 'package:groomify/controller/firestore_controller.dart';
 import 'package:groomify/pages/groomer_home.dart';
-import 'package:provider/provider.dart';
 
 class GroomerProfile extends StatefulWidget {
   const GroomerProfile({super.key});
@@ -23,7 +22,6 @@ class _ProfilePageState extends State<GroomerProfile> {
   String? role;
   String? profilePictureURL;
   List<bool> selectedServices = [];
-  late SelectedServicesProvider selectedServicesProvider;
 
   final firestoreController = FirestoreController();
 
@@ -48,10 +46,6 @@ class _ProfilePageState extends State<GroomerProfile> {
     super.initState();
     _fetchGroomerData();
     _fetchProfilePicture();
-    _fetchSelectedServices();
-
-    // Initialize selectedServices based on the data from Firestore
-    selectedServices = List.generate(list.length, (index) => false);
   }
 
   void refreshPage() {
@@ -83,30 +77,6 @@ class _ProfilePageState extends State<GroomerProfile> {
         this.profilePictureURL = profilePictureURL;
       });
     }
-  }
-
-  Future<void> _fetchSelectedServices() async {
-    // Fetch selected services from Firestore
-    final selectedServicesFromFirestore = await firestoreController.getSelectedServices(email!);
-
-    // Initialize selectedServices list with all false values
-    selectedServices = List.generate(list.length, (index) => false);
-
-    // Update the selectedServices list based on the data from Firestore
-    if (selectedServicesFromFirestore != null) {
-      for (int index = 0; index < list.length; index++) {
-        final serviceTitle = list[index].title;
-        // Check if the service is in the selectedServicesFromFirestore and set the corresponding index to true
-        if (selectedServicesFromFirestore.contains(serviceTitle)) {
-          selectedServices[index] = true;
-        }
-      }
-    }
-
-    // Set the selectedServices list
-    setState(() {
-      selectedServices = selectedServices;
-    });
   }
 
   // Create a list of items with their respective states (checked or unchecked).
@@ -149,8 +119,6 @@ class _ProfilePageState extends State<GroomerProfile> {
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
-    // Use the provider to access selected service states
-    final selectedServicesProvider = Provider.of<SelectedServicesProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -297,25 +265,31 @@ class _ProfilePageState extends State<GroomerProfile> {
                   ),
                 ),
                 const SizedBox(height: 5),
-                // Add padding here
                 Padding(
-                  padding: const EdgeInsets.all(16.0), // Adjust the padding as needed
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: list.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return CheckboxListTile(
-                        title: Text(list[index].title),
-                        value: selectedServicesProvider.selectedServiceStates[index],
-                        onChanged: (bool? value) {
-                          if (value != null) {
-                            selectedServicesProvider.toggleServiceState(index);
-                          }
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 5),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: list.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return CheckboxListTile(
+                            title: Text(list[index].title),
+                            value: list[index].isSelected,
+                            onChanged: (value) {
+                              setState(() {
+                                list[index].isSelected = value!;
+                              });
+                            },
+                          );
                         },
-                      );
-                    },
+                      ),
+                    ],
                   ),
-                ),
+                )
               ],
             ),
             const SizedBox(height: 20),
@@ -340,18 +314,6 @@ class _ProfilePageState extends State<GroomerProfile> {
                       ),
                     ),
                     onPressed: () async {
-                      // Create an instance of FirestoreController
-                      final firestoreController = FirestoreController();
-
-                      // Create a list of selected service titles based on the selectedServiceStates
-                      final selectedServiceTitles = list
-                          .where((item) => selectedServicesProvider.selectedServiceStates[list.indexOf(item)])
-                          .map((service) => service.title)
-                          .toList();
-
-                      // Update the 'services' field in Firestore
-                      await firestoreController.updateSelectedServices(email!, selectedServiceTitles);
-
                       // Refresh the page after updating
                       refreshPage();
                     },

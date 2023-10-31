@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:groomify/pages/groomer_profile.dart';
 import 'package:image_picker/image_picker.dart';
 
 class FirestoreController {
@@ -159,39 +158,5 @@ class FirestoreController {
     }
   }
 
-  //Update selected services to be saved into firestore
-  Future<void> updateSelectedServices(String email, List<String> selectedServices) async {
-    try {
-      final userRef = _firestore.collection('groomers').where('email', isEqualTo: email);
-      final querySnapshot = await userRef.get();
 
-      if (querySnapshot.docs.isNotEmpty) {
-        final userDoc = querySnapshot.docs.first;
-        // Update the 'services' field with the list of selected service titles
-        userDoc.reference.update({'services': selectedServices});
-      }
-    } catch (e) {
-      print('Error updating selected services: $e');
-    }
-  }
-
-  Future<List<String>?> getSelectedServices(String email) async {
-    try {
-      final userRef = _firestore.collection('groomers').where('email', isEqualTo: email);
-      final querySnapshot = await userRef.get();
-
-      if (querySnapshot.docs.isNotEmpty) {
-        final userDoc = querySnapshot.docs.first;
-        final userData = userDoc.data();
-        final selectedServices = userData['services'] as List<dynamic>?;
-        if (selectedServices != null) {
-          return selectedServices.map((service) => service.toString()).toList();
-        }
-      }
-      return null;
-    } catch (e) {
-      print('Error fetching selected services: $e');
-      return null;
-    }
-  }
 }
