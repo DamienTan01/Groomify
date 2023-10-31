@@ -169,7 +169,7 @@ class FirestoreController {
 
       if (querySnapshot.docs.isNotEmpty) {
         final userDoc = querySnapshot.docs.first;
-        final userData = userDoc.data() as Map<String, dynamic>;
+        final userData = userDoc.data();
 
         // Create a list of selected services
         final List<String> selectedServices = [];
