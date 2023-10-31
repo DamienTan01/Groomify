@@ -63,12 +63,6 @@ class _ProfilePageState extends State<GroomerProfile> {
           password = userData['password'];
           role = userData['role'];
           profilePictureURL = userData['profile_picture'];
-
-          // Fetch and update the selected services
-          final selectedServices = userData['selected_services'] as List<String>? ?? [];
-          list.forEach((service) {
-            service.isSelected = selectedServices.contains(service.title);
-          });
         });
       }
     }
