@@ -20,7 +20,8 @@ class _ProfilePageState extends State<GroomerProfile> {
   String? password;
   String? role;
   String? profilePictureURL;
-  
+  List<String> selectedServices = [];
+
   final firestoreController = FirestoreController();
 
   void _onItemTapped(int index) {
@@ -53,8 +54,7 @@ class _ProfilePageState extends State<GroomerProfile> {
   Future<void> _fetchGroomerData() async {
     final user = AuthController.instance.auth.currentUser;
     if (user != null) {
-      final userData =
-      await firestoreController.getGroomerDataByEmail(user.email!);
+      final userData = await firestoreController.getGroomerDataByEmail(user.email!);
       if (userData != null) {
         setState(() {
           fullName = userData['fullName'];
@@ -63,6 +63,14 @@ class _ProfilePageState extends State<GroomerProfile> {
           password = userData['password'];
           role = userData['role'];
           profilePictureURL = userData['profile_picture'];
+
+          // Update selectedServices based on Firestore data
+          selectedServices = List<String>.from(userData['services']);
+
+          // Set the initial checkbox states based on selectedServices
+          for (var checkbox in list) {
+            checkbox.isSelected = selectedServices.contains(checkbox.title);
+          }
         });
       }
     }
