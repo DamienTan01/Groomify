@@ -77,6 +77,13 @@ class _ProfilePageState extends State<GroomerProfile> {
     }
   }
 
+  Future<void> saveSelectedServices() async {
+    final user = AuthController.instance.auth.currentUser;
+    if (user != null) {
+      await firestoreController.updateSelectedServices(user.email!, list);
+    }
+  }
+
   // Create a list of items with their respective states (checked or unchecked).
   List<CheckboxListTileModel> list = <CheckboxListTileModel>[
     CheckboxListTileModel(
@@ -308,6 +315,7 @@ class _ProfilePageState extends State<GroomerProfile> {
                       ),
                     ),
                     onPressed: () {
+                      saveSelectedServices();
                       refreshPage();
                     },
                     child: const Text('Update'),

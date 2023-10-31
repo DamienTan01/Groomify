@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:groomify/pages/groomer_profile.dart';
 import 'package:image_picker/image_picker.dart';
 
 class FirestoreController {
@@ -155,6 +156,22 @@ class FirestoreController {
     } catch (e) {
       print('Error fetching user role: $e');
       return null;
+    }
+  }
+
+  //Update selected services to be saved into firestore
+  Future<void> updateSelectedServices(String email, List<CheckboxListTileModel> selectedServices) async {
+    final groomerRef = _firestore.collection('groomers').where('email', isEqualTo: email);
+    final querySnapshot = await groomerRef.get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      final groomerDoc = querySnapshot.docs.first;
+      await groomerDoc.reference.update({
+        'selected_services': selectedServices
+            .where((service) => service.isSelected)
+            .map((service) => service.title)
+            .toList(),
+      });
     }
   }
 }
