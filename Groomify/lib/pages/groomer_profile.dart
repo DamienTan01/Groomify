@@ -89,11 +89,17 @@ class _ProfilePageState extends State<GroomerProfile> {
     // Fetch selected services from Firestore
     final selectedServicesFromFirestore = await firestoreController.getSelectedServices(email!);
 
-    // Update the selectedServiceStates list based on the data from Firestore
+    // Initialize selectedServices list with all false values
+    selectedServices = List.generate(list.length, (index) => false);
+
+    // Update the selectedServices list based on the data from Firestore
     if (selectedServicesFromFirestore != null) {
       for (int index = 0; index < list.length; index++) {
         final serviceTitle = list[index].title;
-        selectedServicesProvider.selectedServiceStates[index] = selectedServicesFromFirestore.contains(serviceTitle);
+        // Check if the service is in the selectedServicesFromFirestore and set the corresponding index to true
+        if (selectedServicesFromFirestore.contains(serviceTitle)) {
+          selectedServices[index] = true;
+        }
       }
     }
 
