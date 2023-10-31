@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:groomify/controller/auth_controller.dart';
+import 'package:groomify/pages/btmNavBar.dart';
 import 'package:groomify/pages/groomer_btmNavBar.dart';
 import 'package:groomify/pages/groomers.dart';
 import 'package:groomify/pages/home.dart';
 import 'package:groomify/pages/profile.dart';
 
-class GroomerHome extends StatefulWidget {
-  const GroomerHome({super.key});
+class GroomerDetails extends StatefulWidget {
+  const GroomerDetails({super.key});
 
   @override
-  State<GroomerHome> createState() => _GroomerHomeState();
+  State<GroomerDetails> createState() => _GroomerDetailsState();
 }
 
-class _GroomerHomeState extends State<GroomerHome> {
-  int _selectedIndex = 0;
+class _GroomerDetailsState extends State<GroomerDetails> {
+  int _selectedIndex = 1;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -73,51 +74,11 @@ class _GroomerHomeState extends State<GroomerHome> {
           children: [
             const SizedBox(height: 20),
             //Text
-            Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.only(left: 15),
-              child: Text(
-                'Appointments',
-                style: TextStyle(
-                  fontSize: 27,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  shadows: [
-                    Shadow(
-                      offset: const Offset(2, 2),
-                      blurRadius: 3.0,
-                      color: Colors.grey.withOpacity(0.5),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
 
-            const SizedBox(height: 20),
-            Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.only(left: 15),
-              child: Text(
-                'Comments',
-                style: TextStyle(
-                  fontSize: 27,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  shadows: [
-                    Shadow(
-                      offset: const Offset(2, 2),
-                      blurRadius: 3.0,
-                      color: Colors.grey.withOpacity(0.5),
-                    ),
-                  ],
-                ),
-              ),
-            ),
           ],
         ),
       ),
-      bottomNavigationBar: GroomerNavBar(
+      bottomNavigationBar: CustomNavBar(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
       ),

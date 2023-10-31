@@ -12,6 +12,7 @@ class GroomerProfile extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<GroomerProfile> {
+  TextEditingController salonController = TextEditingController();
   int _selectedIndex = 1;
   bool showPassword = false;
   String? fullName;
@@ -19,6 +20,7 @@ class _ProfilePageState extends State<GroomerProfile> {
   String? email;
   String? password;
   String? role;
+  String? salon;
   String? profilePictureURL;
   List<String> selectedServices = [];
 
@@ -62,6 +64,7 @@ class _ProfilePageState extends State<GroomerProfile> {
           email = userData['email'];
           password = userData['password'];
           role = userData['role'];
+          salon = userData['salonName'];
           profilePictureURL = userData['profile_picture'];
 
           // Update selectedServices based on Firestore data
@@ -257,6 +260,33 @@ class _ProfilePageState extends State<GroomerProfile> {
                     ),
                   ],
                 ),
+                const SizedBox(height: 25),
+                //Salon Name
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Grooming Salon:',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    if (salon != null)
+                      Text(
+                        salon!,
+                        style: const TextStyle(fontSize: 20),
+                      )
+                    else
+                      TextFormField(
+                        controller: salonController,
+                        decoration: const InputDecoration(
+                          hintText: 'Enter your grooming salon name',
+                        ),
+                      ),
+                  ],
+                ),
               ],
             ),
             const SizedBox(height: 30),
@@ -322,6 +352,9 @@ class _ProfilePageState extends State<GroomerProfile> {
                     onPressed: () async {
                       // Update the 'services' field in Firestore
                       await firestoreController.updateServices(list, email!);
+
+                      // Update the 'salon' field in Firestore
+                      await firestoreController.updateGroomingSalon(salonController.text, email!);
 
                       // Refresh the page after updating
                       refreshPage();
