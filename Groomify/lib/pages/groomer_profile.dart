@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:groomify/controller/provider.dart';
 import 'package:groomify/pages/groomer_btmNavBar.dart';
 import 'package:groomify/controller/auth_controller.dart';
 import 'package:groomify/controller/firestore_controller.dart';
