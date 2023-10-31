@@ -161,17 +161,25 @@ class FirestoreController {
 
   //Update selected services to be saved into firestore
   Future<void> updateSelectedServices(String email, List<CheckboxListTileModel> selectedServices) async {
-    final groomerRef = _firestore.collection('groomers').where('email', isEqualTo: email);
-    final querySnapshot = await groomerRef.get();
+    try {
+      final userRef = _firestore.collection('groomers').where('email', isEqualTo: email);
+      final querySnapshot = await userRef.get();
 
-    if (querySnapshot.docs.isNotEmpty) {
-      final groomerDoc = querySnapshot.docs.first;
-      await groomerDoc.reference.update({
-        'selected_services': selectedServices
+      if (querySnapshot.docs.isNotEmpty) {
+        final userDoc = querySnapshot.docs.first;
+        final userData = userDoc.data();
+
+        // Create a list of selected service titles based on the checkboxes
+        final selectedServiceTitles = selectedServices
             .where((service) => service.isSelected)
             .map((service) => service.title)
-            .toList(),
-      });
+            .toList();
+
+        // Update the 'selected_services' field with the list of selected service titles
+        userDoc.reference.update({'services': selectedServiceTitles});
+      }
+    } catch (e) {
+      print('Error updating selected services: $e');
     }
   }
 }

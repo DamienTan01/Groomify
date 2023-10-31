@@ -63,6 +63,12 @@ class _ProfilePageState extends State<GroomerProfile> {
           password = userData['password'];
           role = userData['role'];
           profilePictureURL = userData['profile_picture'];
+
+          // Fetch and update the selected services
+          final selectedServices = userData['selected_services'] as List<String>? ?? [];
+          list.forEach((service) {
+            service.isSelected = selectedServices.contains(service.title);
+          });
         });
       }
     }
@@ -74,13 +80,6 @@ class _ProfilePageState extends State<GroomerProfile> {
       setState(() {
         this.profilePictureURL = profilePictureURL;
       });
-    }
-  }
-
-  Future<void> saveSelectedServices() async {
-    final user = AuthController.instance.auth.currentUser;
-    if (user != null) {
-      await firestoreController.updateSelectedServices(user.email!, list);
     }
   }
 
@@ -315,7 +314,11 @@ class _ProfilePageState extends State<GroomerProfile> {
                       ),
                     ),
                     onPressed: () {
-                      saveSelectedServices();
+                      // Create an instance of FirestoreController
+                      final firestoreController = FirestoreController();
+
+                      // Call the updateSelectedServices function to save the selected services
+                      firestoreController.updateSelectedServices(email!, list);
                       refreshPage();
                     },
                     child: const Text('Update'),
