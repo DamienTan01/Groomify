@@ -15,6 +15,7 @@ class _ProfilePageState extends State<GroomerProfile> {
   TextEditingController salonController = TextEditingController();
   int _selectedIndex = 1;
   bool showPassword = false;
+  bool isEditing = false;
   String? fullName;
   String? username;
   String? email;
@@ -33,11 +34,13 @@ class _ProfilePageState extends State<GroomerProfile> {
 
     if (index == 0) {
       // Navigate to the Home page
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GroomerHome()));
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => const GroomerHome()));
     }
     if (index == 1) {
       // Navigate to the Profile page
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GroomerProfile()));
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const GroomerProfile()));
     }
   }
 
@@ -56,7 +59,8 @@ class _ProfilePageState extends State<GroomerProfile> {
   Future<void> _fetchGroomerData() async {
     final user = AuthController.instance.auth.currentUser;
     if (user != null) {
-      final userData = await firestoreController.getGroomerDataByEmail(user.email!);
+      final userData =
+          await firestoreController.getGroomerDataByEmail(user.email!);
       if (userData != null) {
         setState(() {
           fullName = userData['fullName'];
@@ -80,7 +84,8 @@ class _ProfilePageState extends State<GroomerProfile> {
   }
 
   Future<void> _fetchProfilePicture() async {
-    final profilePictureURL = await firestoreController.getProfilePictureURL(email!);
+    final profilePictureURL =
+        await firestoreController.getProfilePictureURL(email!);
     if (profilePictureURL != null) {
       setState(() {
         this.profilePictureURL = profilePictureURL;
@@ -174,8 +179,8 @@ class _ProfilePageState extends State<GroomerProfile> {
                   backgroundImage: profilePictureURL != null
                       ? NetworkImage(profilePictureURL!)
                       : const NetworkImage(
-                    'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg',
-                  ),
+                          'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg',
+                        ),
                 ),
                 Positioned(
                   bottom: -10,
@@ -200,8 +205,8 @@ class _ProfilePageState extends State<GroomerProfile> {
                   children: [
                     const Text(
                       'Full Name:',
-                      style: TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5),
                     Text(
@@ -216,8 +221,8 @@ class _ProfilePageState extends State<GroomerProfile> {
                   children: [
                     const Text(
                       'Username:',
-                      style: TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5),
                     Text(
@@ -233,8 +238,8 @@ class _ProfilePageState extends State<GroomerProfile> {
                   children: [
                     const Text(
                       'Email:',
-                      style: TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5),
                     Text(
@@ -250,8 +255,8 @@ class _ProfilePageState extends State<GroomerProfile> {
                   children: [
                     const Text(
                       'Role:',
-                      style: TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5),
                     Text(
@@ -261,31 +266,57 @@ class _ProfilePageState extends State<GroomerProfile> {
                   ],
                 ),
                 const SizedBox(height: 25),
-                //Salon Name
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Grooming Salon:',
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    if (salon != null)
-                      Text(
-                        salon!,
-                        style: const TextStyle(fontSize: 20),
-                      )
-                    else
-                      TextFormField(
-                        controller: salonController,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter your grooming salon name',
+                // Salon Name
+                SizedBox(
+                  width: 200,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Grooming Salon:',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                  ],
+                      const SizedBox(height: 5),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          if (!isEditing)
+                            Text(
+                              salon ?? 'Loading...',
+                              style: const TextStyle(fontSize: 20),
+                            )
+                          else
+                            Expanded(
+                              child: TextFormField(
+                                controller: salonController,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                ),
+                                decoration: const InputDecoration(
+                                  hintText: 'Enter Name',
+                                ),
+                              ),
+                            ),
+                          IconButton(
+                            icon: Icon(isEditing ? Icons.check : Icons.edit),
+                            onPressed: () {
+                              // Toggle editing mode
+                              setState(() {
+                                if (isEditing) {
+                                  // Save the edited salon name and exit editing mode
+                                  salon = salonController.text;
+                                }
+                                isEditing = !isEditing;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -332,7 +363,8 @@ class _ProfilePageState extends State<GroomerProfile> {
             Align(
               alignment: Alignment.centerRight,
               child: Container(
-                margin: const EdgeInsets.only(right: 20), // Adjust the margin as needed
+                margin: const EdgeInsets.only(
+                    right: 20), // Adjust the margin as needed
                 child: SizedBox(
                   width: w * 0.3,
                   height: h * 0.05,
