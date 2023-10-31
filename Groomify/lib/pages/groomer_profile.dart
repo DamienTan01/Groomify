@@ -20,8 +20,6 @@ class _ProfilePageState extends State<GroomerProfile> {
   String? password;
   String? role;
   String? profilePictureURL;
-  List<bool> selectedServices = [];
-
   final firestoreController = FirestoreController();
 
   void _onItemTapped(int index) {
@@ -313,6 +311,9 @@ class _ProfilePageState extends State<GroomerProfile> {
                       ),
                     ),
                     onPressed: () async {
+                      // Update the 'services' field in Firestore
+                      await firestoreController.updateServices(list, email!);
+
                       // Refresh the page after updating
                       refreshPage();
                     },

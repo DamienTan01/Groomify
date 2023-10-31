@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:groomify/pages/groomer_profile.dart';
 import 'package:image_picker/image_picker.dart';
 
 class FirestoreController {
@@ -158,5 +159,34 @@ class FirestoreController {
     }
   }
 
+// ... (other methods)
 
+  // Update the 'services' field in Firestore based on checkbox values
+  Future<void> updateServices(List<CheckboxListTileModel> checkboxes, String email) async {
+    try {
+      final userRef = _firestore.collection('groomers').where('email', isEqualTo: email);
+      final querySnapshot = await userRef.get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        final userDoc = querySnapshot.docs.first;
+        final userData = userDoc.data() as Map<String, dynamic>;
+
+        // Create a list of selected services
+        final List<String> selectedServices = [];
+        for (int index = 0; index < checkboxes.length; index++) {
+          if (checkboxes[index].isSelected) {
+            selectedServices.add(checkboxes[index].title);
+          }
+        }
+
+        // Update the 'services' field with the selected services
+        userData['services'] = selectedServices;
+
+        // Update the document in Firestore
+        userDoc.reference.update(userData);
+      }
+    } catch (e) {
+      print('Error updating services: $e');
+    }
+  }
 }
