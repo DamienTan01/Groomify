@@ -63,8 +63,54 @@ class _GroomerHomeState extends State<GroomerHome> {
         ],
         elevation: 0,
       ),
-      body: const SingleChildScrollView (
-
+      body: SingleChildScrollView (
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            //Text
+            Container(
+              alignment: Alignment.center,
+              padding: const EdgeInsets.only(left: 15),
+              child: Text(
+                'Appointments',
+                style: TextStyle(
+                  fontSize: 27,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  shadows: [
+                    Shadow(
+                      offset: const Offset(2, 2),
+                      blurRadius: 3.0,
+                      color: Colors.grey.withOpacity(0.5),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            
+            const SizedBox(height: 20),
+            Container(
+              alignment: Alignment.center,
+              padding: const EdgeInsets.only(left: 15),
+              child: Text(
+                'Comments',
+                style: TextStyle(
+                  fontSize: 27,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  shadows: [
+                    Shadow(
+                      offset: const Offset(2, 2),
+                      blurRadius: 3.0,
+                      color: Colors.grey.withOpacity(0.5),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: GroomerNavBar(
         selectedIndex: _selectedIndex,
