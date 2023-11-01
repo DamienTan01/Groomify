@@ -79,6 +79,13 @@ class _ProfilePageState extends State<GroomerProfile> {
           location = userData['location'];
           profilePictureURL = userData['profile_picture'];
 
+          // Retrieve and update price range
+          final priceRange = userData['price_range'];
+          if (priceRange != null) {
+            minPrice = priceRange['min_price'] ?? minPrice;
+            maxPrice = priceRange['max_price'] ?? maxPrice;
+          }
+
           // Update selectedServices based on Firestore data
           selectedServices = List<String>.from(userData['services']);
 
@@ -506,6 +513,8 @@ class _ProfilePageState extends State<GroomerProfile> {
 
                       // Update the 'services' field in Firestore
                       await firestoreController.updateServices(list, email!);
+
+                      await firestoreController.updatePriceRange(minPrice, maxPrice, email!);
 
                       // Refresh the page after updating
                       refreshPage();
