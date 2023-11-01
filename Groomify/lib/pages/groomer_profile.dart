@@ -28,6 +28,8 @@ class _ProfilePageState extends State<GroomerProfile> {
   String? location;
   String? tempLocation;
   String? profilePictureURL;
+  double priceStart = 0.0;
+  double priceEnd = 100.0;
   List<String> selectedServices = [];
 
   final firestoreController = FirestoreController();
@@ -425,6 +427,51 @@ class _ProfilePageState extends State<GroomerProfile> {
               ],
             ),
             const SizedBox(height: 20),
+            // Price Slider
+            // Price Range Slider
+            SizedBox(
+              width: 350,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Price Range:',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  RangeSlider(
+                    values: RangeValues(priceStart, priceEnd),
+                    min: 0,
+                    max: 100, // You can adjust min and max values according to your needs
+                    divisions: 10, // Optional: Divisions for the slider
+                    onChanged: (newRange) {
+                      setState(() {
+                        priceStart = newRange.start;
+                        priceEnd = newRange.end;
+                      });
+                    },
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'RM ${priceStart.toStringAsFixed(2)}', // Display the start price with 2 decimal points
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      Text(
+                        'RM ${priceEnd.toStringAsFixed(2)}', // Display the end price with 2 decimal points
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+            //Update Button
             Align(
               alignment: Alignment.centerRight,
               child: Container(
