@@ -240,11 +240,18 @@ class FirestoreController {
         final userDoc = querySnapshot.docs.first;
         final userData = userDoc.data();
 
-        // Update the 'price_range' field with the provided min and max prices
-        userData['price_range'] = {
-          'min_price': minPrice,
-          'max_price': maxPrice,
-        };
+        // Check if 'price_range' field is present
+        if (userData.containsKey('price_range')) {
+          // If it's present, update the existing 'min_price' and 'max_price' values
+          userData['price_range']['min_price'] = minPrice;
+          userData['price_range']['max_price'] = maxPrice;
+        } else {
+          // If 'price_range' field is not present, create it and save the price range
+          userData['price_range'] = {
+            'min_price': minPrice,
+            'max_price': maxPrice,
+          };
+        }
 
         // Update the document in Firestore
         userDoc.reference.update(userData);

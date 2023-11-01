@@ -108,11 +108,6 @@ class _ProfilePageState extends State<GroomerProfile> {
     }
   }
 
-  Future<void> savePriceRangeToFirestore() async {
-    // Assuming you have minPrice and maxPrice available
-    await firestoreController.updatePriceRange(minPrice, maxPrice, email!);
-  }
-
   // Create a list of items with their respective states (checked or unchecked).
   List<CheckboxListTileModel> list = <CheckboxListTileModel>[
     CheckboxListTileModel(
@@ -304,7 +299,7 @@ class _ProfilePageState extends State<GroomerProfile> {
                         children: [
                           if (!isEditingSalon)
                             Text(
-                              isEditingSalon ? salonController.text : (salon ?? 'Loading...'), // Use the controller text if editing, or the existing salon name
+                              isEditingSalon ? salonController.text : (salon ?? ''), // Use the controller text if editing, or the existing salon name if not null
                               style: const TextStyle(fontSize: 20),
                             )
                           else
@@ -340,7 +335,7 @@ class _ProfilePageState extends State<GroomerProfile> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 25),
                 // Location
                 SizedBox(
                   width: 200,
@@ -359,7 +354,7 @@ class _ProfilePageState extends State<GroomerProfile> {
                         children: [
                           if (!isEditingLocation)
                             Text(
-                              location ?? 'Loading...',
+                              isEditingLocation ? locationController.text : (location ?? ''), // Use the controller text if editing, or the existing location if not null
                               style: const TextStyle(fontSize: 20),
                             )
                           else
@@ -381,10 +376,10 @@ class _ProfilePageState extends State<GroomerProfile> {
                               setState(() {
                                 if (isEditingLocation) {
                                   // Save the edited location and exit editing mode
-                                  location = locationController.text;  // Update 'location'
+                                  location = locationController.text;
                                 } else {
                                   // Store the existing location value in tempLocation
-                                  tempLocation = location;  // Update 'tempLocation'
+                                  tempLocation = location;
                                 }
                                 isEditingLocation = !isEditingLocation;
                               });
