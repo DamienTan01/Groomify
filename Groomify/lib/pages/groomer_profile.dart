@@ -427,18 +427,19 @@ class _ProfilePageState extends State<GroomerProfile> {
               ],
             ),
             const SizedBox(height: 20),
-            // Price Slider
             // Price Range Slider
             SizedBox(
               width: 350,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Price Range:',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
+                  const Center(
+                    child: Text(
+                      'Price Range:',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 5),
