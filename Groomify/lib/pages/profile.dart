@@ -55,7 +55,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void refreshPage() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ProfilePage()));
+    // Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ProfilePage()));
+    _fetchUserData();
   }
 
   Future<void> _fetchUserData() async {

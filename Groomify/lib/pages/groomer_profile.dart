@@ -13,15 +13,18 @@ class GroomerProfile extends StatefulWidget {
 
 class _ProfilePageState extends State<GroomerProfile> {
   TextEditingController salonController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
   int _selectedIndex = 1;
   bool showPassword = false;
   bool isEditing = false;
+  bool isEditingLocation = false;
   String? fullName;
   String? username;
   String? email;
   String? password;
   String? role;
   String? salon;
+  String? location;
   String? profilePictureURL;
   List<String> selectedServices = [];
 
@@ -69,6 +72,7 @@ class _ProfilePageState extends State<GroomerProfile> {
           password = userData['password'];
           role = userData['role'];
           salon = userData['salonName'];
+          location = userData['location'];
           profilePictureURL = userData['profile_picture'];
 
           // Update selectedServices based on Firestore data
@@ -318,6 +322,59 @@ class _ProfilePageState extends State<GroomerProfile> {
                     ],
                   ),
                 ),
+                const SizedBox(height: 25),
+                // Location
+                SizedBox(
+                  width: 200,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Location:',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          if (!isEditingLocation)
+                            Text(
+                              location ?? 'Loading...',
+                              style: const TextStyle(fontSize: 20),
+                            )
+                          else
+                            Expanded(
+                              child: TextFormField(
+                                controller: locationController,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                ),
+                                decoration: const InputDecoration(
+                                  hintText: 'Enter Name',
+                                ),
+                              ),
+                            ),
+                          IconButton(
+                            icon: Icon(isEditingLocation ? Icons.check : Icons.edit),
+                            onPressed: () {
+                              // Toggle editing mode
+                              setState(() {
+                                if (isEditingLocation) {
+                                  // Save the edited salon name and exit editing mode
+                                  location = locationController.text;
+                                }
+                                isEditingLocation = !isEditingLocation;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 30),
@@ -382,11 +439,14 @@ class _ProfilePageState extends State<GroomerProfile> {
                       ),
                     ),
                     onPressed: () async {
-                      // Update the 'services' field in Firestore
-                      await firestoreController.updateServices(list, email!);
-
                       // Update the 'salon' field in Firestore
                       await firestoreController.updateGroomingSalon(salonController.text, email!);
+
+                      // Update the 'location' field in Firestore
+                      await firestoreController.updateSalonLocation(locationController.text, email!);
+
+                      // Update the 'services' field in Firestore
+                      await firestoreController.updateServices(list, email!);
 
                       // Refresh the page after updating
                       refreshPage();
