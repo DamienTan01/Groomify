@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:groomify/controller/auth_controller.dart';
 import 'package:groomify/pages/btmNavBar.dart';
-import 'package:groomify/pages/groomer_btmNavBar.dart';
 import 'package:groomify/pages/groomers.dart';
 import 'package:groomify/pages/home.dart';
 import 'package:groomify/pages/profile.dart';
@@ -39,9 +38,8 @@ class _GroomerDetailsState extends State<GroomerDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         title: Text(
-          'Groomify',
+          'Groomers',
           style: TextStyle(
             color: Colors.black,
             fontSize: 27,
@@ -68,12 +66,13 @@ class _GroomerDetailsState extends State<GroomerDetails> {
           )
         ],
         elevation: 0,
+        iconTheme: const IconThemeData(color: Color(0xff735D78)),
       ),
-      body: SingleChildScrollView (
+      body: const SingleChildScrollView (
         child: Column(
           children: [
-            const SizedBox(height: 20),
-            //Text
+            SizedBox(height: 20),
+            //Profile Picture
 
           ],
         ),
