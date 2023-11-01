@@ -16,7 +16,7 @@ class _ProfilePageState extends State<GroomerProfile> {
   TextEditingController locationController = TextEditingController();
   int _selectedIndex = 1;
   bool showPassword = false;
-  bool isEditing = false;
+  bool isEditingSalon = false;
   bool isEditingLocation = false;
   String? fullName;
   String? username;
@@ -279,7 +279,7 @@ class _ProfilePageState extends State<GroomerProfile> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'Grooming Salon:',
+                        'Salon Name:',
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
@@ -289,9 +289,9 @@ class _ProfilePageState extends State<GroomerProfile> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          if (!isEditing)
+                          if (!isEditingSalon)
                             Text(
-                              salon ?? 'Loading...',
+                              isEditingSalon ? salonController.text : (salon ?? 'Loading...'), // Use the controller text if editing, or the existing salon name
                               style: const TextStyle(fontSize: 20),
                             )
                           else
@@ -307,19 +307,18 @@ class _ProfilePageState extends State<GroomerProfile> {
                               ),
                             ),
                           IconButton(
-                            icon: Icon(isEditing ? Icons.check : Icons.edit),
+                            icon: Icon(isEditingSalon ? Icons.check : Icons.edit),
                             onPressed: () {
                               // Toggle editing mode
-                              // Toggle editing mode
                               setState(() {
-                                if (isEditing) {
-                                  // Save the edited location and exit editing mode
-                                  salon = salonController.text;  // Update 'location'
+                                if (isEditingSalon) {
+                                  // Save the edited salon and exit editing mode
+                                  salon = salonController.text;
                                 } else {
-                                  // Store the existing location value in tempLocation
-                                  tempSalon = salon;  // Update 'tempLocation'
+                                  // Store the existing salon value in tempSalon
+                                  tempSalon = salon;
                                 }
-                                isEditing = !isEditing;
+                                isEditingSalon = !isEditingSalon;
                               });
                             },
                           ),
@@ -449,7 +448,7 @@ class _ProfilePageState extends State<GroomerProfile> {
                     ),
                     onPressed: () async {
                       // Update the 'salon' field in Firestore
-                      await firestoreController.updateGroomingSalon(salonController.text, email!);
+                      await firestoreController.updateGroomingSalon(salon!, email!);
 
                       // Update the 'location' field in Firestore
                       await firestoreController.updateSalonLocation(location!, email!);
@@ -459,12 +458,6 @@ class _ProfilePageState extends State<GroomerProfile> {
 
                       // Refresh the page after updating
                       refreshPage();
-                      print("salon: $salon");
-                      print("tempSalon: $tempSalon");
-                      print("salonController.text: ${salonController.text}");
-                      print("location: $location");
-                      print("tempLocation: $tempLocation");
-                      print("locationController.text: ${locationController.text}");
                     },
                     child: const Text('Update'),
                   ),
