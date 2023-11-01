@@ -28,8 +28,8 @@ class _ProfilePageState extends State<GroomerProfile> {
   String? location;
   String? tempLocation;
   String? profilePictureURL;
-  double priceStart = 0.0;
-  double priceEnd = 100.0;
+  double minPrice = 0.0;
+  double maxPrice = 100.0;
   List<String> selectedServices = [];
 
   final firestoreController = FirestoreController();
@@ -99,6 +99,11 @@ class _ProfilePageState extends State<GroomerProfile> {
         this.profilePictureURL = profilePictureURL;
       });
     }
+  }
+
+  Future<void> savePriceRangeToFirestore() async {
+    // Assuming you have minPrice and maxPrice available
+    await firestoreController.updatePriceRange(minPrice, maxPrice, email!);
   }
 
   // Create a list of items with their respective states (checked or unchecked).
@@ -287,7 +292,6 @@ class _ProfilePageState extends State<GroomerProfile> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 5),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -329,7 +333,7 @@ class _ProfilePageState extends State<GroomerProfile> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 25),
+                const SizedBox(height: 20),
                 // Location
                 SizedBox(
                   width: 200,
@@ -343,7 +347,6 @@ class _ProfilePageState extends State<GroomerProfile> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 5),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -444,14 +447,14 @@ class _ProfilePageState extends State<GroomerProfile> {
                   ),
                   const SizedBox(height: 5),
                   RangeSlider(
-                    values: RangeValues(priceStart, priceEnd),
+                    values: RangeValues(minPrice, maxPrice),
                     min: 0,
                     max: 100, // You can adjust min and max values according to your needs
                     divisions: 10, // Optional: Divisions for the slider
                     onChanged: (newRange) {
                       setState(() {
-                        priceStart = newRange.start;
-                        priceEnd = newRange.end;
+                        minPrice = newRange.start;
+                        maxPrice = newRange.end;
                       });
                     },
                   ),
@@ -459,11 +462,11 @@ class _ProfilePageState extends State<GroomerProfile> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'RM ${priceStart.toStringAsFixed(2)}', // Display the start price with 2 decimal points
+                        'RM ${minPrice.toStringAsFixed(2)}', // Display the start price with 2 decimal points
                         style: const TextStyle(fontSize: 20),
                       ),
                       Text(
-                        'RM ${priceEnd.toStringAsFixed(2)}', // Display the end price with 2 decimal points
+                        'RM ${maxPrice.toStringAsFixed(2)}', // Display the end price with 2 decimal points
                         style: const TextStyle(fontSize: 20),
                       ),
                     ],

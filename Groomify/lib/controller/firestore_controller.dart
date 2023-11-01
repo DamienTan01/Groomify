@@ -229,4 +229,28 @@ class FirestoreController {
       print('Error updating services: $e');
     }
   }
+
+  // Update the 'price_range' field in Firestore
+  Future<void> updatePriceRange(double minPrice, double maxPrice, String email) async {
+    try {
+      final userRef = _firestore.collection('groomers').where('email', isEqualTo: email);
+      final querySnapshot = await userRef.get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        final userDoc = querySnapshot.docs.first;
+        final userData = userDoc.data();
+
+        // Update the 'price_range' field with the provided min and max prices
+        userData['price_range'] = {
+          'min_price': minPrice,
+          'max_price': maxPrice,
+        };
+
+        // Update the document in Firestore
+        userDoc.reference.update(userData);
+      }
+    } catch (e) {
+      print('Error updating price range: $e');
+    }
+  }
 }
