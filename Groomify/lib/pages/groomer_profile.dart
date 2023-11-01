@@ -25,6 +25,7 @@ class _ProfilePageState extends State<GroomerProfile> {
   String? role;
   String? salon;
   String? location;
+  String? tempLocation;
   String? profilePictureURL;
   List<String> selectedServices = [];
 
@@ -363,8 +364,11 @@ class _ProfilePageState extends State<GroomerProfile> {
                               // Toggle editing mode
                               setState(() {
                                 if (isEditingLocation) {
-                                  // Save the edited salon name and exit editing mode
-                                  location = locationController.text;
+                                  // Save the edited location and exit editing mode
+                                  location = locationController.text;  // Update 'location'
+                                } else {
+                                  // Store the existing location value in tempLocation
+                                  tempLocation = location;  // Update 'tempLocation'
                                 }
                                 isEditingLocation = !isEditingLocation;
                               });
@@ -443,13 +447,16 @@ class _ProfilePageState extends State<GroomerProfile> {
                       await firestoreController.updateGroomingSalon(salonController.text, email!);
 
                       // Update the 'location' field in Firestore
-                      await firestoreController.updateSalonLocation(locationController.text, email!);
+                      await firestoreController.updateSalonLocation(location!, email!);
 
                       // Update the 'services' field in Firestore
                       await firestoreController.updateServices(list, email!);
 
                       // Refresh the page after updating
                       refreshPage();
+                      print("location: $location");
+                      print("tempLocation: $tempLocation");
+                      print("locationController.text: ${locationController.text}");
                     },
                     child: const Text('Update'),
                   ),
