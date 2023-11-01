@@ -24,6 +24,7 @@ class _ProfilePageState extends State<GroomerProfile> {
   String? password;
   String? role;
   String? salon;
+  String? tempSalon;
   String? location;
   String? tempLocation;
   String? profilePictureURL;
@@ -309,10 +310,14 @@ class _ProfilePageState extends State<GroomerProfile> {
                             icon: Icon(isEditing ? Icons.check : Icons.edit),
                             onPressed: () {
                               // Toggle editing mode
+                              // Toggle editing mode
                               setState(() {
                                 if (isEditing) {
-                                  // Save the edited salon name and exit editing mode
-                                  salon = salonController.text;
+                                  // Save the edited location and exit editing mode
+                                  salon = salonController.text;  // Update 'location'
+                                } else {
+                                  // Store the existing location value in tempLocation
+                                  tempSalon = salon;  // Update 'tempLocation'
                                 }
                                 isEditing = !isEditing;
                               });
@@ -454,6 +459,9 @@ class _ProfilePageState extends State<GroomerProfile> {
 
                       // Refresh the page after updating
                       refreshPage();
+                      print("salon: $salon");
+                      print("tempSalon: $tempSalon");
+                      print("salonController.text: ${salonController.text}");
                       print("location: $location");
                       print("tempLocation: $tempLocation");
                       print("locationController.text: ${locationController.text}");
