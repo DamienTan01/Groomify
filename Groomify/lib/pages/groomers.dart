@@ -139,140 +139,143 @@ class _GroomerPageState extends State<GroomerPage> {
         ],
         elevation: 0,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            const SizedBox(height: 20),
-            // Search Bar
-            Center(
-              child: Container(
-                width: 350,
-                height: 50, // Set the height of the search bar
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: const TextField(
-                  decoration: InputDecoration(
-                    prefixIconColor: Color(0xff735D78),
-                    prefixIcon: Icon(Icons.search),
-                    hintText: 'Search for Groomers',
-                    border: InputBorder.none,
+      body: Column(
+        children: <Widget>[
+          const SizedBox(height: 20),
+          // Search Bar
+          Center(
+            child: Container(
+              width: 350,
+              height: 50, // Set the height of the search bar
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: const Offset(0, 3),
                   ),
+                ],
+              ),
+              child: const TextField(
+                decoration: InputDecoration(
+                  prefixIconColor: Color(0xff735D78),
+                  prefixIcon: Icon(Icons.search),
+                  hintText: 'Search for Groomers',
+                  border: InputBorder.none,
                 ),
               ),
             ),
-            const SizedBox(height: 20),
-            // Groomer Containers
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 20.0,
-                  mainAxisSpacing: 20.0,
-                  childAspectRatio: 0.85,
-                ),
-                itemCount: groomerEmails.length,
-                itemBuilder: (context, index) {
-                  final email = groomerEmails[index];
-                  final userData = firestoreController.getGroomerDataByEmail(email);
+          ),
+          const SizedBox(height: 20),
+          // Groomer Containers
+          Expanded(
+            child: SingleChildScrollView(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 20.0,
+                    mainAxisSpacing: 20.0,
+                    childAspectRatio: 0.85,
+                  ),
+                  itemCount: groomerEmails.length,
+                  itemBuilder: (context, index) {
+                    final email = groomerEmails[index];
+                    final userData = firestoreController.getGroomerDataByEmail(email);
 
-                  return Container(
-                    width: 190,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black.withOpacity(0.2)),
-                    ),
-                    child: Column(
-                      children: <Widget>[
-                        //Image
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) {
-                              return const GroomerDetails(); // Replace with the actual screen you want to navigate to
-                            }));
-                          },
-                          child: Container(
-                            width: 190,
-                            height: 130,
-                            decoration: BoxDecoration(
-                              color: const Color(0xffD1B3C4),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: const Center(
-                              child: Text(
-                                'Item',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
+                    return Container(
+                      width: 190,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black.withOpacity(0.2)),
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          //Image
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                return const GroomerDetails(); // Replace with the actual screen you want to navigate to
+                              }));
+                            },
+                            child: Container(
+                              width: 190,
+                              height: 130,
+                              decoration: BoxDecoration(
+                                color: const Color(0xffD1B3C4),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  'Item',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 10),
-                        // Salon name and Price Range
-                        FutureBuilder<Map<String, dynamic>?>(
-                          future: userData,
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState == ConnectionState.done) {
-                              final data = snapshot.data;
-                              if (data != null) {
-                                final salonName = data['salonName'];
-                                final priceRange = data['price_range'];
-                                final minPrice = priceRange?['min_price'] ?? 'Not specified';
-                                final maxPrice = priceRange?['max_price'] ?? 'Not specified';
-                                return Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        salonName,
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
+                          const SizedBox(height: 10),
+                          // Salon name and Price Range
+                          FutureBuilder<Map<String, dynamic>?>(
+                            future: userData,
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState == ConnectionState.done) {
+                                final data = snapshot.data;
+                                if (data != null) {
+                                  final salonName = data['salonName'];
+                                  final priceRange = data['price_range'];
+                                  final minPrice = priceRange?['min_price'] ?? 'Not specified';
+                                  final maxPrice = priceRange?['max_price'] ?? 'Not specified';
+                                  return Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          salonName,
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                          ),
                                         ),
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Text(
-                                        'Price Range (RM): \n${minPrice.toString()} -  ${maxPrice.toString()}',
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
+                                        const SizedBox(height: 10),
+                                        Text(
+                                          'Price Range (RM): \n${minPrice.toString()} -  ${maxPrice.toString()}',
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                );
+                                      ],
+                                    ),
+                                  );
+                                }
+                              } else if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
                               }
-                            } else if (snapshot.hasError) {
-                              return Text('Error: ${snapshot.error}');
-                            }
-                            return const CircularProgressIndicator();
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                },
+                              return const CircularProgressIndicator();
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 20),
+        ],
       ),
       bottomNavigationBar: CustomNavBar(
         selectedIndex: _selectedIndex,
