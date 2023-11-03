@@ -62,18 +62,23 @@ class _GroomerPageState extends State<GroomerPage> {
       for (final email in groomerEmails) {
         final userData = await firestoreController.getGroomerDataByEmail(email);
         if (userData != null) {
-          salonNames.add(userData['salonName']);
-          locations.add(userData['location']);
+          salonNames.add(userData['salonName'] ?? 'Unknown');
+          locations.add(userData['location'] ?? 'Unknown');
 
-          // Retrieve and update price range
           final priceRange = userData['price_range'];
           if (priceRange != null) {
-            minPrices.add(priceRange['min_price']);
-            maxPrices.add(priceRange['max_price']);
+            minPrices.add(priceRange['min_price'] ?? 0.0);
+            maxPrices.add(priceRange['max_price'] ?? 0.0);
           } else {
-            minPrices.add(null);
-            maxPrices.add(null);
+            minPrices.add(0.0);
+            maxPrices.add(0.0);
           }
+        } else {
+          // Handle the case where userData is null, e.g., set default values
+          salonNames.add('Unknown');
+          locations.add('Unknown');
+          minPrices.add(0.0);
+          maxPrices.add(0.0);
         }
       }
 
@@ -81,11 +86,12 @@ class _GroomerPageState extends State<GroomerPage> {
       // You can use these lists to display or process the data as needed.
       setState(() {
         // Update the state variables with the lists of data
-        salon = salonNames as String?;
-        location = locations as String?;
-        minPrice = minPrices as double;
-        maxPrice = maxPrices as double;
+        salon = salonNames.isNotEmpty ? salonNames[0] : null; // Assign the first element of the list
+        location = locations.isNotEmpty ? locations[0] : null; // Assign the first element of the list
+        minPrice = (minPrices.isNotEmpty ? minPrices[0] : 0.0)!; // Assign the first element of the list or a default value
+        maxPrice = (maxPrices.isNotEmpty ? maxPrices[0] : 0.0)!; // Assign the first element of the list or a default value
       });
+
     }
   }
 
