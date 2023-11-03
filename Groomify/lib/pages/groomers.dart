@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:groomify/controller/auth_controller.dart';
+import 'package:groomify/controller/firestore_controller.dart';
 import 'package:groomify/pages/btmNavBar.dart';
 import 'package:groomify/pages/groomer_details.dart';
 import 'package:groomify/pages/home.dart';
@@ -13,7 +14,18 @@ class GroomerPage extends StatefulWidget {
 }
 
 class _GroomerPageState extends State<GroomerPage> {
+  final firestoreController = FirestoreController();
+
   int _selectedIndex = 1;
+  String? email;
+  String? salon;
+  String? location;
+  late double minPrice;
+  late double maxPrice;
+  List<String> groomerEmails = [];
+
+  // List to store groomer data
+  List<Map<String, dynamic>> groomerDataList = [];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -32,6 +44,59 @@ class _GroomerPageState extends State<GroomerPage> {
       // Navigate to the Profile page
       Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ProfilePage()));
     }
+  }
+
+  Future<void> _fetchGroomerData() async {
+    final user = AuthController.instance.auth.currentUser;
+    if (user != null) {
+      // Get the list of groomer emails
+      groomerEmails = await firestoreController.getAllGroomerEmails();
+
+      // Create lists to store data for each groomer
+      List<String?> salonNames = [];
+      List<String?> locations = [];
+      List<double?> minPrices = [];
+      List<double?> maxPrices = [];
+
+      // Fetch groomer data for each email
+      for (final email in groomerEmails) {
+        final userData = await firestoreController.getGroomerDataByEmail(email);
+        if (userData != null) {
+          salonNames.add(userData['salonName']);
+          locations.add(userData['location']);
+
+          // Retrieve and update price range
+          final priceRange = userData['price_range'];
+          if (priceRange != null) {
+            minPrices.add(priceRange['min_price']);
+            maxPrices.add(priceRange['max_price']);
+          } else {
+            minPrices.add(null);
+            maxPrices.add(null);
+          }
+        }
+      }
+
+      // Now you have lists containing the data for each groomer
+      // You can use these lists to display or process the data as needed.
+      setState(() {
+        // Update the state variables with the lists of data
+        salon = salonNames as String?;
+        location = locations as String?;
+        minPrice = minPrices as double;
+        maxPrice = maxPrices as double;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchGroomerData();
+  }
+
+  void refreshPage() {
+    _fetchGroomerData();
   }
 
   @override
@@ -102,6 +167,7 @@ class _GroomerPageState extends State<GroomerPage> {
             const SizedBox(height: 20),
             Row(
               children: [
+                // Groomer 1
                 Container(
                   width: 190,
                   height: 200,
@@ -143,23 +209,11 @@ class _GroomerPageState extends State<GroomerPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Pet Shop',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
+                            // Salon name
+                            
                             SizedBox(height: 2),
-                            Text(
-                              'Rating: 5 stars',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
+                            // Price Range
+
                           ],
                         ),
                       ),

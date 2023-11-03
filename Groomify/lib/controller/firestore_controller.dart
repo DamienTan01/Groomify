@@ -260,4 +260,28 @@ class FirestoreController {
       print('Error updating price range: $e');
     }
   }
+
+  // Retrieve all groomer emails by going through 'Groomers' collection in Firestore
+  Future<List<String>> getAllGroomerEmails() async {
+    try {
+      final groomersCollection = _firestore.collection('groomers');
+      final querySnapshot = await groomersCollection.get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        // Iterate through the documents and extract the email field from each document.
+        List<String> emails = querySnapshot.docs.map((doc) {
+          final userData = doc.data();
+          return userData['email'] as String;
+        }).toList();
+
+        return emails;
+      } else {
+        return []; // No groomer documents found
+      }
+    } catch (e) {
+      print('Error fetching groomer emails: $e');
+      return [];
+    }
+  }
+
 }
