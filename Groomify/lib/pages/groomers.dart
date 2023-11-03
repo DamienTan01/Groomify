@@ -175,6 +175,7 @@ class _GroomerPageState extends State<GroomerPage> {
                   crossAxisCount: 2,
                   crossAxisSpacing: 20.0,
                   mainAxisSpacing: 20.0,
+                  childAspectRatio: 0.85,
                 ),
                 itemCount: groomerEmails.length,
                 itemBuilder: (context, index) {
@@ -183,7 +184,6 @@ class _GroomerPageState extends State<GroomerPage> {
 
                   return Container(
                     width: 190,
-                    height: 200,
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.black.withOpacity(0.2)),
                     ),
@@ -200,7 +200,7 @@ class _GroomerPageState extends State<GroomerPage> {
                             width: 190,
                             height: 130,
                             decoration: BoxDecoration(
-                              color: const Color(å0xffD1B3C4),
+                              color: const Color(0xffD1B3C4),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: const Center(
@@ -227,7 +227,7 @@ class _GroomerPageState extends State<GroomerPage> {
                                 final priceRange = data['price_range'];
                                 final minPrice = priceRange?['min_price'] ?? 'Not specified';
                                 final maxPrice = priceRange?['max_price'] ?? 'Not specified';
-                                return Align(å
+                                return Align(
                                   alignment: Alignment.centerLeft,
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -240,9 +240,9 @@ class _GroomerPageState extends State<GroomerPage> {
                                           color: Colors.black,
                                         ),
                                       ),
-                                      const SizedBox(height: 2),
+                                      const SizedBox(height: 10),
                                       Text(
-                                        'Price Range: \$${minPrice.toString()} - \$${maxPrice.toString()}',
+                                        'Price Range (RM): \n${minPrice.toString()} -  ${maxPrice.toString()}',
                                         style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
