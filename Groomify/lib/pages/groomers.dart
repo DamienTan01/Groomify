@@ -102,23 +102,23 @@ class _GroomerPageState extends State<GroomerPage> {
             const SizedBox(height: 20),
             Row(
               children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) {
-                      return const GroomerDetails(); // Replace with the actual screen you want to navigate to
-                    }));
-                  },
-                  child: Container(
-                    width: 190,
-                    height: 200,
-                    margin: const EdgeInsets.only(left: 10),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black.withOpacity(0.2)),
-                    ),
-                    child: Column(
-                      children: [
-                        //Image
-                        Container(
+                Container(
+                  width: 190,
+                  height: 200,
+                  margin: const EdgeInsets.only(left: 10),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black.withOpacity(0.2)),
+                  ),
+                  child: Column(
+                    children: [
+                      //Image
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) {
+                            return const GroomerDetails(); // Replace with the actual screen you want to navigate to
+                          }));
+                        },
+                        child: Container(
                           width: 190,
                           height: 130,
                           decoration: BoxDecoration(
@@ -136,64 +136,6 @@ class _GroomerPageState extends State<GroomerPage> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 10),
-                        const Align(
-                          alignment: Alignment.centerLeft,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Pet Shop',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              SizedBox(height: 2),
-                              Text(
-                                'Rating: 5 stars',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Container(
-                  width: 190,
-                  height: 200,
-                  margin: const EdgeInsets.only(right: 10),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black.withOpacity(0.2)),
-                  ),
-                  child: Column(
-                    children: [
-                      //Image
-                      Container(
-                        width: 190,
-                        height: 130,
-                        decoration: BoxDecoration(
-                          color: const Color(0xffD1B3C4),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            'Item',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
                       ),
                       const SizedBox(height: 10),
                       const Align(
@@ -202,7 +144,7 @@ class _GroomerPageState extends State<GroomerPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Name',
+                              'Pet Shop',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -211,7 +153,7 @@ class _GroomerPageState extends State<GroomerPage> {
                             ),
                             SizedBox(height: 2),
                             Text(
-                              'Rating',
+                              'Rating: 5 stars',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
