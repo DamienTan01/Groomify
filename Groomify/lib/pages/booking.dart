@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:groomify/controller/auth_controller.dart';
 import 'package:groomify/controller/firestore_controller.dart';
 import 'package:groomify/pages/btmNavBar.dart';
 import 'package:groomify/pages/groomers.dart';
 import 'package:groomify/pages/home.dart';
 import 'package:groomify/pages/profile.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class BookingPage extends StatefulWidget {
   const BookingPage({super.key});
@@ -15,45 +15,15 @@ class BookingPage extends StatefulWidget {
 
 class _BookingPage extends State<BookingPage> {
   final firestoreController = FirestoreController();
+  CalendarFormat _calendarFormat = CalendarFormat.month;
+  DateTime _focusedDay = DateTime.now();
+  DateTime? _selectedDay;
   int _selectedIndex = 1;
-  String? fullName;
-  String? username;
-  String? salon;
-  String? location;
-  String? profilePictureURL;
-  double minPrice = 0.0;
-  double maxPrice = 100.0;
-  List<String> services = [];
 
   @override
   void initState() {
     super.initState();
-    // _fetchGroomerData();
   }
-
-  // Future<void> _fetchGroomerData() async {
-  //   final userData = await firestoreController.getGroomerDataByEmail(email!);
-  //   if (userData != null) {
-  //     setState(() {
-  //       fullName = userData['fullName'];
-  //       username = userData['username'];
-  //       salon = userData['salonName'];
-  //       location = userData['location'];
-  //       profilePictureURL = userData['profile_picture'];
-  //
-  //       if (userData['services'] != null) {
-  //         services = List<String>.from(userData['services']);
-  //       }
-  //
-  //       // Retrieve and update price range
-  //       final priceRange = userData['price_range'];
-  //       if (priceRange != null) {
-  //         minPrice = priceRange['min_price'] ?? minPrice;
-  //         maxPrice = priceRange['max_price'] ?? maxPrice;
-  //       }
-  //     });
-  //   }
-  // }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -101,7 +71,26 @@ class _BookingPage extends State<BookingPage> {
         child: Column(
           children: [
             const SizedBox(height: 20),
-
+            TableCalendar(
+              firstDay: DateTime.utc(2023, 1, 1),
+              lastDay: DateTime.utc(2023, 12, 31),
+              focusedDay: _focusedDay,
+              calendarFormat: _calendarFormat,
+              selectedDayPredicate: (day) {
+                return isSameDay(_selectedDay, day);
+              },
+              onFormatChanged: (format) {
+                setState(() {
+                  _calendarFormat = format;
+                });
+              },
+              onDaySelected: (selectedDay, focusedDay) {
+                setState(() {
+                  _selectedDay = selectedDay;
+                  _focusedDay = focusedDay;
+                });
+              },
+            ),
           ],
         ),
       ),
