@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:groomify/controller/auth_controller.dart';
+import 'package:groomify/functions/auth_controller.dart';
 import 'package:groomify/pages/resetPass.dart';
 import 'package:groomify/pages/signup.dart';
 

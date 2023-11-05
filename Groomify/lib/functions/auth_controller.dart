@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:groomify/controller/firestore_controller.dart';
+import 'package:groomify/functions/firestore_controller.dart';
 import 'package:groomify/pages/groomer_home.dart';
 import 'package:groomify/pages/home.dart';
 import 'package:groomify/pages/login.dart';

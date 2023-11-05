@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:groomify/pages/home.dart';
 import 'package:groomify/pages/btmNavBar.dart';
-import 'package:groomify/controller/auth_controller.dart';
-import 'package:groomify/controller/firestore_controller.dart';
+import 'package:groomify/functions/auth_controller.dart';
+import 'package:groomify/functions/firestore_controller.dart';
 import 'package:groomify/pages/groomers.dart';
 
 class ProfilePage extends StatefulWidget {

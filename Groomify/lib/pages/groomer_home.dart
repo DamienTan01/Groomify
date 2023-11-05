@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:groomify/controller/auth_controller.dart';
+import 'package:groomify/functions/auth_controller.dart';
 import 'package:groomify/pages/groomer_profile.dart';
 import 'package:groomify/pages/groomer_btmNavBar.dart';
 import 'package:table_calendar/table_calendar.dart';

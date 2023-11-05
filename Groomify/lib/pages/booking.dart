@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:groomify/controller/firestore_controller.dart';
+import 'package:groomify/functions/firestore_controller.dart';
 import 'package:groomify/pages/btmNavBar.dart';
 import 'package:groomify/pages/groomers.dart';
 import 'package:groomify/pages/home.dart';
 import 'package:groomify/pages/profile.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:groomify/functions/time_selection.dart';
 
 class BookingPage extends StatefulWidget {
   const BookingPage({super.key});
@@ -44,8 +45,21 @@ class _BookingPage extends State<BookingPage> {
     }
   }
 
+  void _selectTime(BuildContext context) {
+    if (_selectedDay != null) {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const TimeSelectionScreen(),
+      ));
+    } else {
+      // Handle the case where the user hasn't selected a date.
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    double w = MediaQuery.of(context).size.width;
+    double h = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -90,6 +104,29 @@ class _BookingPage extends State<BookingPage> {
                   _focusedDay = focusedDay;
                 });
               },
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              width: w * 0.37,
+              height: h * 0.06,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  elevation: 5,
+                  backgroundColor: const Color(0xff735D78),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  textStyle: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                onPressed: () {
+                  _selectTime(context);
+                },
+                child: const Text('Select Time'),
+              ),
             ),
           ],
         ),

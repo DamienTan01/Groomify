@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:groomify/controller/auth_controller.dart';
+import 'package:groomify/functions/auth_controller.dart';
 import 'package:groomify/pages/login.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
