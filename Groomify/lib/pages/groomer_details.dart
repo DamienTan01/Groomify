@@ -175,7 +175,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                     const SizedBox(height: 15),
                     const Text(
                       'Location: ',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5),
                     Text(
@@ -185,7 +185,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                     const SizedBox(height: 15),
                     const Text(
                       'Full Name: ',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5),
                     Text(
@@ -195,7 +195,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                     const SizedBox(height: 15),
                     const Text(
                       'Username: ',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5),
                     Text(
@@ -205,7 +205,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                     const SizedBox(height: 15),
                     const Text(
                       'Price Range (RM): ',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5),
                     Text(
@@ -215,7 +215,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                     const SizedBox(height: 15),
                     const Text(
                       'Services: ',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5),
                     Table(
@@ -240,7 +240,9 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                           );
                         },
                       ),
-                    )
+                    ),
+                    const SizedBox(height: 15),
+                    
                   ],
                 ),
               ),
