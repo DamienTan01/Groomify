@@ -5,6 +5,7 @@ import 'package:groomify/pages/btmNavBar.dart';
 import 'package:groomify/pages/groomers.dart';
 import 'package:groomify/pages/home.dart';
 import 'package:groomify/pages/profile.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class GroomerDetails extends StatefulWidget {
   final String email; // Pass the groomer's email as a parameter to this widget
@@ -173,9 +174,30 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                       ),
                     ),
                     const SizedBox(height: 15),
-                    const Text(
-                      'Rating: ',
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    Row(
+                      children: [
+                        const Text(
+                          'Rating: ',
+                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 5),
+                        RatingBar.builder(
+                          initialRating: 3.5, // Replace with the actual rating value
+                          minRating: 0,
+                          direction: Axis.horizontal,
+                          allowHalfRating: true,
+                          itemCount: 5,
+                          itemSize: 30,
+                          itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                          itemBuilder: (context, _) => const Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          ),
+                          onRatingUpdate: (rating) {
+                            // Handle rating updates if needed
+                          },
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 15),
                     const Text(
@@ -247,7 +269,6 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                       ),
                     ),
                     const SizedBox(height: 15),
-
                   ],
                 ),
               ),
