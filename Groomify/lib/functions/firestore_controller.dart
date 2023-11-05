@@ -317,4 +317,24 @@ class FirestoreController {
       print('Error uploading booking information: $e');
     }
   }
+
+  // Add a booking to the user's booking history
+  Future<void> addBookingToHistory(String email, Map<String, dynamic> bookingData) async {
+    try {
+      final userRef = _firestore.collection('users').where('email', isEqualTo: email);
+      final querySnapshot = await userRef.get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        final userDoc = querySnapshot.docs.first;
+
+        // Get a reference to the booking history subcollection
+        final bookingHistoryCollection = userDoc.reference.collection('bookingHistory');
+
+        // Add the booking data as a new document in the booking history subcollection
+        await bookingHistoryCollection.add(bookingData);
+      }
+    } catch (e) {
+      print('Error adding booking to history: $e');
+    }
+  }
 }
