@@ -137,7 +137,7 @@ class _BookingPage extends State<BookingPage> {
                   firstDay: DateTime.utc(2023, 1, 1),
                   lastDay: DateTime.utc(2023, 12, 31),
                   focusedDay: _focusedDay,
-                  calendarFormat: _calendarFormat,
+                  calendarFormat: CalendarFormat.month,
                   selectedDayPredicate: (day) {
                     return isSameDay(_selectedDate, day);
                   },
