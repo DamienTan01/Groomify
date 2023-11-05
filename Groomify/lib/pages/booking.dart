@@ -5,10 +5,10 @@ import 'package:groomify/pages/groomers.dart';
 import 'package:groomify/pages/home.dart';
 import 'package:groomify/pages/profile.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:groomify/functions/time_selection.dart';
+import 'package:intl/intl.dart';
 
 class BookingPage extends StatefulWidget {
-  const BookingPage({super.key});
+  const BookingPage({Key? key}) : super(key: key);
 
   @override
   State<BookingPage> createState() => _BookingPage();
@@ -19,6 +19,7 @@ class _BookingPage extends State<BookingPage> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
+  TimeOfDay? _selectedTime;
   int _selectedIndex = 1;
 
   @override
@@ -45,13 +46,16 @@ class _BookingPage extends State<BookingPage> {
     }
   }
 
-  void _selectTime(BuildContext context) {
-    if (_selectedDay != null) {
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const TimeSelectionScreen(),
-      ));
-    } else {
-      // Handle the case where the user hasn't selected a date.
+  void _selectTime() async {
+    final selectedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+
+    if (selectedTime != null) {
+      setState(() {
+        _selectedTime = selectedTime;
+      });
     }
   }
 
@@ -85,47 +89,84 @@ class _BookingPage extends State<BookingPage> {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            TableCalendar(
-              firstDay: DateTime.utc(2023, 1, 1),
-              lastDay: DateTime.utc(2023, 12, 31),
-              focusedDay: _focusedDay,
-              calendarFormat: _calendarFormat,
-              selectedDayPredicate: (day) {
-                return isSameDay(_selectedDay, day);
-              },
-              onFormatChanged: (format) {
-                setState(() {
-                  _calendarFormat = format;
-                });
-              },
-              onDaySelected: (selectedDay, focusedDay) {
-                setState(() {
-                  _selectedDay = selectedDay;
-                  _focusedDay = focusedDay;
-                });
-              },
+            DateBox(
+              title: 'Selected Date',
+              date: _selectedDay,
             ),
             const SizedBox(height: 10),
-            SizedBox(
-              width: w * 0.37,
-              height: h * 0.06,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  elevation: 5,
-                  backgroundColor: const Color(0xff735D78),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  textStyle: const TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                TableCalendar(
+                  firstDay: DateTime.utc(2023, 1, 1),
+                  lastDay: DateTime.utc(2023, 12, 31),
+                  focusedDay: _focusedDay,
+                  calendarFormat: _calendarFormat,
+                  selectedDayPredicate: (day) {
+                    return isSameDay(_selectedDay, day);
+                  },
+                  onFormatChanged: (format) {
+                    setState(() {
+                      _calendarFormat = format;
+                    });
+                  },
+                  onDaySelected: (selectedDay, focusedDay) {
+                    setState(() {
+                      _selectedDay = selectedDay;
+                      _focusedDay = focusedDay;
+                    });
+                  },
+                ),
+                const SizedBox(height: 10),
+                // Display selected time in one box
+                GestureDetector(
+                  onTap: _selectTime,
+                  child: TimeBox(
+                    title: 'Selected Time',
+                    time: _selectedTime,
                   ),
                 ),
-                onPressed: () {
-                  _selectTime(context);
-                },
-                child: const Text('Select Time'),
+                const SizedBox(height: 10),
+                SizedBox(
+                  width: w * 0.37,
+                  height: h * 0.06,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 5,
+                      backgroundColor: const Color(0xff735D78),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      textStyle: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    onPressed: _selectTime, // Show time picker when the button is pressed
+                    child: const Text('Select Time'), // Display only "Select Time" in the button
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            //Text
+            Container(
+              alignment: Alignment.center,
+              child: Text(
+                'Services',
+                style: TextStyle(
+                  fontSize: 27,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  shadows: [
+                    Shadow(
+                      offset: const Offset(2, 2),
+                      blurRadius: 3.0,
+                      color: Colors.grey.withOpacity(0.5),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -138,3 +179,82 @@ class _BookingPage extends State<BookingPage> {
     );
   }
 }
+
+// Box to display selected time
+class TimeBox extends StatelessWidget {
+  final String title;
+  final TimeOfDay? time;
+
+  const TimeBox({super.key,
+    required this.title,
+    required this.time,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: const Color(0xff735D78)),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 5),
+          Text(
+            time != null ? time!.format(context) : 'Not selected',
+            style: const TextStyle(fontSize: 22),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class DateBox extends StatelessWidget {
+  final String title;
+  final DateTime? date;
+
+  const DateBox({
+    Key? key,
+    required this.title,
+    required this.date,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: const Color(0xff735D78)),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 5),
+          Text(
+            date != null
+                ? DateFormat('MMMM d, yyyy').format(date!)
+                : 'Not selected',
+            style: const TextStyle(fontSize: 22),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
