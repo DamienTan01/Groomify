@@ -174,6 +174,11 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                     ),
                     const SizedBox(height: 15),
                     const Text(
+                      'Rating: ',
+                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 15),
+                    const Text(
                       'Location: ',
                       style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
@@ -242,7 +247,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                       ),
                     ),
                     const SizedBox(height: 15),
-                    
+
                   ],
                 ),
               ),
