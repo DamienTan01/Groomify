@@ -54,7 +54,6 @@ class _GroomerDetailsState extends State<GroomerDetails> {
           location = userData['location'];
           profilePictureURL = userData['profile_picture'];
 
-
           // Retrieve and update price range
           final priceRange = userData['price_range'];
           if (priceRange != null) {
@@ -134,12 +133,14 @@ class _GroomerDetailsState extends State<GroomerDetails> {
           children: [
             const SizedBox(height: 20),
             //Groomer Details
-            CircleAvatar(
-              radius: 90,
-              backgroundImage: profilePictureURL != null
-                  ? NetworkImage(profilePictureURL!)
-                  : const NetworkImage(
-                'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg',
+            Center(
+              child: CircleAvatar(
+                radius: 90,
+                backgroundImage: profilePictureURL != null
+                    ? NetworkImage(profilePictureURL!)
+                    : const NetworkImage(
+                  'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg',
+                ),
               ),
             ),
           ],
