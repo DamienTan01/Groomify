@@ -22,7 +22,6 @@ class BookingPage extends StatefulWidget {
 
 class _BookingPage extends State<BookingPage> {
   final firestoreController = FirestoreController();
-  CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDate;
   TimeOfDay? _selectedTime;
