@@ -7,7 +7,9 @@ import 'package:groomify/pages/home.dart';
 import 'package:groomify/pages/profile.dart';
 
 class GroomerDetails extends StatefulWidget {
-  const GroomerDetails({super.key});
+  final String email; // Pass the groomer's email as a parameter to this widget
+
+  const GroomerDetails({required this.email, Key? key}) : super(key: key);
 
   @override
   State<GroomerDetails> createState() => _GroomerDetailsState();
@@ -18,9 +20,6 @@ class _GroomerDetailsState extends State<GroomerDetails> {
   int _selectedIndex = 1;
   String? fullName;
   String? username;
-  String? email;
-  String? password;
-  String? role;
   String? salon;
   String? location;
   String? profilePictureURL;
@@ -31,7 +30,6 @@ class _GroomerDetailsState extends State<GroomerDetails> {
   void initState() {
     super.initState();
     _fetchGroomerData();
-    _fetchProfilePicture();
   }
 
   void refreshPage() {
@@ -39,29 +37,22 @@ class _GroomerDetailsState extends State<GroomerDetails> {
   }
 
   Future<void> _fetchGroomerData() async {
-    final user = AuthController.instance.auth.currentUser;
-    if (user != null) {
-      final userData =
-      await firestoreController.getGroomerDataByEmail(user.email!);
-      if (userData != null) {
-        setState(() {
-          fullName = userData['fullName'];
-          username = userData['username'];
-          email = userData['email'];
-          password = userData['password'];
-          role = userData['role'];
-          salon = userData['salonName'];
-          location = userData['location'];
-          profilePictureURL = userData['profile_picture'];
+    final userData = await firestoreController.getGroomerDataByEmail(widget.email);
+    if (userData != null) {
+      setState(() {
+        fullName = userData['fullName'];
+        username = userData['username'];
+        salon = userData['salonName'];
+        location = userData['location'];
+        profilePictureURL = userData['profile_picture'];
 
-          // Retrieve and update price range
-          final priceRange = userData['price_range'];
-          if (priceRange != null) {
-            minPrice = priceRange['min_price'] ?? minPrice;
-            maxPrice = priceRange['max_price'] ?? maxPrice;
-          }
-        });
-      }
+        // Retrieve and update price range
+        final priceRange = userData['price_range'];
+        if (priceRange != null) {
+          minPrice = priceRange['min_price'] ?? minPrice;
+          maxPrice = priceRange['max_price'] ?? maxPrice;
+        }
+      });
     }
   }
 
@@ -81,16 +72,6 @@ class _GroomerDetailsState extends State<GroomerDetails> {
     if (index == 2) {
       // Navigate to the Profile page
       Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ProfilePage()));
-    }
-  }
-
-  Future<void> _fetchProfilePicture() async {
-    final profilePictureURL =
-    await firestoreController.getProfilePictureURL(email!);
-    if (profilePictureURL != null) {
-      setState(() {
-        this.profilePictureURL = profilePictureURL;
-      });
     }
   }
 
@@ -115,25 +96,26 @@ class _GroomerDetailsState extends State<GroomerDetails> {
         ),
         backgroundColor: const Color(0xffD1B3C4),
         actions: [
-          //Log out Button
+          // Log out Button
           IconButton(
-              icon: const Icon(Icons.logout),
-              iconSize: 35,
-              color: const Color(0xff735D78),
-              onPressed: () {
-                AuthController.instance.logout();
-              }
+            icon: const Icon(Icons.logout),
+            iconSize: 35,
+            color: const Color(0xff735D78),
+            onPressed: () {
+              AuthController.instance.logout();
+            },
           )
         ],
         elevation: 0,
         iconTheme: const IconThemeData(color: Color(0xff735D78)),
       ),
-      body: SingleChildScrollView (
+      body: SingleChildScrollView(
         child: Column(
           children: [
             const SizedBox(height: 20),
-            //Groomer Details
-            Center(
+            // Groomer Details
+            Align(
+              alignment: Alignment.center,
               child: CircleAvatar(
                 radius: 90,
                 backgroundImage: profilePictureURL != null
@@ -143,8 +125,67 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                 ),
               ),
             ),
-            const SizedBox(height: 50),
-
+            const SizedBox(height: 20),
+            // Display Groomer Details
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Text(
+                        salon ?? 'Loading...',
+                        style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    const Text(
+                      'Location: ',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      location ?? 'Loading...',
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                    const SizedBox(height: 15),
+                    const Text(
+                      'Full Name: ',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      fullName ?? 'Loading...',
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                    const SizedBox(height: 15),
+                    const Text(
+                      'Username: ',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      username ?? 'Loading...',
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                    const SizedBox(height: 15),
+                    const Text(
+                      'Price Range (RM): ',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      '$minPrice - $maxPrice',
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                    const SizedBox(height: 15),
+                    
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),

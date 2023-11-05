@@ -189,18 +189,15 @@ class _GroomerPageState extends State<GroomerPage> {
                     final email = groomerEmails[index];
                     final userData = firestoreController.getGroomerDataByEmail(email);
 
-                    return Container(
+                    return SizedBox(
                       width: 190,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black.withOpacity(0.2)),
-                      ),
                       child: Column(
                         children: <Widget>[
                           //Image
                           GestureDetector(
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                return const GroomerDetails(); // Replace with the actual screen you want to navigate to
+                                return GroomerDetails(email: email); // Replace with the actual screen you want to navigate to
                               }));
                             },
                             child: Container(
