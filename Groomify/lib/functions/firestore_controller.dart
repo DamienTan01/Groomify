@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:groomify/pages/groomer_profile.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -284,4 +285,30 @@ class FirestoreController {
     }
   }
 
+  // Function to save user booking to Firestore
+  Future<void> saveUserBooking(String email, DateTime selectedDate, TimeOfDay selectedTime, List<String> selectedServices) async {
+    try {
+      final userRef = _firestore.collection('users').where('email', isEqualTo: email);
+      final querySnapshot = await userRef.get();
+
+      // Create a new document for the booking
+      final bookingData = {
+        'date': selectedDate,
+        'time': selectedTime,
+        'services': selectedServices,
+      };
+
+      if (querySnapshot.docs.isNotEmpty) {
+        final userDoc = querySnapshot.docs.first;
+        final userData = userDoc.data();
+
+        userData['bookings'] = bookingData;
+
+        // Update the document in Firestore
+        userDoc.reference.update(userData);
+      }
+    } catch (e) {
+      print('Error updating grooming salon: $e');
+    }
+  }
 }

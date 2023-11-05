@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:groomify/functions/auth_controller.dart';
 import 'package:groomify/functions/firestore_controller.dart';
 import 'package:groomify/pages/btmNavBar.dart';
 import 'package:groomify/pages/groomers.dart';
@@ -18,8 +19,9 @@ class _BookingPage extends State<BookingPage> {
   final firestoreController = FirestoreController();
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDay;
+  DateTime? _selectedDate;
   TimeOfDay? _selectedTime;
+  String? email;
   int _selectedIndex = 1;
   List<String> selectedServices = [];
   List<CheckboxListTileModel> list = <CheckboxListTileModel>[
@@ -60,6 +62,7 @@ class _BookingPage extends State<BookingPage> {
   @override
   void initState() {
     super.initState();
+    _fetchGroomerData();
   }
 
   void _onItemTapped(int index) {
@@ -91,6 +94,19 @@ class _BookingPage extends State<BookingPage> {
       setState(() {
         _selectedTime = selectedTime;
       });
+    }
+  }
+
+  Future<void> _fetchGroomerData() async {
+    final user = AuthController.instance.auth.currentUser;
+    if (user != null) {
+      final userData =
+      await firestoreController.getGroomerDataByEmail(user.email!);
+      if (userData != null) {
+        setState(() {
+          email = userData['email'];
+        });
+      }
     }
   }
 
@@ -126,7 +142,7 @@ class _BookingPage extends State<BookingPage> {
             const SizedBox(height: 20),
             DateBox(
               title: 'Selected Date',
-              date: _selectedDay,
+              date: _selectedDate,
             ),
             const SizedBox(height: 10),
             Column(
@@ -138,16 +154,16 @@ class _BookingPage extends State<BookingPage> {
                   focusedDay: _focusedDay,
                   calendarFormat: _calendarFormat,
                   selectedDayPredicate: (day) {
-                    return isSameDay(_selectedDay, day);
+                    return isSameDay(_selectedDate, day);
                   },
                   onFormatChanged: (format) {
                     setState(() {
                       _calendarFormat = format;
                     });
                   },
-                  onDaySelected: (selectedDay, focusedDay) {
+                  onDaySelected: (selectedDate, focusedDay) {
                     setState(() {
-                      _selectedDay = selectedDay;
+                      _selectedDate = selectedDate;
                       _focusedDay = focusedDay;
                     });
                   },
@@ -255,9 +271,7 @@ class _BookingPage extends State<BookingPage> {
                       ),
                     ),
                     onPressed: () async {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return const BookingPage(); // Replace with the actual screen you want to navigate to
-                      }));
+                      firestoreController.saveUserBooking(email!, _selectedDate!, _selectedTime!, selectedServices);
                     },
                     child: const Text('Confirm'),
                   ),
