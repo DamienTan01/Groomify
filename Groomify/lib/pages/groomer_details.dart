@@ -25,6 +25,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
   String? profilePictureURL;
   double minPrice = 0.0;
   double maxPrice = 100.0;
+  List<String> services = [];
 
   @override
   void initState() {
@@ -45,6 +46,10 @@ class _GroomerDetailsState extends State<GroomerDetails> {
         salon = userData['salonName'];
         location = userData['location'];
         profilePictureURL = userData['profile_picture'];
+
+        if (userData['services'] != null) {
+          services = List<String>.from(userData['services']);
+        }
 
         // Retrieve and update price range
         final priceRange = userData['price_range'];
@@ -77,6 +82,33 @@ class _GroomerDetailsState extends State<GroomerDetails> {
 
   @override
   Widget build(BuildContext context) {
+    // Define the number of rows and columns
+    const int rowCount = 3;
+    const int colCount = 3;
+
+    // Create a list of TableCell widgets for each service
+    final List<TableCell> serviceCells = List.generate(
+      rowCount * colCount,
+          (index) {
+        if (index < services.length) {
+          return TableCell(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0), // Adjust padding as needed
+              child: Text(
+                services[index],
+                style: const TextStyle(fontSize: 20),
+              ),
+            ),
+          );
+        } else {
+          // Return empty TableCell for remaining cells
+          return TableCell(
+            child: Container(),
+          );
+        }
+      },
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -130,7 +162,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
+                padding: const EdgeInsets.only(left: 15, right: 15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -181,7 +213,29 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                       style: const TextStyle(fontSize: 20),
                     ),
                     const SizedBox(height: 15),
-                    
+                    const Text(
+                      'Services: ',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 5),
+                    Table(
+                      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                      children: List.generate(
+                        rowCount,
+                            (rowIndex) {
+                          return TableRow(
+                            children: serviceCells.sublist(
+                              rowIndex * colCount,
+                              (rowIndex + 1) * colCount,
+                            ).map((cell) => TableCell(
+                              child: Center( // Wrap the Text in a Center widget
+                                child: cell.child, // Access the child of the TableCell
+                              ),
+                            )).toList(),
+                          );
+                        },
+                      ),
+                    )
                   ],
                 ),
               ),
