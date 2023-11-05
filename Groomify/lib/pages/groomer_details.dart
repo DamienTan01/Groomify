@@ -73,7 +73,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
           children: [
             SizedBox(height: 20),
             //Profile Picture
-
+            
           ],
         ),
       ),
