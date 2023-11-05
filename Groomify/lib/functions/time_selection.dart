@@ -4,10 +4,10 @@ class TimeSelectionScreen extends StatefulWidget {
   const TimeSelectionScreen({Key? key}) : super(key: key);
 
   @override
-  _TimeSelectionScreenState createState() => _TimeSelectionScreenState();
+  TimeSelectionScreenState createState() => TimeSelectionScreenState();
 }
 
-class _TimeSelectionScreenState extends State<TimeSelectionScreen> {
+class TimeSelectionScreenState extends State<TimeSelectionScreen> {
   DateTime? selectedDate;
 
   @override
