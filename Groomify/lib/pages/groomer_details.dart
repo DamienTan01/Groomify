@@ -129,12 +129,19 @@ class _GroomerDetailsState extends State<GroomerDetails> {
         elevation: 0,
         iconTheme: const IconThemeData(color: Color(0xff735D78)),
       ),
-      body: const SingleChildScrollView (
+      body: SingleChildScrollView (
         child: Column(
           children: [
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             //Groomer Details
-
+            CircleAvatar(
+              radius: 90,
+              backgroundImage: profilePictureURL != null
+                  ? NetworkImage(profilePictureURL!)
+                  : const NetworkImage(
+                'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg',
+              ),
+            ),
           ],
         ),
       ),
