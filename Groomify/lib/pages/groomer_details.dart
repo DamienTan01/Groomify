@@ -159,86 +159,95 @@ class _GroomerDetailsState extends State<GroomerDetails> {
             ),
             const SizedBox(height: 20),
             // Display Groomer Details
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: Text(
-                        salon ?? 'Loading...',
-                        style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                      ),
+            Column(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15, right: 15),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: Text(
+                            salon ?? 'Loading...',
+                            style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        const SizedBox(height: 15),
+                        const Text(
+                          'Location: ',
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          location ?? 'Loading...',
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                        const SizedBox(height: 15),
+                        const Text(
+                          'Full Name: ',
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          fullName ?? 'Loading...',
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                        const SizedBox(height: 15),
+                        const Text(
+                          'Username: ',
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          username ?? 'Loading...',
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                        const SizedBox(height: 15),
+                        const Text(
+                          'Price Range (RM): ',
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          '$minPrice - $maxPrice',
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                        const SizedBox(height: 15),
+                        const Text(
+                          'Services: ',
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 5),
+                        Table(
+                          // border: TableBorder.all(color: Colors.black),
+                          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                          children: List.generate(
+                            rowCount,
+                                (rowIndex) {
+                              return TableRow(
+                                children: serviceCells.sublist(
+                                  rowIndex * colCount,
+                                  (rowIndex + 1) * colCount,
+                                ).map((cell) => TableCell(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 4, right: 4), // Add left padding
+                                    child: Container(
+                                      alignment: Alignment.centerLeft,
+                                      child: cell.child, // Access the child of the TableCell
+                                    ),
+                                  ),
+                                )).toList(),
+                              );
+                            },
+                          ),
+                        )
+                      ],
                     ),
-                    const SizedBox(height: 15),
-                    const Text(
-                      'Location: ',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      location ?? 'Loading...',
-                      style: const TextStyle(fontSize: 20),
-                    ),
-                    const SizedBox(height: 15),
-                    const Text(
-                      'Full Name: ',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      fullName ?? 'Loading...',
-                      style: const TextStyle(fontSize: 20),
-                    ),
-                    const SizedBox(height: 15),
-                    const Text(
-                      'Username: ',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      username ?? 'Loading...',
-                      style: const TextStyle(fontSize: 20),
-                    ),
-                    const SizedBox(height: 15),
-                    const Text(
-                      'Price Range (RM): ',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      '$minPrice - $maxPrice',
-                      style: const TextStyle(fontSize: 20),
-                    ),
-                    const SizedBox(height: 15),
-                    const Text(
-                      'Services: ',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 5),
-                    Table(
-                      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                      children: List.generate(
-                        rowCount,
-                            (rowIndex) {
-                          return TableRow(
-                            children: serviceCells.sublist(
-                              rowIndex * colCount,
-                              (rowIndex + 1) * colCount,
-                            ).map((cell) => TableCell(
-                              child: Center( // Wrap the Text in a Center widget
-                                child: cell.child, // Access the child of the TableCell
-                              ),
-                            )).toList(),
-                          );
-                        },
-                      ),
-                    )
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ],
         ),
