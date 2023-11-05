@@ -141,11 +141,6 @@ class _BookingPage extends State<BookingPage> {
                   selectedDayPredicate: (day) {
                     return isSameDay(_selectedDate, day);
                   },
-                  onFormatChanged: (format) {
-                    setState(() {
-                      _calendarFormat = format;
-                    });
-                  },
                   onDaySelected: (selectedDate, focusedDay) {
                     setState(() {
                       _selectedDate = selectedDate;
