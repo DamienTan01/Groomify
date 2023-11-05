@@ -21,6 +21,41 @@ class _BookingPage extends State<BookingPage> {
   DateTime? _selectedDay;
   TimeOfDay? _selectedTime;
   int _selectedIndex = 1;
+  List<String> selectedServices = [];
+  List<CheckboxListTileModel> list = <CheckboxListTileModel>[
+    CheckboxListTileModel(
+      title: 'Pet Bathing',
+      isSelected: false,
+    ),
+    CheckboxListTileModel(
+      title: 'Haircuts',
+      isSelected: false,
+    ),
+    CheckboxListTileModel(
+      title: 'Nail Trim',
+      isSelected: false,
+    ),
+    CheckboxListTileModel(
+      title: 'Teeth Clean',
+      isSelected: false,
+    ),
+    CheckboxListTileModel(
+      title: 'Ear Clean',
+      isSelected: false,
+    ),
+    CheckboxListTileModel(
+      title: 'Flea & Tick Treatment',
+      isSelected: false,
+    ),
+    CheckboxListTileModel(
+      title: 'Anal Gland Expression',
+      isSelected: false,
+    ),
+    CheckboxListTileModel(
+      title: 'Paw Pad Care',
+      isSelected: false,
+    ),
+  ];
 
   @override
   void initState() {
@@ -117,7 +152,7 @@ class _BookingPage extends State<BookingPage> {
                     });
                   },
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 30),
                 // Display selected time in one box
                 GestureDetector(
                   onTap: _selectTime,
@@ -149,26 +184,87 @@ class _BookingPage extends State<BookingPage> {
                 ),
               ],
             ),
-            const SizedBox(height: 10),
-            //Text
-            Container(
-              alignment: Alignment.center,
-              child: Text(
-                'Services',
-                style: TextStyle(
-                  fontSize: 27,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  shadows: [
-                    Shadow(
-                      offset: const Offset(2, 2),
-                      blurRadius: 3.0,
-                      color: Colors.grey.withOpacity(0.5),
+            const SizedBox(height: 30),
+            // Services
+            Column(
+              children: [
+                Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Services',
+                    style: TextStyle(
+                      fontSize: 27,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      shadows: [
+                        Shadow(
+                          offset: const Offset(2, 2),
+                          blurRadius: 3.0,
+                          color: Colors.grey.withOpacity(0.5),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 5),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: list.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return CheckboxListTile(
+                            title: Text(list[index].title),
+                            value: list[index].isSelected,
+                            onChanged: (value) {
+                              setState(() {
+                                list[index].isSelected = value!;
+                              });
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(height: 20),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 15),
+                child: SizedBox(
+                  width: w * 0.3,
+                  height: h * 0.06,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 5,
+                      backgroundColor: const Color(0xff735D78),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      textStyle: const TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    onPressed: () async {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return const BookingPage(); // Replace with the actual screen you want to navigate to
+                      }));
+                    },
+                    child: const Text('Confirm'),
+                  ),
                 ),
               ),
             ),
+            const SizedBox(height: 20),
           ],
         ),
       ),
@@ -256,5 +352,15 @@ class DateBox extends StatelessWidget {
       ),
     );
   }
+}
+
+class CheckboxListTileModel {
+  String title;
+  bool isSelected;
+
+  CheckboxListTileModel({
+    required this.title,
+    required this.isSelected,
+  });
 }
 
