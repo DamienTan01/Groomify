@@ -143,6 +143,8 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                 ),
               ),
             ),
+            const SizedBox(height: 50),
+
           ],
         ),
       ),
