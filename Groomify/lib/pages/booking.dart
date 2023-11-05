@@ -22,6 +22,7 @@ class _BookingPage extends State<BookingPage> {
   DateTime? _selectedDate;
   TimeOfDay? _selectedTime;
   String? email;
+  String? bookingStatusMessage;
   int _selectedIndex = 1;
   List<String> selectedServices = [];
   List<CheckboxListTileModel> list = <CheckboxListTileModel>[
@@ -109,6 +110,8 @@ class _BookingPage extends State<BookingPage> {
       }
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -271,7 +274,13 @@ class _BookingPage extends State<BookingPage> {
                       ),
                     ),
                     onPressed: () async {
-                      firestoreController.saveUserBooking(email!, _selectedDate!, _selectedTime!, selectedServices);
+                      // Clear the previous booking status message
+                      setState(() {
+                        bookingStatusMessage = null;
+                      });
+
+                      // Call the function to save the user booking
+
                     },
                     child: const Text('Confirm'),
                   ),

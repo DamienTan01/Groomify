@@ -285,30 +285,32 @@ class FirestoreController {
     }
   }
 
-  // Function to save user booking to Firestore
-  Future<void> saveUserBooking(String email, DateTime selectedDate, TimeOfDay selectedTime, List<String> selectedServices) async {
+// Add this function to your FirestoreController class
+  Future<void> saveBookingData(String email, Map<String, dynamic> bookingData) async {
     try {
       final userRef = _firestore.collection('users').where('email', isEqualTo: email);
       final querySnapshot = await userRef.get();
-
-      // Create a new document for the booking
-      final bookingData = {
-        'date': selectedDate,
-        'time': selectedTime,
-        'services': selectedServices,
-      };
 
       if (querySnapshot.docs.isNotEmpty) {
         final userDoc = querySnapshot.docs.first;
         final userData = userDoc.data();
 
-        userData['bookings'] = FieldValue.arrayUnion([bookingData]);
+        // Check if the 'bookings' field is present
+        if (userData.containsKey('bookings')) {
+          // If it's present, add the booking data to the existing bookings
+          final List<dynamic> existingBookings = userData['bookings'];
+          existingBookings.add(bookingData);
+          userData['bookings'] = existingBookings;
+        } else {
+          // If 'bookings' field is not present, create it and save the booking data
+          userData['bookings'] = [bookingData];
+        }
 
         // Update the document in Firestore
         userDoc.reference.update(userData);
       }
     } catch (e) {
-      print('Error updating grooming salon: $e');
+      print('Error saving booking data: $e');
     }
   }
 }
