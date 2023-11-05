@@ -285,7 +285,7 @@ class FirestoreController {
     }
   }
 
-// Add this function to your FirestoreController class
+  // Add this function to your FirestoreController class
   Future<void> saveBookingData(String email, Map<String, dynamic> bookingData) async {
     try {
       final userRef = _firestore.collection('users').where('email', isEqualTo: email);
