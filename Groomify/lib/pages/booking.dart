@@ -108,11 +108,6 @@ class _BookingPage extends State<BookingPage> {
         selectedServices,
       );
 
-      // You can also add a success message or navigate to a success screen here
-      setState(() {
-        bookingStatusMessage = 'Booking confirmed!';
-      });
-
       // Create a map with the booking information
       final bookingData = {
         'selectedDate': _selectedDate!.toUtc(),
@@ -120,13 +115,10 @@ class _BookingPage extends State<BookingPage> {
         'selectedServices': selectedServices,
       };
 
-      // Call the new function to add the booking to the booking history
+      // Call the function to add the booking to the booking history
       await firestoreController.addBookingToHistory(email!, bookingData);
     } else {
-      // Handle the case when some required data is missing (e.g., email, date, or time)
-      setState(() {
-        bookingStatusMessage = 'Please select date, time, and services.';
-      });
+
     }
   }
 
