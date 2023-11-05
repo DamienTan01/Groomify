@@ -63,7 +63,7 @@ class _BookingPage extends State<BookingPage> {
   @override
   void initState() {
     super.initState();
-    _fetchGroomerData();
+    _fetchUserData();
   }
 
   void _onItemTapped(int index) {
@@ -98,11 +98,11 @@ class _BookingPage extends State<BookingPage> {
     }
   }
 
-  Future<void> _fetchGroomerData() async {
+  Future<void> _fetchUserData() async {
     final user = AuthController.instance.auth.currentUser;
     if (user != null) {
       final userData =
-      await firestoreController.getGroomerDataByEmail(user.email!);
+      await firestoreController.getUserDataByEmail(user.email!);
       if (userData != null) {
         setState(() {
           email = userData['email'];
