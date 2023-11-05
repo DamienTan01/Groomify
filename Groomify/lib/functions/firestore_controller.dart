@@ -302,7 +302,7 @@ class FirestoreController {
         final userDoc = querySnapshot.docs.first;
         final userData = userDoc.data();
 
-        userData['bookings'] = bookingData;
+        userData['bookings'] = FieldValue.arrayUnion([bookingData]);
 
         // Update the document in Firestore
         userDoc.reference.update(userData);
