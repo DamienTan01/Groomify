@@ -92,7 +92,33 @@ class _BookingPage extends State<BookingPage> {
     }
   }
 
-  
+  // Inside your _BookingPage class in booking.dart
+  void _confirmBooking() async {
+    if (email != null && _selectedDate != null && _selectedTime != null) {
+      final selectedServices = list
+          .where((checkbox) => checkbox.isSelected)
+          .map((checkbox) => checkbox.title)
+          .toList();
+
+      await firestoreController.uploadBookingInfo(
+        context, // Pass the context from the build method
+        email!, // Assuming email is not null here
+        _selectedDate!,
+        _selectedTime!, // Correct order: TimeOfDay
+        selectedServices,
+      );
+
+      // You can also add a success message or navigate to a success screen here
+      setState(() {
+        bookingStatusMessage = 'Booking confirmed!';
+      });
+    } else {
+      // Handle the case when some required data is missing (e.g., email, date, or time)
+      setState(() {
+        bookingStatusMessage = 'Please select date, time, and services.';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -250,13 +276,7 @@ class _BookingPage extends State<BookingPage> {
                       ),
                     ),
                     onPressed: () async {
-                      // Clear the previous booking status message
-                      setState(() {
-                        bookingStatusMessage = null;
-                      });
-
-                      // Call the function to save the user booking
-
+                      _confirmBooking();
                     },
                     child: const Text('Confirm'),
                   ),
@@ -362,4 +382,3 @@ class CheckboxListTileModel {
     required this.isSelected,
   });
 }
-

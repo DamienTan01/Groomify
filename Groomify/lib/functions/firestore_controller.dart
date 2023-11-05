@@ -285,8 +285,13 @@ class FirestoreController {
     }
   }
 
-  // Add this function to your FirestoreController class
-  Future<void> saveBookingData(String email, Map<String, dynamic> bookingData) async {
+  Future<void> uploadBookingInfo(
+      BuildContext context, // Pass the context from the calling function
+      String email, // The user's email
+      DateTime selectedDate, // The selected booking date
+      TimeOfDay selectedTime, // The selected booking time
+      List<String> selectedServices, // List of selected services
+      ) async {
     try {
       final userRef = _firestore.collection('users').where('email', isEqualTo: email);
       final querySnapshot = await userRef.get();
@@ -295,22 +300,21 @@ class FirestoreController {
         final userDoc = querySnapshot.docs.first;
         final userData = userDoc.data();
 
-        // Check if the 'bookings' field is present
-        if (userData.containsKey('bookings')) {
-          // If it's present, add the booking data to the existing bookings
-          final List<dynamic> existingBookings = userData['bookings'];
-          existingBookings.add(bookingData);
-          userData['bookings'] = existingBookings;
-        } else {
-          // If 'bookings' field is not present, create it and save the booking data
-          userData['bookings'] = [bookingData];
-        }
+        // Create a Map with the booking information
+        final bookingData = {
+          'selectedDate': selectedDate.toUtc(), // Convert to UTC to store timezone-independent datetime
+          'selectedTime': selectedTime.format(context), // Format the time as a string using the provided context
+          'selectedServices': selectedServices,
+        };
+
+        // Add the booking information to the 'bookings' field in the user's document
+        userData['bookings'] = bookingData;
 
         // Update the document in Firestore
         userDoc.reference.update(userData);
       }
     } catch (e) {
-      print('Error saving booking data: $e');
+      print('Error uploading booking information: $e');
     }
   }
 }
