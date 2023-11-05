@@ -92,7 +92,6 @@ class _BookingPage extends State<BookingPage> {
     }
   }
 
-  // Inside your _BookingPage class in booking.dart
   void _confirmBooking() async {
     if (email != null && _selectedDate != null && _selectedTime != null) {
       final selectedServices = list
@@ -100,8 +99,9 @@ class _BookingPage extends State<BookingPage> {
           .map((checkbox) => checkbox.title)
           .toList();
 
+      // Save the new booking information
       await firestoreController.uploadBookingInfo(
-        context, // Pass the context from the build method
+        context,
         email!, // Assuming email is not null here
         _selectedDate!,
         _selectedTime!, // Correct order: TimeOfDay
@@ -112,6 +112,16 @@ class _BookingPage extends State<BookingPage> {
       setState(() {
         bookingStatusMessage = 'Booking confirmed!';
       });
+
+      // Create a map with the booking information
+      final bookingData = {
+        'selectedDate': _selectedDate!.toUtc(),
+        'selectedTime': _selectedTime!.format(context),
+        'selectedServices': selectedServices,
+      };
+
+      // Call the new function to add the booking to the booking history
+      await firestoreController.addBookingToHistory(email!, bookingData);
     } else {
       // Handle the case when some required data is missing (e.g., email, date, or time)
       setState(() {
