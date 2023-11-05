@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:groomify/controller/auth_controller.dart';
 import 'package:groomify/controller/firestore_controller.dart';
+import 'package:groomify/pages/booking.dart';
 import 'package:groomify/pages/btmNavBar.dart';
 import 'package:groomify/pages/groomers.dart';
 import 'package:groomify/pages/home.dart';
@@ -83,6 +84,8 @@ class _GroomerDetailsState extends State<GroomerDetails> {
 
   @override
   Widget build(BuildContext context) {
+    double w = MediaQuery.of(context).size.width;
+    double h = MediaQuery.of(context).size.height;
     // Define the number of rows and columns
     const int rowCount = 3;
     const int colCount = 3;
@@ -173,7 +176,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                         style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                       ),
                     ),
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 20),
                     Row(
                       children: [
                         const Text(
@@ -272,8 +275,38 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                 ),
               ),
             ),
+            const SizedBox(height: 30),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 15),
+                child: SizedBox(
+                  width: w * 0.36,
+                  height: h * 0.06,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 5,
+                      backgroundColor: const Color(0xff735D78),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      textStyle: const TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    onPressed: () async {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return const BookingPage(); // Replace with the actual screen you want to navigate to
+                      }));
+                    },
+                    child: const Text('Book Now'),
+                  ),
+                ),
+              ),
+            ),
             const SizedBox(height: 20),
-            
           ],
         ),
       ),
