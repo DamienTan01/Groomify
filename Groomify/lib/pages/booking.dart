@@ -91,7 +91,7 @@ class _BookingPage extends State<BookingPage> {
     }
   }
 
-  void _confirmBooking() async {
+  void _confirmBooking(BuildContext context) async {
     if (email != null && _selectedDate != null && _selectedTime != null) {
       final selectedServices = list
           .where((checkbox) => checkbox.isSelected)
@@ -116,8 +116,25 @@ class _BookingPage extends State<BookingPage> {
 
       // Call the function to add the booking to the booking history
       await firestoreController.addBookingToHistory(email!, bookingData);
-    } else {
 
+      // Show a success message using a Snackbar
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Booking confirmed!'),
+          duration: Duration(seconds: 2), // Adjust the duration as needed
+        ),
+      );
+
+      // Navigate back to the GroomerDetails
+      Navigator.pop(context);
+    } else {
+      // Handle the case when some required data is missing
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please select date, time, and services.'),
+          duration: Duration(seconds: 2), // Adjust the duration as needed
+        ),
+      );
     }
   }
 
@@ -277,7 +294,7 @@ class _BookingPage extends State<BookingPage> {
                       ),
                     ),
                     onPressed: () async {
-                      _confirmBooking();
+                      _confirmBooking(context);
                     },
                     child: const Text('Confirm'),
                   ),
