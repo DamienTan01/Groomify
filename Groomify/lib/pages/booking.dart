@@ -94,17 +94,6 @@ class _BookingPage extends State<BookingPage> {
           ),
         ),
         backgroundColor: const Color(0xffD1B3C4),
-        actions: [
-          // Log out Button
-          IconButton(
-            icon: const Icon(Icons.logout),
-            iconSize: 35,
-            color: const Color(0xff735D78),
-            onPressed: () {
-              AuthController.instance.logout();
-            },
-          )
-        ],
         elevation: 0,
         iconTheme: const IconThemeData(color: Color(0xff735D78)),
       ),
