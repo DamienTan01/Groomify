@@ -182,7 +182,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                         ),
                         const SizedBox(height: 5),
                         RatingBar.builder(
-                          initialRating: 3.5, // Replace with the actual rating value
+                          initialRating: 0, // Replace with the actual rating value
                           minRating: 0,
                           direction: Axis.horizontal,
                           allowHalfRating: true,
@@ -268,11 +268,12 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                         },
                       ),
                     ),
-                    const SizedBox(height: 15),
                   ],
                 ),
               ),
             ),
+            const SizedBox(height: 20),
+            
           ],
         ),
       ),
