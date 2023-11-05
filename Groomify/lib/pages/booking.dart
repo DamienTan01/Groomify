@@ -9,7 +9,12 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 
 class BookingPage extends StatefulWidget {
-  const BookingPage({Key? key}) : super(key: key);
+  final List<String> groomerServices;
+
+  const BookingPage({
+    Key? key,
+    required this.groomerServices, // Pass the groomer's services as a parameter
+  }) : super(key: key);
 
   @override
   State<BookingPage> createState() => _BookingPage();
@@ -25,45 +30,22 @@ class _BookingPage extends State<BookingPage> {
   String? bookingStatusMessage;
   int _selectedIndex = 1;
   List<String> selectedServices = [];
-  List<CheckboxListTileModel> list = <CheckboxListTileModel>[
-    CheckboxListTileModel(
-      title: 'Pet Bathing',
-      isSelected: false,
-    ),
-    CheckboxListTileModel(
-      title: 'Haircuts',
-      isSelected: false,
-    ),
-    CheckboxListTileModel(
-      title: 'Nail Trim',
-      isSelected: false,
-    ),
-    CheckboxListTileModel(
-      title: 'Teeth Clean',
-      isSelected: false,
-    ),
-    CheckboxListTileModel(
-      title: 'Ear Clean',
-      isSelected: false,
-    ),
-    CheckboxListTileModel(
-      title: 'Flea & Tick Treatment',
-      isSelected: false,
-    ),
-    CheckboxListTileModel(
-      title: 'Anal Gland Expression',
-      isSelected: false,
-    ),
-    CheckboxListTileModel(
-      title: 'Paw Pad Care',
-      isSelected: false,
-    ),
-  ];
+  List<CheckboxListTileModel> list = [];
+
+  void _initServicesList() {
+    for (final service in widget.groomerServices) {
+      list.add(CheckboxListTileModel(
+        title: service,
+        isSelected: false,
+      ));
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     _fetchUserData();
+    _initServicesList();
   }
 
   void _onItemTapped(int index) {

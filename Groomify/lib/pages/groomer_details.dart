@@ -286,7 +286,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                     ),
                     onPressed: () async {
                       Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return const BookingPage(); // Replace with the actual screen you want to navigate to
+                        return BookingPage(groomerServices: services); // Pass the groomer's services
                       }));
                     },
                     child: const Text('Book Now'),
