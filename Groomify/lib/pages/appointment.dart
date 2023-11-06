@@ -8,19 +8,19 @@ import 'package:groomify/pages/profile.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 
-class BookingPage extends StatefulWidget {
+class AppointmentPage extends StatefulWidget {
   final List<String> groomerServices;
 
-  const BookingPage({
+  const AppointmentPage({
     Key? key,
     required this.groomerServices, // Pass the groomer's services as a parameter
   }) : super(key: key);
 
   @override
-  State<BookingPage> createState() => _BookingPage();
+  State<AppointmentPage> createState() => _AppointmentPage();
 }
 
-class _BookingPage extends State<BookingPage> {
+class _AppointmentPage extends State<AppointmentPage> {
   final firestoreController = FirestoreController();
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDate;
@@ -91,7 +91,7 @@ class _BookingPage extends State<BookingPage> {
     }
   }
 
-  void _confirmBooking(BuildContext context) async {
+  void _confirmAppointment(BuildContext context) async {
     if (email != null && _selectedDate != null && _selectedTime != null) {
       final selectedServices = list
           .where((checkbox) => checkbox.isSelected)
@@ -99,7 +99,7 @@ class _BookingPage extends State<BookingPage> {
           .toList();
 
       // Save the new booking information
-      await firestoreController.uploadBookingInfo(
+      await firestoreController.uploadAppointmentInfo(
         context,
         email!, // Assuming email is not null here
         _selectedDate!,
@@ -108,19 +108,19 @@ class _BookingPage extends State<BookingPage> {
       );
 
       // Create a map with the booking information
-      final bookingData = {
+      final appointmentData = {
         'selectedDate': _selectedDate!.toUtc(),
         'selectedTime': _selectedTime!.format(context),
         'selectedServices': selectedServices,
       };
 
       // Call the function to add the booking to the booking history
-      await firestoreController.addBookingToHistory(email!, bookingData);
+      await firestoreController.addAppointmentToHistory(email!, appointmentData);
 
       // Show a success message using a Snackbar
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Booking confirmed!'),
+          content: Text('Appointment confirmed!'),
           duration: Duration(seconds: 2), // Adjust the duration as needed
         ),
       );
@@ -294,7 +294,7 @@ class _BookingPage extends State<BookingPage> {
                       ),
                     ),
                     onPressed: () async {
-                      _confirmBooking(context);
+                      _confirmAppointment(context);
                     },
                     child: const Text('Confirm'),
                   ),

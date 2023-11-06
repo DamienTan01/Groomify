@@ -285,7 +285,7 @@ class FirestoreController {
     }
   }
 
-  Future<void> uploadBookingInfo(
+  Future<void> uploadAppointmentInfo(
       BuildContext context, // Pass the context from the calling function
       String email, // The user's email
       DateTime selectedDate, // The selected booking date
@@ -301,25 +301,25 @@ class FirestoreController {
         final userData = userDoc.data();
 
         // Create a Map with the booking information
-        final bookingData = {
+        final appointmentData = {
           'selectedDate': selectedDate.toUtc(), // Convert to UTC to store timezone-independent datetime
           'selectedTime': selectedTime.format(context), // Format the time as a string using the provided context
           'selectedServices': selectedServices,
         };
 
         // Add the booking information to the 'bookings' field in the user's document
-        userData['bookings'] = bookingData;
+        userData['appointments'] = appointmentData;
 
         // Update the document in Firestore
         userDoc.reference.update(userData);
       }
     } catch (e) {
-      print('Error uploading booking information: $e');
+      print('Error uploading appointment information: $e');
     }
   }
 
   // Add a booking to the user's booking history
-  Future<void> addBookingToHistory(String email, Map<String, dynamic> bookingData) async {
+  Future<void> addAppointmentToHistory(String email, Map<String, dynamic> appointmentData) async {
     try {
       final userRef = _firestore.collection('users').where('email', isEqualTo: email);
       final querySnapshot = await userRef.get();
@@ -328,13 +328,13 @@ class FirestoreController {
         final userDoc = querySnapshot.docs.first;
 
         // Get a reference to the booking history subcollection
-        final bookingHistoryCollection = userDoc.reference.collection('bookingHistory');
+        final appointmentHistoryCollection = userDoc.reference.collection('appointmentHistory');
 
         // Add the booking data as a new document in the booking history subcollection
-        await bookingHistoryCollection.add(bookingData);
+        await appointmentHistoryCollection.add(appointmentData);
       }
     } catch (e) {
-      print('Error adding booking to history: $e');
+      print('Error adding appointment to history: $e');
     }
   }
 }

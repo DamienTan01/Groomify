@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:groomify/functions/firestore_controller.dart';
-import 'package:groomify/pages/booking.dart';
+import 'package:groomify/pages/appointment.dart';
 import 'package:groomify/pages/btmNavBar.dart';
 import 'package:groomify/pages/groomers.dart';
 import 'package:groomify/pages/home.dart';
@@ -286,7 +286,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                     ),
                     onPressed: () async {
                       Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return BookingPage(groomerServices: services); // Pass the groomer's services
+                        return AppointmentPage(groomerServices: services); // Pass the groomer's services
                       }));
                     },
                     child: const Text('Book Now'),
