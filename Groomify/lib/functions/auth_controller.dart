@@ -45,7 +45,7 @@ class AuthController extends GetxController {
   Future<void> navigateBasedOnRole(String email) async {
     final userRole = await FirestoreController().getUserRoleByEmail(email);
 
-    if (userRole == 'User') {
+    if (userRole == 'User' || userRole == 'Admin') {
       Get.to(const HomePage());
     } else if (userRole == 'Groomer') {
       Get.to(const GroomerHome());
