@@ -181,7 +181,7 @@ class _GroomerPageState extends State<GroomerPage> {
                     crossAxisCount: 2,
                     crossAxisSpacing: 20.0,
                     mainAxisSpacing: 20.0,
-                    childAspectRatio: 0.85,
+                    childAspectRatio: 0.8,
                   ),
                   itemCount: groomerEmails.length,
                   itemBuilder: (context, index) {
@@ -199,22 +199,29 @@ class _GroomerPageState extends State<GroomerPage> {
                                 return GroomerDetails(email: email); // Replace with the actual screen you want to navigate to
                               }));
                             },
-                            child: Container(
-                              width: 190,
-                              height: 130,
-                              decoration: BoxDecoration(
-                                color: const Color(0xffD1B3C4),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Center(
-                                child: CircleAvatar(
-                                  radius: 80, // Adjust the radius as needed
-                                  backgroundImage: profilePictureURL != null
-                                      ? NetworkImage(profilePictureURL!)
-                                      : const NetworkImage(
-                                    'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg',
-                                  ),
-                                ),
+                            child: // Inside the GridView builder, update the CircleAvatar widget to fetch the individual profile picture URL:
+                            Center(
+                              child: FutureBuilder<Map<String, dynamic>?>(
+                                future: userData,
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState == ConnectionState.done) {
+                                    final data = snapshot.data;
+                                    if (data != null) {
+                                      final profilePictureURL = data['profile_picture'];
+                                      return CircleAvatar(
+                                        radius: 75, // Adjust the radius as needed
+                                        backgroundImage: profilePictureURL != null
+                                            ? NetworkImage(profilePictureURL)
+                                            : const NetworkImage(
+                                          'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg',
+                                        ),
+                                      );
+                                    }
+                                  } else if (snapshot.hasError) {
+                                    return Text('Error: ${snapshot.error}');
+                                  }
+                                  return const CircularProgressIndicator();
+                                },
                               ),
                             ),
                           ),
