@@ -7,7 +7,7 @@ import 'package:groomify/pages/home.dart';
 import 'package:groomify/pages/profile.dart';
 
 class GroomerPage extends StatefulWidget {
-  const GroomerPage({super.key});
+  const GroomerPage({Key? key}) : super(key: key);
 
   @override
   State<GroomerPage> createState() => _GroomerPageState();
@@ -21,8 +21,8 @@ class _GroomerPageState extends State<GroomerPage> {
   String? profilePictureURL;
   String? salon;
   String? location;
-  late double minPrice;
-  late double maxPrice;
+  double minPrice = 0.0;
+  double maxPrice = 0.0;
   List<String> groomerEmails = [];
 
   // List to store groomer data
@@ -92,7 +92,6 @@ class _GroomerPageState extends State<GroomerPage> {
         minPrice = (minPrices.isNotEmpty ? minPrices[0] : 0.0)!; // Assign the first element of the list or a default value
         maxPrice = (maxPrices.isNotEmpty ? maxPrices[0] : 0.0)!; // Assign the first element of the list or a default value
       });
-
     }
   }
 
@@ -130,13 +129,13 @@ class _GroomerPageState extends State<GroomerPage> {
         actions: [
           //Log out Button
           IconButton(
-              icon: const Icon(Icons.logout),
-              iconSize: 35,
-              color: const Color(0xff735D78),
-              onPressed: () {
-                AuthController.instance.logout();
-              }
-          )
+            icon: const Icon(Icons.logout),
+            iconSize: 35,
+            color: const Color(0xff735D78),
+            onPressed: () {
+              AuthController.instance.logout();
+            },
+          ),
         ],
         elevation: 0,
       ),
@@ -162,7 +161,6 @@ class _GroomerPageState extends State<GroomerPage> {
               ),
               child: const TextField(
                 decoration: InputDecoration(
-                  prefixIconColor: Color(0xff735D78),
                   prefixIcon: Icon(Icons.search),
                   hintText: 'Search for Groomers',
                   border: InputBorder.none,
@@ -208,13 +206,13 @@ class _GroomerPageState extends State<GroomerPage> {
                                 color: const Color(0xffD1B3C4),
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child: const Center(
-                                child: Text(
-                                  'Item',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
+                              child: Center(
+                                child: CircleAvatar(
+                                  radius: 80, // Adjust the radius as needed
+                                  backgroundImage: profilePictureURL != null
+                                      ? NetworkImage(profilePictureURL!)
+                                      : const NetworkImage(
+                                    'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg',
                                   ),
                                 ),
                               ),
@@ -238,7 +236,7 @@ class _GroomerPageState extends State<GroomerPage> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
-                                          salonName,
+                                          salonName ?? 'Unknown', // Add null check here
                                           style: const TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
