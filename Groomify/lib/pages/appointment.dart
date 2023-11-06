@@ -13,7 +13,7 @@ class AppointmentPage extends StatefulWidget {
 
   const AppointmentPage({
     Key? key,
-    required this.groomerServices, // Pass the groomer's services as a parameter
+    required this.groomerServices, String? salon, // Pass the groomer's services as a parameter
   }) : super(key: key);
 
   @override
