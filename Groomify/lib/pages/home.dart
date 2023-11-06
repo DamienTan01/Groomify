@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:groomify/functions/auth_controller.dart';
+import 'package:groomify/functions/firestore_controller.dart';
 import 'package:groomify/pages/btmNavBar.dart';
 import 'package:groomify/pages/groomers.dart';
 import 'package:groomify/pages/profile.dart';
@@ -12,7 +13,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final firestoreController = FirestoreController();
+
   int _selectedIndex = 0;
+  String? email;
+  List<String> appointments = [];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -31,6 +36,12 @@ class _HomePageState extends State<HomePage> {
       // Navigate to the Profile page
       Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ProfilePage()));
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
   }
 
   @override
@@ -95,9 +106,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                Container(
 
-                ),
                 const SizedBox(height: 30),
                 //Text
                 Container(
@@ -187,30 +196,6 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-}
-
-//Services Icons
-Widget _buildServiceButton(String label, IconData iconData) {
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Icon(
-        iconData,
-        size: 48, // Adjust the icon size as needed
-        color: Colors.black, // Adjust the icon color as needed
-      ),
-      const SizedBox(height: 8), // Add spacing between icon and label
-      Text(
-        label,
-        style: const TextStyle(
-          fontSize: 16, // Adjust the label font size as needed
-          fontWeight: FontWeight.bold,
-          color: Colors.black,
-        ),
-        textAlign: TextAlign.center,
-      ),
-    ],
-  );
 }
 
 

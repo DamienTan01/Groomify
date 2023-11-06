@@ -337,4 +337,6 @@ class FirestoreController {
       print('Error adding appointment to history: $e');
     }
   }
+
+
 }

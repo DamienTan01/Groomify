@@ -29,6 +29,7 @@ class _AppointmentPage extends State<AppointmentPage> {
   int _selectedIndex = 1;
   List<String> selectedServices = [];
   List<CheckboxListTileModel> list = [];
+  List<String> appointments = [];
 
   void _initServicesList() {
     for (final service in widget.groomerServices) {
