@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-
+    appointments = ["Appointment 1", "Appointment 2", "Appointment 3"];
   }
 
   @override
@@ -82,110 +82,134 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             //Text
-            Column(
-              children: [
-                const SizedBox(height: 20),
-                //Text
-                Container(
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Text(
-                    'Appointments',
-                    style: TextStyle(
-                      fontSize: 27,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      shadows: [
-                        Shadow(
-                          offset: const Offset(2, 2),
-                          blurRadius: 3.0,
-                          color: Colors.grey.withOpacity(0.5),
-                        ),
-                      ],
+            const SizedBox(height: 20),
+            //Text
+            Container(
+              alignment: Alignment.center,
+              padding: const EdgeInsets.only(left: 15),
+              child: Text(
+                'Appointments',
+                style: TextStyle(
+                  fontSize: 27,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  shadows: [
+                    Shadow(
+                      offset: const Offset(2, 2),
+                      blurRadius: 3.0,
+                      color: Colors.grey.withOpacity(0.5),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            // Vertical list of clickable appointments
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: appointments.length,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    // Handle the click event for the appointment
+                    // You can use the index to identify which appointment was clicked.
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                    decoration: BoxDecoration(
+                      color: const Color(0xffD1B3C4),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      appointments[index],
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 10),
-
-                const SizedBox(height: 30),
-                //Text
-                Container(
-                  alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Text(
-                    'Recommended Groomers',
-                    style: TextStyle(
-                      fontSize: 27,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      shadows: [
-                        Shadow(
-                          offset: const Offset(2, 2),
-                          blurRadius: 3.0,
-                          color: Colors.grey.withOpacity(0.5),
-                        ),
-                      ],
+                );
+              },
+            ),
+            const SizedBox(height: 30),
+            //Text
+            Container(
+              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.only(left: 15),
+              child: Text(
+                'Recommended Groomers',
+                style: TextStyle(
+                  fontSize: 27,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  shadows: [
+                    Shadow(
+                      offset: const Offset(2, 2),
+                      blurRadius: 3.0,
+                      color: Colors.grey.withOpacity(0.5),
                     ),
-                  ),
+                  ],
                 ),
-                const SizedBox(height: 20),
-                //Horizontal scroll
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: List.generate(5, (index) {
-                      return GestureDetector(
-                        onTap: () {
-                          // Handle the click event here, e.g., navigate to a page
-                          // when one of the items is clicked
-                          // You can use a switch statement or if-else to determine
-                          // which item was clicked based on the 'index' variable.
-                          switch (index) {
-                            case 0:
-                            // Handle the click for the first item
-                              break;
-                            case 1:
-                            // Handle the click for the second item
-                              break;
-                          // Add cases for the other items as needed
-                          }
-                        },
-                        child: Column(
-                          children: [
-                            Container(
-                              width: 150,
-                              height: 150, // Set the width of each item
-                              margin: const EdgeInsets.symmetric(horizontal: 10), // Add horizontal margin
-                              decoration: BoxDecoration(
-                                color: const Color(0xffD1B3C4),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'Item ${index + 1}',
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 10), // Space between item and description
-                            Text(
-                              'Description for Item ${index + 1}',
+              ),
+            ),
+            const SizedBox(height: 20),
+            //Horizontal scroll
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: List.generate(5, (index) {
+                  return GestureDetector(
+                    onTap: () {
+                      // Handle the click event here, e.g., navigate to a page
+                      // when one of the items is clicked
+                      // You can use a switch statement or if-else to determine
+                      // which item was clicked based on the 'index' variable.
+                      switch (index) {
+                        case 0:
+                        // Handle the click for the first item
+                          break;
+                        case 1:
+                        // Handle the click for the second item
+                          break;
+                      // Add cases for the other items as needed
+                      }
+                    },
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 150,
+                          height: 150, // Set the width of each item
+                          margin: const EdgeInsets.symmetric(horizontal: 10), // Add horizontal margin
+                          decoration: BoxDecoration(
+                            color: const Color(0xffD1B3C4),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Item ${index + 1}',
                               style: const TextStyle(
-                                fontSize: 16,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
                                 color: Colors.black,
                               ),
                             ),
-                          ],
+                          ),
                         ),
-                      );
-                    }),
-                  ),
-                ),
-              ],
+                        const SizedBox(height: 10), // Space between item and description
+                        Text(
+                          'Description for Item ${index + 1}',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+              ),
             ),
           ],
         ),
