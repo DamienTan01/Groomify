@@ -288,6 +288,7 @@ class FirestoreController {
   Future<void> uploadAppointmentInfo(
       BuildContext context, // Pass the context from the calling function
       String email, // The user's email
+      String salon, // Salon Name
       DateTime selectedDate, // The selected booking date
       TimeOfDay selectedTime, // The selected booking time
       List<String> selectedServices, // List of selected services
@@ -302,6 +303,7 @@ class FirestoreController {
 
         // Create a Map with the booking information
         final appointmentData = {
+          'salonName': salon,
           'selectedDate': selectedDate.toUtc(), // Convert to UTC to store timezone-independent datetime
           'selectedTime': selectedTime.format(context), // Format the time as a string using the provided context
           'selectedServices': selectedServices,

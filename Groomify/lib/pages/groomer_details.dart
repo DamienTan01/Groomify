@@ -291,7 +291,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                           builder: (context) {
                             return AppointmentPage(
                               groomerServices: services,
-                              salon: salon, // Pass the salon name to the AppointmentPage
+                              salon: salon!,
                             );
                           },
                         ),

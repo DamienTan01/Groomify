@@ -10,10 +10,12 @@ import 'package:intl/intl.dart';
 
 class AppointmentPage extends StatefulWidget {
   final List<String> groomerServices;
+  final String salon;
 
   const AppointmentPage({
     Key? key,
-    required this.groomerServices, String? salon, // Pass the groomer's services as a parameter
+    required this.groomerServices,
+    required this.salon, // Pass the groomer's services as a parameter
   }) : super(key: key);
 
   @override
@@ -93,7 +95,7 @@ class _AppointmentPage extends State<AppointmentPage> {
   }
 
   void _confirmAppointment(BuildContext context) async {
-    if (email != null && _selectedDate != null && _selectedTime != null) {
+    if (widget.salon != null && email != null && _selectedDate != null && _selectedTime != null) {
       final selectedServices = list
           .where((checkbox) => checkbox.isSelected)
           .map((checkbox) => checkbox.title)
@@ -102,6 +104,7 @@ class _AppointmentPage extends State<AppointmentPage> {
       // Save the new booking information
       await firestoreController.uploadAppointmentInfo(
         context,
+        widget.salon,
         email!, // Assuming email is not null here
         _selectedDate!,
         _selectedTime!, // Correct order: TimeOfDay
@@ -110,6 +113,7 @@ class _AppointmentPage extends State<AppointmentPage> {
 
       // Create a map with the booking information
       final appointmentData = {
+        'salonName': widget.salon,
         'selectedDate': _selectedDate!.toUtc(),
         'selectedTime': _selectedTime!.format(context),
         'selectedServices': selectedServices,
@@ -319,10 +323,7 @@ class TimeBox extends StatelessWidget {
   final String title;
   final TimeOfDay? time;
 
-  const TimeBox({super.key,
-    required this.title,
-    required this.time,
-  });
+  const TimeBox({Key? key, required this.title, required this.time}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -356,18 +357,14 @@ class DateBox extends StatelessWidget {
   final String title;
   final DateTime? date;
 
-  const DateBox({
-    Key? key,
-    required this.title,
-    required this.date,
-  }) : super(key: key);
+  const DateBox({Key? key, required this.title, required this.date}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: const Color(0xff735D78)),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(10), // Fix the typo here
       ),
       padding: const EdgeInsets.all(8),
       child: Column(
