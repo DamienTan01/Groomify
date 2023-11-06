@@ -338,5 +338,31 @@ class FirestoreController {
     }
   }
 
+  // Retrieve appointments for a user using their email
+  Future<List<Map<String, dynamic>>> getAppointmentsByEmail(String email) async {
+    try {
+      final userRef = _firestore.collection('users').where('email', isEqualTo: email);
+      final querySnapshot = await userRef.get();
 
+      if (querySnapshot.docs.isNotEmpty) {
+        final userDoc = querySnapshot.docs.first;
+        final userData = userDoc.data();
+
+        // Check if the 'appointments' field exists and is a list
+        if (userData.containsKey('appointments') && userData['appointments'] is List) {
+          // Convert the 'appointments' field to a list of Map<String, dynamic>
+          List<Map<String, dynamic>> appointments = List<Map<String, dynamic>>.from(userData['appointments']);
+
+          return appointments;
+        } else {
+          return []; // No appointments found or the 'appointments' field is not a list
+        }
+      } else {
+        return []; // User not found
+      }
+    } catch (e) {
+      print('Error fetching appointments: $e');
+      return [];
+    }
+  }
 }
