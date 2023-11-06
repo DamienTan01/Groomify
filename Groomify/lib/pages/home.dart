@@ -41,7 +41,20 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    _fetchUserData();
+  }
 
+  Future<void> _fetchUserData() async {
+    final user = AuthController.instance.auth.currentUser;
+    if (user != null) {
+      final userData =
+      await firestoreController.getUserDataByEmail(user.email!);
+      if (userData != null) {
+        setState(() {
+          email = userData['email'];
+        });
+      }
+    }
   }
 
   @override
