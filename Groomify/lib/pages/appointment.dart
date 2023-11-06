@@ -95,7 +95,7 @@ class _AppointmentPage extends State<AppointmentPage> {
   }
 
   void _confirmAppointment(BuildContext context) async {
-    if (widget.salon != null && email != null && _selectedDate != null && _selectedTime != null) {
+    if (email != null && _selectedDate != null && _selectedTime != null) {
       final selectedServices = list
           .where((checkbox) => checkbox.isSelected)
           .map((checkbox) => checkbox.title)
