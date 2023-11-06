@@ -285,9 +285,17 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                       ),
                     ),
                     onPressed: () async {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return AppointmentPage(groomerServices: services); // Pass the groomer's services
-                      }));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return AppointmentPage(
+                              groomerServices: services,
+                              salon: salon, // Pass the salon name to the AppointmentPage
+                            );
+                          },
+                        ),
+                      );
                     },
                     child: const Text('Book Now'),
                   ),
