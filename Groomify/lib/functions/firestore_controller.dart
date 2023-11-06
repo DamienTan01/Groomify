@@ -340,5 +340,39 @@ class FirestoreController {
     }
   }
 
-  
+  // Retrieve booking history for the current logged-in user
+  Future<List<Map<String, dynamic>>> getBookingHistory(String email) async {
+    try {
+      final userRef = _firestore.collection('users').where('email', isEqualTo: email);
+      final querySnapshot = await userRef.get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        final userDoc = querySnapshot.docs.first;
+
+        // Get a reference to the booking history subcollection
+        final appointmentHistoryCollection = userDoc.reference.collection('appointmentHistory');
+
+        final appointmentHistoryQuerySnapshot = await appointmentHistoryCollection.get();
+
+        if (appointmentHistoryQuerySnapshot.docs.isNotEmpty) {
+          // Iterate through the documents and extract the booking history data.
+          List<Map<String, dynamic>> bookingHistory = appointmentHistoryQuerySnapshot.docs
+              .map((doc) {
+            final appointmentData = doc.data();
+            return appointmentData;
+          })
+              .toList();
+
+          return bookingHistory;
+        } else {
+          return []; // No booking history documents found
+        }
+      } else {
+        return []; // User document not found
+      }
+    } catch (e) {
+      print('Error fetching booking history: $e');
+      return [];
+    }
+  }
 }

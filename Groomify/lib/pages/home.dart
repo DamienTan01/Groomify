@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
         ),
         backgroundColor: const Color(0xffD1B3C4),
         actions: [
-          //Log out Button
+          // Log out Button
           IconButton(
               icon: const Icon(Icons.logout),
               iconSize: 35,
@@ -81,11 +81,11 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            //Text
+            // Text
             Column(
               children: [
                 const SizedBox(height: 20),
-                //Text
+                // Text
                 Container(
                   alignment: Alignment.center,
                   padding: const EdgeInsets.only(left: 15),
@@ -106,9 +106,10 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 const SizedBox(height: 10),
+                // Appointments ListView
 
                 const SizedBox(height: 30),
-                //Text
+                // Text
                 Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.only(left: 15),
@@ -129,7 +130,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                //Horizontal scroll
+                // Horizontal scroll
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
