@@ -18,6 +18,7 @@ class _GroomerPageState extends State<GroomerPage> {
 
   int _selectedIndex = 1;
   String? email;
+  String? profilePictureURL;
   String? salon;
   String? location;
   late double minPrice;
