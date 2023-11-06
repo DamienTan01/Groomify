@@ -4,6 +4,7 @@ import 'package:groomify/functions/firestore_controller.dart';
 import 'package:groomify/pages/btmNavBar.dart';
 import 'package:groomify/pages/groomers.dart';
 import 'package:groomify/pages/profile.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -139,6 +140,11 @@ class _HomePageState extends State<HomePage> {
                     itemCount: appointmentData.length,
                     itemBuilder: (context, index) {
                       final appointment = appointmentData[index];
+                      final selectedDate = appointment['selectedDate'];
+
+                      // Format the date to "day, month, year" format
+                      final formattedDate = DateFormat('d MMMM y').format(selectedDate.toDate());
+
                       return GestureDetector(
                         onTap: () {
                           // Handle click on appointment item, e.g., show details or navigate to a page.
@@ -165,7 +171,7 @@ class _HomePageState extends State<HomePage> {
                                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    '${appointment['selectedDate']}',
+                                    formattedDate, // Use the formatted date here
                                     style: const TextStyle(fontSize: 18),
                                   ),
                                 ],
