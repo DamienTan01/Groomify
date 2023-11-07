@@ -320,8 +320,8 @@ class FirestoreController {
     }
   }
 
-  // Add a appointment
-  Future<void> addAppointment(String email, Map<String, dynamic> appointmentData) async {
+  // Add a appointment for user
+  Future<void> addAppointmentToUser(String email, Map<String, dynamic> appointmentData) async {
     try {
       final userRef = _firestore.collection('users').where('email', isEqualTo: email);
       final querySnapshot = await userRef.get();
@@ -339,6 +339,27 @@ class FirestoreController {
       print('Error adding appointment to history: $e');
     }
   }
+
+  // Add appointment to groomer
+  Future<void> addAppointmentToGroomer(String email, Map<String, dynamic> appointmentData) async {
+    try {
+      final groomerRef = _firestore.collection('groomers').where('email', isEqualTo: email);
+      final querySnapshot = await groomerRef.get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        final groomerDoc = querySnapshot.docs.first;
+
+        // Get a reference to the appointment subcollection
+        final appointmentHistoryCollection = groomerDoc.reference.collection('appointments');
+
+        // Add the appointment data as a new document in the appointment subcollection
+        await appointmentHistoryCollection.add(appointmentData);
+      }
+    } catch (e) {
+      print('Error adding appointment to groomer: $e');
+    }
+  }
+
 
   // Retrieve appointments made for the current logged-in user
   Future<List<Map<String, dynamic>>> getAppointments(String email) async {
