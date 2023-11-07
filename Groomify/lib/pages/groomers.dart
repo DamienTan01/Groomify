@@ -55,6 +55,9 @@ class _GroomerPageState extends State<GroomerPage> {
       // Get the list of groomer emails
       groomerEmails = await firestoreController.getAllGroomerEmails();
 
+      // Initialize filteredGroomerEmails with all groomers
+      filteredGroomerEmails = List.from(groomerEmails);
+
       // Create lists to store data for each groomer
       List<String?> salonNames = [];
       List<String?> locations = [];
