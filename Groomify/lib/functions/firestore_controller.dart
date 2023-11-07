@@ -332,7 +332,7 @@ class FirestoreController {
         // Get a reference to the appointment subcollection
         final appointmentHistoryCollection = userDoc.reference.collection('appointments');
 
-        // Add the appointment data as a new document in the appoointment history subcollection
+        // Add the appointment data as a new document in the appoointment subcollection
         await appointmentHistoryCollection.add(appointmentData);
       }
     } catch (e) {
@@ -340,7 +340,7 @@ class FirestoreController {
     }
   }
 
-  // Retrieve appointment history for the current logged-in user
+  // Retrieve appointments made for the current logged-in user
   Future<List<Map<String, dynamic>>> getAppointments(String email) async {
     try {
       final userRef = _firestore.collection('users').where('email', isEqualTo: email);
