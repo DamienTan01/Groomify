@@ -82,6 +82,10 @@ class _HomePageState extends State<HomePage> {
         final selectedServices = appointment['selectedServices'];
 
         return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15), // Optional: Adjust the border radius
+          ),
+          backgroundColor: const Color(0xffF7D1CD),
           title: const Center(
             child: Text(
               'Complete Appointment :)',
@@ -93,7 +97,7 @@ class _HomePageState extends State<HomePage> {
           ),
           content: SizedBox(
             width: 400,
-            height: 255,
+            height: 260,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -179,6 +183,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
+                const SizedBox(height: 5),
               ],
             ),
           ),
@@ -295,7 +300,7 @@ class _HomePageState extends State<HomePage> {
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black),
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(15),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
