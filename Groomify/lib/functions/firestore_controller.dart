@@ -361,7 +361,9 @@ class FirestoreController {
         final appointmentHistoryCollection = groomerDoc.reference.collection('appointments');
 
         // Add the appointment data as a new document in the appointment subcollection
-        await appointmentHistoryCollection.add(appointmentDataGroomer);
+        final appointmentDocumentRef = appointmentHistoryCollection.doc();
+        appointmentDataGroomer['documentID'] = appointmentDocumentRef.id; // Store the Firestore document ID
+        appointmentDocumentRef.set(appointmentDataGroomer); // Set the appointment data in Firestore
       }
     } catch (e) {
       print('Error adding appointment to groomer: $e');
