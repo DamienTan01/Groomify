@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:groomify/functions/auth_controller.dart';
 import 'package:groomify/functions/firestore_controller.dart';
 import 'package:groomify/pages/btmNavBar.dart';
+import 'package:groomify/pages/edit_appointments.dart';
 import 'package:groomify/pages/groomers.dart';
 import 'package:groomify/pages/profile.dart';
 import 'package:intl/intl.dart';
@@ -107,7 +108,6 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Text
             Column(
               children: [
                 const SizedBox(height: 20),
@@ -147,77 +147,76 @@ class _HomePageState extends State<HomePage> {
                       // Format the date to "day, month, year" format
                       final formattedDate = DateFormat('d MMMM y').format(selectedDate.toDate());
 
-                      return GestureDetector(
-                        onTap: () {
-
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.all(10),
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${appointment['salonName']}',
-                                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(height: 10),
-                              Row(
-                                children: [
-                                  const Text(
-                                    'Date: ',
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    formattedDate, // Use the formatted date here
-                                    style: const TextStyle(fontSize: 18),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 5),
-                              Row(
-                                children: [
-                                  const Text(
-                                    'Time: ',
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    '${appointment['selectedTime']}',
-                                    style: const TextStyle(fontSize: 18),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 5),
-                              Row(
-                                children: [
-                                  const Text(
-                                    'Services: ',
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    '${appointment['selectedServices'].join(', ')}',
-                                    style: const TextStyle(fontSize: 18),
-                                  ),
-                                ],
-                              ),
-                              // Add an edit IconButton
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  IconButton(
-                                    icon: const Icon(Icons.edit),
-                                    onPressed: () {
-                                      // Handle edit button click for this appointment
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                      return Container(
+                        margin: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${appointment['salonName']}',
+                              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(height: 10),
+                            Row(
+                              children: [
+                                const Text(
+                                  'Date: ',
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  formattedDate, // Use the formatted date here
+                                  style: const TextStyle(fontSize: 18),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 5),
+                            Row(
+                              children: [
+                                const Text(
+                                  'Time: ',
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  '${appointment['selectedTime']}',
+                                  style: const TextStyle(fontSize: 18),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 5),
+                            Row(
+                              children: [
+                                const Text(
+                                  'Services: ',
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  '${appointment['selectedServices'].join(', ')}',
+                                  style: const TextStyle(fontSize: 18),
+                                ),
+                              ],
+                            ),
+                            // Add an edit IconButton
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.edit),
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => EditAppointmentPage(appointmentData: appointment),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       );
                     },
