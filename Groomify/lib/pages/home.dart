@@ -71,6 +71,40 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void _showEditDialog(Map<String, dynamic> appointment) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Edit Appointment'),
+          content: const Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Create form fields for editing the appointment details
+              // For example, text fields, date picker, time picker, etc.
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                // Add logic to update the appointment details in your data
+                // ...
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: const Text('Save'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: const Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -207,11 +241,12 @@ class _HomePageState extends State<HomePage> {
                                 IconButton(
                                   icon: const Icon(Icons.edit),
                                   onPressed: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => EditAppointmentPage(appointmentData: appointment),
-                                      ),
-                                    );
+                                    // Navigator.of(context).push(
+                                    //   MaterialPageRoute(
+                                    //     builder: (context) => EditAppointmentPage(appointmentData: appointment),
+                                    //   ),
+                                    // );
+                                    _showEditDialog(appointment);
                                   },
                                 ),
                               ],
