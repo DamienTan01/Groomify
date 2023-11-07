@@ -16,6 +16,7 @@ class GroomerPage extends StatefulWidget {
 
 class _GroomerPageState extends State<GroomerPage> {
   final firestoreController = FirestoreController();
+  TextEditingController searchController = TextEditingController();
 
   int _selectedIndex = 1;
   String? email;
@@ -25,7 +26,7 @@ class _GroomerPageState extends State<GroomerPage> {
   double minPrice = 0.0;
   double maxPrice = 0.0;
   List<String> groomerEmails = [];
-
+  List<String> filteredGroomerEmails = [];
   // List to store groomer data
   List<Map<String, dynamic>> groomerDataList = [];
 
@@ -106,6 +107,25 @@ class _GroomerPageState extends State<GroomerPage> {
     _fetchGroomerData();
   }
 
+  // Function to filter groomers based on search query
+  Future<void> filterGroomers(String query) async {
+    filteredGroomerEmails.clear();
+    if (query.isEmpty) {
+      filteredGroomerEmails.addAll(groomerEmails);
+    } else {
+      for (final email in groomerEmails) {
+        final groomerData = await firestoreController.getGroomerDataByEmail(email); // Wait for the future
+        if (groomerData != null) {
+          final salonName = groomerData['salonName']?.toString() ?? '';
+          if (salonName.toLowerCase().contains(query.toLowerCase())) {
+            filteredGroomerEmails.add(email);
+          }
+        }
+      }
+    }
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -160,8 +180,13 @@ class _GroomerPageState extends State<GroomerPage> {
                   ),
                 ],
               ),
-              child: const TextField(
-                decoration: InputDecoration(
+              child: TextField(
+                controller: searchController,
+                onChanged: (query) {
+                  // Update the UI when the search query changes
+                  filterGroomers(query);
+                },
+                decoration: const InputDecoration(
                   prefixIcon: Icon(Icons.search),
                   hintText: 'Search for Groomers',
                   border: InputBorder.none,
@@ -184,9 +209,9 @@ class _GroomerPageState extends State<GroomerPage> {
                     mainAxisSpacing: 20.0,
                     childAspectRatio: 0.7,
                   ),
-                  itemCount: groomerEmails.length,
+                  itemCount: filteredGroomerEmails.length,
                   itemBuilder: (context, index) {
-                    final email = groomerEmails[index];
+                    final email = filteredGroomerEmails[index];
                     final groomerData = firestoreController.getGroomerDataByEmail(email);
 
                     return SizedBox(

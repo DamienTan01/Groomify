@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
   double maxPrice = 0.0;
   List<String> groomerEmails = [];
   List<Map<String, dynamic>> appointmentData = [];
-  List<String> filteredGroomerEmails = [];
+  List<String> fiveStarGroomerEmails = [];
 
   double rating = 0.0; // Variable to store groomer's rating
 
@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage> {
         if (groomerData != null) {
           final rating = groomerData['rating'] ?? 0.0;
           if (rating == 5.0) {
-            filteredGroomerEmails.add(email);
+            fiveStarGroomerEmails.add(email);
           }
         }
       }
@@ -449,10 +449,10 @@ class _HomePageState extends State<HomePage> {
                   child: SizedBox(
                     height: 300, // Set the height of the horizontal ListView
                     child: ListView.builder(
-                      scrollDirection: Axis.horizontal, // Make it scroll horizontally
-                      itemCount: filteredGroomerEmails.length, // Use the filteredGroomerEmails list if you want to display only 5-star groomers
+                      scrollDirection: Axis.horizontal,
+                      itemCount: fiveStarGroomerEmails.length,
                       itemBuilder: (context, index) {
-                        final email = filteredGroomerEmails[index];
+                        final email = fiveStarGroomerEmails[index];
                         final groomerData = firestoreController.getGroomerDataByEmail(email);
 
                         return Container(
