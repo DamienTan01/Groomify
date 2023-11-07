@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
     final user = AuthController.instance.auth.currentUser;
     final email = user!.email;
     if (email != null) {
-      final appointments = await firestoreController.getBookingHistory(email);
+      final appointments = await firestoreController.getAppointmentHistory(email);
       setState(() {
         appointmentData = appointments;
       });

@@ -289,8 +289,8 @@ class FirestoreController {
       BuildContext context, // Pass the context from the calling function
       String email, // The user's email
       String salon, // Salon Name
-      DateTime selectedDate, // The selected booking date
-      TimeOfDay selectedTime, // The selected booking time
+      DateTime selectedDate, // The selected appointment date
+      TimeOfDay selectedTime, // The selected appointment time
       List<String> selectedServices, // List of selected services
       ) async {
     try {
@@ -301,7 +301,7 @@ class FirestoreController {
         final userDoc = querySnapshot.docs.first;
         final userData = userDoc.data();
 
-        // Create a Map with the booking information
+        // Create a Map with the appointment information
         final appointmentData = {
           'salonName': salon,
           'selectedDate': selectedDate.toUtc(), // Convert to UTC to store timezone-independent datetime
@@ -309,7 +309,7 @@ class FirestoreController {
           'selectedServices': selectedServices,
         };
 
-        // Add the booking information to the 'bookings' field in the user's document
+        // Add the appointment information to the 'appointments' field in the user's document
         userData['appointments'] = appointmentData;
 
         // Update the document in Firestore
@@ -320,7 +320,7 @@ class FirestoreController {
     }
   }
 
-  // Add a booking to the user's booking history
+  // Add a appointment to the user's appointment history
   Future<void> addAppointmentToHistory(String email, Map<String, dynamic> appointmentData) async {
     try {
       final userRef = _firestore.collection('users').where('email', isEqualTo: email);
@@ -329,10 +329,10 @@ class FirestoreController {
       if (querySnapshot.docs.isNotEmpty) {
         final userDoc = querySnapshot.docs.first;
 
-        // Get a reference to the booking history subcollection
-        final appointmentHistoryCollection = userDoc.reference.collection('appointmentHistory');
+        // Get a reference to the appointment history subcollection
+        final appointmentHistoryCollection = userDoc.reference.collection('appointments');
 
-        // Add the booking data as a new document in the booking history subcollection
+        // Add the appointment data as a new document in the appoointment history subcollection
         await appointmentHistoryCollection.add(appointmentData);
       }
     } catch (e) {
@@ -340,8 +340,8 @@ class FirestoreController {
     }
   }
 
-  // Retrieve booking history for the current logged-in user
-  Future<List<Map<String, dynamic>>> getBookingHistory(String email) async {
+  // Retrieve appointment history for the current logged-in user
+  Future<List<Map<String, dynamic>>> getAppointmentHistory(String email) async {
     try {
       final userRef = _firestore.collection('users').where('email', isEqualTo: email);
       final querySnapshot = await userRef.get();
@@ -349,21 +349,21 @@ class FirestoreController {
       if (querySnapshot.docs.isNotEmpty) {
         final userDoc = querySnapshot.docs.first;
 
-        // Get a reference to the booking history subcollection
-        final appointmentHistoryCollection = userDoc.reference.collection('appointmentHistory');
+        // Get a reference to the appointment history subcollection
+        final appointmentHistoryCollection = userDoc.reference.collection('appointments');
 
         final appointmentHistoryQuerySnapshot = await appointmentHistoryCollection.get();
 
         if (appointmentHistoryQuerySnapshot.docs.isNotEmpty) {
-          // Iterate through the documents and extract the booking history data.
-          List<Map<String, dynamic>> bookingHistory = appointmentHistoryQuerySnapshot.docs
+          // Iterate through the documents and extract the appointment history data.
+          List<Map<String, dynamic>> appointmentHistory = appointmentHistoryQuerySnapshot.docs
               .map((doc) {
             final appointmentData = doc.data();
             return appointmentData;
           })
               .toList();
 
-          return bookingHistory;
+          return appointmentHistory;
         } else {
           return []; // No booking history documents found
         }
