@@ -301,19 +301,25 @@ class FirestoreController {
         final userDoc = querySnapshot.docs.first;
         final userData = userDoc.data();
 
-        // Create a Map with the appointment information
+        // Add a field to store the Firestore document ID in the appointment data
         final appointmentData = {
           'salonName': salon,
-          'selectedDate': selectedDate.toUtc(), // Convert to UTC to store timezone-independent datetime
-          'selectedTime': selectedTime.format(context), // Format the time as a string using the provided context
+          'selectedDate': selectedDate.toUtc(),
+          'selectedTime': selectedTime.format(context),
           'selectedServices': selectedServices,
+          'documentID': '', // This field will store the Firestore document ID
         };
 
         // Add the appointment information to the 'appointments' field in the user's document
         userData['appointments'] = appointmentData;
 
         // Update the document in Firestore
-        userDoc.reference.update(userData);
+        userDoc.reference.update(userData).then((_) {
+          // After updating the document, retrieve the Firestore document ID and update the appointment data
+          final appointmentDocumentRef = userDoc.reference.collection('appointments').doc();
+          appointmentData['documentID'] = appointmentDocumentRef.id;
+          appointmentDocumentRef.set(appointmentData); // Set the appointment data in Firestore
+        });
       }
     } catch (e) {
       print('Error uploading appointment information: $e');
@@ -332,8 +338,10 @@ class FirestoreController {
         // Get a reference to the appointment subcollection
         final appointmentHistoryCollection = userDoc.reference.collection('appointments');
 
-        // Add the appointment data as a new document in the appoointment subcollection
-        await appointmentHistoryCollection.add(appointmentDataUser);
+        // Add the appointment data as a new document in the appointment subcollection
+        final appointmentDocumentRef = appointmentHistoryCollection.doc();
+        appointmentDataUser['documentID'] = appointmentDocumentRef.id; // Store the Firestore document ID
+        appointmentDocumentRef.set(appointmentDataUser); // Set the appointment data in Firestore
       }
     } catch (e) {
       print('Error adding appointment to history: $e');
