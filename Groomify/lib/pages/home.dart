@@ -458,7 +458,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 // Groomer Containers
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -473,7 +473,7 @@ class _HomePageState extends State<HomePage> {
 
                         return Container(
                           width: 190, // Set the width of each item in the horizontal ListView
-                          margin: const EdgeInsets.only(left: 10.0), // Add some spacing between items
+                          margin: const EdgeInsets.only(left: 10), // Add some spacing between items
                           child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
