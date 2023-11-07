@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   String? email;
   List<Map<String, dynamic>> appointmentData = [];
 
-  double groomerRating = 0.0; // Variable to store groomer's rating
+  double rating = 0.0; // Variable to store groomer's rating
 
   void _onItemTapped(int index) {
     setState(() {
@@ -181,9 +181,9 @@ class _HomePageState extends State<HomePage> {
                             Icons.star,
                             color: Colors.amber,
                           ),
-                          onRatingUpdate: (rating) {
+                          onRatingUpdate: (newRating) {
                             setState(() {
-                              groomerRating = rating; // Capture the rating
+                              rating = newRating; // Capture the rating
                             });
                           },
                         ),
@@ -211,7 +211,7 @@ class _HomePageState extends State<HomePage> {
               onPressed: () async {
                 print("Groomer Email: $email");
                 // Save the rating to the groomer based on their email
-                await firestoreController.saveGroomerRating(email, groomerRating);
+                await firestoreController.saveGroomerRating(email, rating);
 
                 Navigator.of(context).pop(); // Close the dialog
               },
