@@ -3,6 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:groomify/functions/auth_controller.dart';
 import 'package:groomify/functions/firestore_controller.dart';
 import 'package:groomify/pages/btmNavBar.dart';
+import 'package:groomify/pages/groomer_details.dart';
 import 'package:groomify/pages/groomers.dart';
 import 'package:groomify/pages/profile.dart';
 import 'package:intl/intl.dart';
@@ -19,6 +20,12 @@ class _HomePageState extends State<HomePage> {
 
   int _selectedIndex = 0;
   String? email;
+  String? profilePictureURL;
+  String? salon;
+  String? location;
+  double minPrice = 0.0;
+  double maxPrice = 0.0;
+  List<String> groomerEmails = [];
   List<Map<String, dynamic>> appointmentData = [];
 
   double rating = 0.0; // Variable to store groomer's rating
@@ -46,6 +53,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _fetchUserData();
+    _fetchGroomerData();
     _loadAppointments();
   }
 
@@ -59,6 +67,52 @@ class _HomePageState extends State<HomePage> {
           email = userData['email'];
         });
       }
+    }
+  }
+
+  Future<void> _fetchGroomerData() async {
+    final user = AuthController.instance.auth.currentUser;
+    if (user != null) {
+      // Get the list of groomer emails
+      groomerEmails = await firestoreController.getAllGroomerEmails();
+
+      // Create lists to store data for each groomer
+      List<String?> salonNames = [];
+      List<String?> locations = [];
+      List<double?> minPrices = [];
+      List<double?> maxPrices = [];
+
+      // Fetch groomer data for each email
+      for (final email in groomerEmails) {
+        final userData = await firestoreController.getGroomerDataByEmail(email);
+        if (userData != null) {
+          salonNames.add(userData['salonName'] ?? 'Unknown');
+          locations.add(userData['location'] ?? 'Unknown');
+
+          final priceRange = userData['price_range'];
+          if (priceRange != null) {
+            minPrices.add(priceRange['min_price'] ?? 0.0);
+            maxPrices.add(priceRange['max_price'] ?? 0.0);
+          } else {
+            minPrices.add(0.0);
+            maxPrices.add(0.0);
+          }
+        } else {
+          // Handle the case where userData is null, e.g., set default values
+          salonNames.add('Unknown');
+          locations.add('Unknown');
+          minPrices.add(0.0);
+          maxPrices.add(0.0);
+        }
+      }
+
+      setState(() {
+        // Update the state variables with the lists of data
+        salon = salonNames.isNotEmpty ? salonNames[0] : null; // Assign the first element of the list
+        location = locations.isNotEmpty ? locations[0] : null; // Assign the first element of the list
+        minPrice = (minPrices.isNotEmpty ? minPrices[0] : 0.0)!; // Assign the first element of the list or a default value
+        maxPrice = (maxPrices.isNotEmpty ? maxPrices[0] : 0.0)!; // Assign the first element of the list or a default value
+      });
     }
   }
 
@@ -405,60 +459,132 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                // Horizontal scroll
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: List.generate(5, (index) {
-                      return GestureDetector(
-                        onTap: () {
-                          // Handle the click event here, e.g., navigate to a page
-                          // when one of the items is clicked
-                          // You can use a switch statement or if-else to determine
-                          // which item was clicked based on the 'index' variable.
-                          switch (index) {
-                            case 0:
-                            // Handle the click for the first item
-                              break;
-                            case 1:
-                            // Handle the click for the second item
-                              break;
-                          // Add cases for the other items as needed
-                          }
-                        },
-                        child: Column(
-                          children: [
-                            Container(
-                              width: 150,
-                              height: 150, // Set the width of each item
-                              margin: const EdgeInsets.symmetric(horizontal: 10), // Add horizontal margin
-                              decoration: BoxDecoration(
-                                color: const Color(0xffD1B3C4),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'Item ${index + 1}',
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
+                // Groomer Containers
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: SizedBox(
+                    height: 300, // Set the height of the horizontal ListView
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal, // Make it scroll horizontally
+                      itemCount: groomerEmails.length,
+                      itemBuilder: (context, index) {
+                        final email = groomerEmails[index];
+                        final groomerData = firestoreController.getGroomerDataByEmail(email);
+
+                        return Container(
+                          width: 190, // Set the width of each item in the horizontal ListView
+                          margin: const EdgeInsets.only(left: 10.0), // Add some spacing between items
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                      return GroomerDetails(email: email);
+                                    }));
+                                  },
+                                  child: // Inside the GridView builder, update the CircleAvatar widget to fetch the individual profile picture URL:
+                                  Center(
+                                    child: FutureBuilder<Map<String, dynamic>?>(
+                                      future: groomerData,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState == ConnectionState.done) {
+                                          final data = snapshot.data;
+                                          if (data != null) {
+                                            final profilePictureURL = data['profile_picture'];
+                                            return CircleAvatar(
+                                              radius: 75, // Adjust the radius as needed
+                                              backgroundImage: profilePictureURL != null
+                                                  ? NetworkImage(profilePictureURL)
+                                                  : const NetworkImage(
+                                                'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg',
+                                              ),
+                                            );
+                                          }
+                                        } else if (snapshot.hasError) {
+                                          return Text('Error: ${snapshot.error}');
+                                        }
+                                        return const CircularProgressIndicator();
+                                      },
+                                    ),
                                   ),
                                 ),
-                              ),
+                                const SizedBox(height: 10),
+                                FutureBuilder<Map<String, dynamic>?>(
+                                  future: groomerData,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState == ConnectionState.done) {
+                                      final data = snapshot.data;
+                                      if (data != null) {
+                                        final salonName = data['salonName'];
+                                        final priceRange = data['price_range'];
+                                        final minPrice = priceRange?['min_price'] ?? 'Not specified';
+                                        final maxPrice = priceRange?['max_price'] ?? 'Not specified';
+                                        final rating = data['rating'];
+                                        return Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Text(
+                                                salonName ?? 'Unknown', // Add null check here
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 10),
+                                              Text(
+                                                'Price Range (RM): \n${minPrice.toString()} -  ${maxPrice.toString()}',
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 10),
+                                              Row(
+                                                children: [
+                                                  const Text(
+                                                    'Rating: ',
+                                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                                  ),
+                                                  const SizedBox(height: 5),
+                                                  RatingBar.builder(
+                                                    initialRating: rating ?? 0.0,
+                                                    minRating: 0,
+                                                    direction: Axis.horizontal,
+                                                    allowHalfRating: true,
+                                                    itemCount: 5,
+                                                    itemSize: 16,
+                                                    itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                                    itemBuilder: (context, _) => const Icon(
+                                                      Icons.star,
+                                                      color: Colors.amber,
+                                                    ),
+                                                    ignoreGestures: true,
+                                                    onRatingUpdate: (newRating) {},
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }
+                                    } else if (snapshot.hasError) {
+                                      return Text('Error: ${snapshot.error}');
+                                    }
+                                    return const CircularProgressIndicator();
+                                  },
+                                ),
+                              ],
                             ),
-                            const SizedBox(height: 10), // Space between item and description
-                            Text(
-                              'Description for Item ${index + 1}',
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),

@@ -187,7 +187,7 @@ class _GroomerPageState extends State<GroomerPage> {
                   itemCount: groomerEmails.length,
                   itemBuilder: (context, index) {
                     final email = groomerEmails[index];
-                    final userData = firestoreController.getGroomerDataByEmail(email);
+                    final groomerData = firestoreController.getGroomerDataByEmail(email);
 
                     return SizedBox(
                       width: 190,
@@ -203,7 +203,7 @@ class _GroomerPageState extends State<GroomerPage> {
                             child: // Inside the GridView builder, update the CircleAvatar widget to fetch the individual profile picture URL:
                             Center(
                               child: FutureBuilder<Map<String, dynamic>?>(
-                                future: userData,
+                                future: groomerData,
                                 builder: (context, snapshot) {
                                   if (snapshot.connectionState == ConnectionState.done) {
                                     final data = snapshot.data;
@@ -229,7 +229,7 @@ class _GroomerPageState extends State<GroomerPage> {
                           const SizedBox(height: 10),
                           // Groomer Details
                           FutureBuilder<Map<String, dynamic>?>(
-                            future: userData,
+                            future: groomerData,
                             builder: (context, snapshot) {
                               if (snapshot.connectionState == ConnectionState.done) {
                                 final data = snapshot.data;
