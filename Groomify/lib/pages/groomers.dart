@@ -110,15 +110,22 @@ class _GroomerPageState extends State<GroomerPage> {
   // Function to filter groomers based on search query
   Future<void> filterGroomers(String query) async {
     filteredGroomerEmails.clear();
+    final Set<String> uniqueSalonNames = Set(); // To store unique salon names
+
     if (query.isEmpty) {
       filteredGroomerEmails.addAll(groomerEmails);
     } else {
       for (final email in groomerEmails) {
-        final groomerData = await firestoreController.getGroomerDataByEmail(email); // Wait for the future
+        final groomerData = await firestoreController.getGroomerDataByEmail(email);
         if (groomerData != null) {
           final salonName = groomerData['salonName']?.toString() ?? '';
-          if (salonName.toLowerCase().contains(query.toLowerCase())) {
-            filteredGroomerEmails.add(email);
+          if (salonName.isNotEmpty &&
+              salonName.toLowerCase().contains(query.toLowerCase())) {
+            // Check if salonName is not empty and contains the query
+            if (uniqueSalonNames.add(salonName)) {
+              // Only add if it's a unique salon name
+              filteredGroomerEmails.add(email);
+            }
           }
         }
       }
