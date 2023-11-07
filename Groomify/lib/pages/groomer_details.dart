@@ -50,7 +50,8 @@ class _GroomerDetailsState extends State<GroomerDetails> {
         location = groomerData['location'];
         profilePictureURL = groomerData['profile_picture'];
         email = groomerData['email'];
-        rating = groomerData['rating'];
+        final dynamic ratingData = groomerData['rating'];
+        rating = ratingData is double ? ratingData : 0.0;
 
         if (groomerData['services'] != null) {
           services = List<String>.from(groomerData['services']);
@@ -177,7 +178,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                         ),
                         const SizedBox(height: 5),
                         RatingBar.builder(
-                          initialRating: rating,
+                          initialRating: rating ?? 0.0,
                           minRating: 0,
                           direction: Axis.horizontal,
                           allowHalfRating: true,

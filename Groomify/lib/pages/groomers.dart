@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:groomify/functions/auth_controller.dart';
 import 'package:groomify/functions/firestore_controller.dart';
 import 'package:groomify/pages/btmNavBar.dart';
@@ -181,7 +182,7 @@ class _GroomerPageState extends State<GroomerPage> {
                     crossAxisCount: 2,
                     crossAxisSpacing: 20.0,
                     mainAxisSpacing: 20.0,
-                    childAspectRatio: 0.8,
+                    childAspectRatio: 0.7,
                   ),
                   itemCount: groomerEmails.length,
                   itemBuilder: (context, index) {
@@ -226,7 +227,7 @@ class _GroomerPageState extends State<GroomerPage> {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          // Salon name and Price Range
+                          // Groomer Details
                           FutureBuilder<Map<String, dynamic>?>(
                             future: userData,
                             builder: (context, snapshot) {
@@ -237,6 +238,7 @@ class _GroomerPageState extends State<GroomerPage> {
                                   final priceRange = data['price_range'];
                                   final minPrice = priceRange?['min_price'] ?? 'Not specified';
                                   final maxPrice = priceRange?['max_price'] ?? 'Not specified';
+                                  final rating = data['rating'];
                                   return Align(
                                     alignment: Alignment.centerLeft,
                                     child: Column(
@@ -258,6 +260,31 @@ class _GroomerPageState extends State<GroomerPage> {
                                             fontWeight: FontWeight.bold,
                                             color: Colors.black,
                                           ),
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Row(
+                                          children: [
+                                            const Text(
+                                              'Rating: ',
+                                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                            ),
+                                            const SizedBox(height: 5),
+                                            RatingBar.builder(
+                                              initialRating: rating ?? 0.0,
+                                              minRating: 0,
+                                              direction: Axis.horizontal,
+                                              allowHalfRating: true,
+                                              itemCount: 5,
+                                              itemSize: 16,
+                                              itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                              itemBuilder: (context, _) => const Icon(
+                                                Icons.star,
+                                                color: Colors.amber,
+                                              ),
+                                              ignoreGestures: true,
+                                              onRatingUpdate: (newRating) {},
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
