@@ -17,7 +17,7 @@ class EditAppointmentPage extends StatefulWidget {
 
 class _EditAppointmentPageState extends State<EditAppointmentPage> {
 
-  int _selectedIndex = 1;
+  int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -71,53 +71,58 @@ class _EditAppointmentPageState extends State<EditAppointmentPage> {
           children: [
             const SizedBox(height: 20),
             // Appointment Details
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                '${appointmentData['salonName']}',
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    const Text(
-                      'Date: ',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Text(
+                    '${appointmentData['salonName']}',
+                      style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                     ),
-                    Text(
-                      formattedDate, // Use the formatted date here
-                      style: const TextStyle(fontSize: 18),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 5),
-                Row(
-                  children: [
-                    const Text(
-                      'Time: ',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      '${appointmentData['selectedTime']}',
-                      style: const TextStyle(fontSize: 18),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 5),
-                Row(
-                  children: [
-                    const Text(
-                      'Services: ',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      '${appointmentData['selectedServices'].join(', ')}',
-                      style: const TextStyle(fontSize: 18),
-                    ),
-                  ],
-                ),
-              ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      const Text(
+                        'Date: ',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        formattedDate, // Use the formatted date here
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 5),
+                  Row(
+                    children: [
+                      const Text(
+                        'Time: ',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        '${appointmentData['selectedTime']}',
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 5),
+                  Row(
+                    children: [
+                      const Text(
+                        'Services: ',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        '${appointmentData['selectedServices'].join(', ')}',
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
         ),
