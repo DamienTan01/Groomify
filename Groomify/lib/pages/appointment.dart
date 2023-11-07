@@ -113,8 +113,8 @@ class _AppointmentPage extends State<AppointmentPage> {
         selectedServices,
       );
 
-      // Create a map with the booking information
-      final appointmentData = {
+      // Appointment Data for User
+      final appointmentDataUser = {
         'email': widget.email,
         'salonName': widget.salon,
         'selectedDate': _selectedDate!.toUtc(),
@@ -123,8 +123,16 @@ class _AppointmentPage extends State<AppointmentPage> {
       };
 
       // Call the function to add the booking to the booking history
-      await firestoreController.addAppointmentToUser(email!, appointmentData);
+      await firestoreController.addAppointmentToUser(email!, appointmentDataUser);
 
+      // Appointment Data for Groomer
+      final appointmentDataGroomer = {
+        'email': email,
+        'selectedDate': _selectedDate!.toUtc(),
+        'selectedTime': _selectedTime!.format(context),
+        'selectedServices': selectedServices,
+      };
+      await firestoreController.addAppointmentToGroomer(widget.email, appointmentDataGroomer);
 
       // Show a success message using a Snackbar
       ScaffoldMessenger.of(context).showSnackBar(

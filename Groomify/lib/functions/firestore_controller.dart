@@ -321,7 +321,7 @@ class FirestoreController {
   }
 
   // Add a appointment for user
-  Future<void> addAppointmentToUser(String email, Map<String, dynamic> appointmentData) async {
+  Future<void> addAppointmentToUser(String email, Map<String, dynamic> appointmentDataUser) async {
     try {
       final userRef = _firestore.collection('users').where('email', isEqualTo: email);
       final querySnapshot = await userRef.get();
@@ -333,7 +333,7 @@ class FirestoreController {
         final appointmentHistoryCollection = userDoc.reference.collection('appointments');
 
         // Add the appointment data as a new document in the appoointment subcollection
-        await appointmentHistoryCollection.add(appointmentData);
+        await appointmentHistoryCollection.add(appointmentDataUser);
       }
     } catch (e) {
       print('Error adding appointment to history: $e');
@@ -341,7 +341,7 @@ class FirestoreController {
   }
 
   // Add appointment to groomer
-  Future<void> addAppointmentToGroomer(String email, Map<String, dynamic> appointmentData) async {
+  Future<void> addAppointmentToGroomer(String email, Map<String, dynamic> appointmentDataGroomer) async {
     try {
       final groomerRef = _firestore.collection('groomers').where('email', isEqualTo: email);
       final querySnapshot = await groomerRef.get();
@@ -353,7 +353,7 @@ class FirestoreController {
         final appointmentHistoryCollection = groomerDoc.reference.collection('appointments');
 
         // Add the appointment data as a new document in the appointment subcollection
-        await appointmentHistoryCollection.add(appointmentData);
+        await appointmentHistoryCollection.add(appointmentDataGroomer);
       }
     } catch (e) {
       print('Error adding appointment to groomer: $e');
