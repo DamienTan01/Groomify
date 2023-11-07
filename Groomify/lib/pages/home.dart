@@ -170,7 +170,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         const SizedBox(height: 5),
                         RatingBar.builder(
-                          initialRating: 0, // Use the groomerRating variable
+                          initialRating: 0,
                           minRating: 0,
                           direction: Axis.horizontal,
                           allowHalfRating: true,
