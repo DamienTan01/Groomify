@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:groomify/functions/auth_controller.dart';
 import 'package:groomify/functions/firestore_controller.dart';
 import 'package:groomify/pages/btmNavBar.dart';
-import 'package:groomify/pages/edit_appointments.dart';
 import 'package:groomify/pages/groomers.dart';
 import 'package:groomify/pages/profile.dart';
 import 'package:intl/intl.dart';
@@ -75,29 +74,110 @@ class _HomePageState extends State<HomePage> {
     showDialog(
       context: context,
       builder: (context) {
+        final selectedDate = appointment['selectedDate'];
+        final formattedDate = DateFormat('d MMMM y').format(selectedDate.toDate());
+        final salonName = appointment['salonName'];
+        final selectedTime = appointment['selectedTime'];
+        final selectedServices = appointment['selectedServices'];
+
         return AlertDialog(
-          title: const Text('Edit Appointment'),
-          content: const Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Create form fields for editing the appointment details
-              // For example, text fields, date picker, time picker, etc.
-            ],
+          title: const Center(
+            child: Text(
+              'Edit Appointment',
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          content: SizedBox(
+            width: 400,
+            height: 500,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Text(
+                          '$salonName',
+                          style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          const Text(
+                            'Date: ',
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            formattedDate,
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        children: [
+                          const Text(
+                            'Time: ',
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            '$selectedTime',
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        children: [
+                          const Text(
+                            'Services: ',
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            '${selectedServices.join(', ')}',
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
           actions: [
-            TextButton(
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xff735D78),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                textStyle: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
+              ),
               onPressed: () {
                 // Add logic to update the appointment details in your data
                 // ...
                 Navigator.of(context).pop(); // Close the dialog
               },
-              child: const Text('Save'),
+              child: const Text('Complete'),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
               },
-              child: const Text('Cancel'),
+              child: const Text('Cancel', style: TextStyle(fontSize: 20, color: Colors.red)),
             ),
           ],
         );

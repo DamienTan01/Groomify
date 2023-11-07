@@ -41,9 +41,7 @@ class _EditAppointmentPageState extends State<EditAppointmentPage> {
   @override
   Widget build(BuildContext context) {
     // Access the appointment data from the widget
-    final Map<String, dynamic> appointmentData = widget.appointmentData;
-    final selectedDate = appointmentData['selectedDate'];
-    final formattedDate = DateFormat('d MMMM y').format(selectedDate.toDate());
+
 
     return Scaffold(
       appBar: AppBar(
@@ -69,61 +67,7 @@ class _EditAppointmentPageState extends State<EditAppointmentPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 20),
-            // Appointment Details
-            Padding(
-              padding: const EdgeInsets.only(left: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: Text(
-                    '${appointmentData['salonName']}',
-                      style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      const Text(
-                        'Date: ',
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        formattedDate, // Use the formatted date here
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 5),
-                  Row(
-                    children: [
-                      const Text(
-                        'Time: ',
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        '${appointmentData['selectedTime']}',
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 5),
-                  Row(
-                    children: [
-                      const Text(
-                        'Services: ',
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        '${appointmentData['selectedServices'].join(', ')}',
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+
           ],
         ),
       ),
