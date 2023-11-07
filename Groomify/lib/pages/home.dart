@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:groomify/functions/auth_controller.dart';
 import 'package:groomify/functions/firestore_controller.dart';
 import 'package:groomify/pages/btmNavBar.dart';
@@ -83,7 +84,7 @@ class _HomePageState extends State<HomePage> {
         return AlertDialog(
           title: const Center(
             child: Text(
-              'Confirm Appointment',
+              'Complete Appointment :)',
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
@@ -92,7 +93,7 @@ class _HomePageState extends State<HomePage> {
           ),
           content: SizedBox(
             width: 400,
-            height: 400,
+            height: 255,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -109,46 +110,73 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         const Text(
                           'Date: ',
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                         ),
                         Text(
                           formattedDate,
-                          style: const TextStyle(fontSize: 20),
+                          style: const TextStyle(fontSize: 22),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 5),
+                    const SizedBox(height: 10),
                     Row(
                       children: [
                         const Text(
                           'Time: ',
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                         ),
                         Text(
                           '$selectedTime',
-                          style: const TextStyle(fontSize: 20),
+                          style: const TextStyle(fontSize: 22),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 5),
+                    const SizedBox(height: 10),
                     Row(
                       children: [
                         const Text(
                           'Services: ',
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                         ),
                         Text(
                           '${selectedServices.join(', ')}',
-                          style: const TextStyle(fontSize: 20),
+                          style: const TextStyle(fontSize: 22),
                         ),
                       ],
                     ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Column(
-                  children: [
-
+                    const SizedBox(height: 30),
+                    const Center(
+                      child: Text(
+                        'Rate the Service!',
+                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        const Text(
+                          'Rating: ',
+                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 5),
+                        RatingBar.builder(
+                          initialRating: 0, // Replace with the actual rating value
+                          minRating: 0,
+                          direction: Axis.horizontal,
+                          allowHalfRating: true,
+                          itemCount: 5,
+                          itemSize: 30,
+                          itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                          itemBuilder: (context, _) => const Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          ),
+                          onRatingUpdate: (rating) {
+                            // Handle rating updates if needed
+                          },
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ],
