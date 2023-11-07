@@ -223,7 +223,7 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 15),
                 // Text
                 Container(
                   alignment: Alignment.center,
