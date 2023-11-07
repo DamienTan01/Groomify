@@ -133,7 +133,8 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const SizedBox(height: 10),
                 // Appointments ListView
-                SizedBox(
+                Container(
+                  padding: const EdgeInsets.only(top: 2, bottom: 2),
                   height: 300,
                   child: ListView.builder(
                     shrinkWrap: true,
