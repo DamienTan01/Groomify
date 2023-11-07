@@ -376,5 +376,32 @@ class FirestoreController {
     }
   }
 
+  Future<void> saveGroomerRating(String groomerEmail, double rating) async {
+    try {
+      // Reference to the groomer's document in Firestore
+      final groomerQuerySnapshot = await _firestore
+          .collection('groomers')
+          .where('email', isEqualTo: groomerEmail)
+          .get();
 
+      if (groomerQuerySnapshot.docs.isNotEmpty) {
+        final groomerDoc = groomerQuerySnapshot.docs.first;
+        final currentRating = groomerDoc.data()['rating'] ?? 0.0;
+        final numberOfRatings = groomerDoc.data()['numberOfRatings'] ?? 0;
+
+        // Calculate the new average rating based on the new rating and the number of ratings
+        final newRating = (currentRating * numberOfRatings + rating) / (numberOfRatings + 1);
+
+        // Update the groomer's document with the new rating and the incremented number of ratings
+        await groomerDoc.reference.update({
+          'rating': newRating,
+          'numberOfRatings': FieldValue.increment(1),
+        });
+      } else {
+        print('Groomer not found with email: $groomerEmail');
+      }
+    } catch (error) {
+      print('Error saving groomer rating: $error');
+    }
+  }
 }

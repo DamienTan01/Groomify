@@ -21,6 +21,8 @@ class _HomePageState extends State<HomePage> {
   String? email;
   List<Map<String, dynamic>> appointmentData = [];
 
+  double groomerRating = 0.0; // Variable to store groomer's rating
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -75,15 +77,17 @@ class _HomePageState extends State<HomePage> {
     showDialog(
       context: context,
       builder: (context) {
+        final email = appointment['email'];
         final selectedDate = appointment['selectedDate'];
-        final formattedDate = DateFormat('d MMMM y').format(selectedDate.toDate());
+        final formattedDate =
+        DateFormat('d MMMM y').format(selectedDate.toDate());
         final salonName = appointment['salonName'];
         final selectedTime = appointment['selectedTime'];
         final selectedServices = appointment['selectedServices'];
 
         return AlertDialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15), // Optional: Adjust the border radius
+            borderRadius: BorderRadius.circular(15),
           ),
           backgroundColor: const Color(0xffF7D1CD),
           title: const Center(
@@ -107,14 +111,16 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Text(
                       '$salonName',
-                      style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                          fontSize: 25, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 10),
                     Row(
                       children: [
                         const Text(
                           'Date: ',
-                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.bold),
                         ),
                         Text(
                           formattedDate,
@@ -127,7 +133,8 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         const Text(
                           'Time: ',
-                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.bold),
                         ),
                         Text(
                           '$selectedTime',
@@ -138,7 +145,8 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(height: 10),
                     const Text(
                       'Services: ',
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       '${selectedServices.join(', ')}',
@@ -148,7 +156,8 @@ class _HomePageState extends State<HomePage> {
                     const Center(
                       child: Text(
                         'Rate the Service!',
-                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold),
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -156,11 +165,12 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         const Text(
                           'Rating: ',
-                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 5),
                         RatingBar.builder(
-                          initialRating: 0, // Replace with the actual rating value
+                          initialRating: 0, // Use the groomerRating variable
                           minRating: 0,
                           direction: Axis.horizontal,
                           allowHalfRating: true,
@@ -172,7 +182,9 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.amber,
                           ),
                           onRatingUpdate: (rating) {
-                            // Handle rating updates if needed
+                            setState(() {
+                              groomerRating = rating; // Capture the rating
+                            });
                           },
                         ),
                       ],
@@ -196,9 +208,11 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.white,
                 ),
               ),
-              onPressed: () {
-                // Add logic to update the appointment details in your data
-                // ...
+              onPressed: () async {
+                print("Groomer Email: $email");
+                // Save the rating to the groomer based on their email
+                await firestoreController.saveGroomerRating(email, groomerRating);
+
                 Navigator.of(context).pop(); // Close the dialog
               },
               child: const Text('Complete'),
