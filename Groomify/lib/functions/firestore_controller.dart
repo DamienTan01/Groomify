@@ -340,6 +340,40 @@ class FirestoreController {
     }
   }
 
+  // Move appointment to appointmentHistory
+  Future<void> moveAppointmentsToHistory(String email) async {
+    try {
+      final userRef = _firestore.collection('users').where('email', isEqualTo: email);
+      final querySnapshot = await userRef.get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        final userDoc = querySnapshot.docs.first;
+
+        // Get references to the 'appointments' sub-collection and the new 'appointmentHistory' sub-collection
+        final appointmentCollection = userDoc.reference.collection('appointments');
+        final appointmentHistoryCollection = userDoc.reference.collection('appointmentHistory');
+
+        // Retrieve all documents from the 'appointments' sub-collection
+        final appointmentQuerySnapshot = await appointmentCollection.get();
+
+        if (appointmentQuerySnapshot.docs.isNotEmpty) {
+          // Iterate through the documents in 'appointments' and move them to 'appointmentHistory'
+          for (final appointmentDoc in appointmentQuerySnapshot.docs) {
+            final appointmentData = appointmentDoc.data();
+
+            // Add the appointment data to the 'appointmentHistory' sub-collection
+            await appointmentHistoryCollection.add(appointmentData);
+
+            // Delete the appointment from the 'appointments' sub-collection
+            await appointmentDoc.reference.delete();
+          }
+        }
+      }
+    } catch (e) {
+      print('Error moving appointments to history: $e');
+    }
+  }
+
   // Add appointment to groomer
   Future<void> addAppointmentToGroomer(String email, Map<String, dynamic> appointmentDataGroomer) async {
     try {
@@ -359,7 +393,6 @@ class FirestoreController {
       print('Error adding appointment to groomer: $e');
     }
   }
-
 
   // Retrieve appointments made for the current logged-in user
   Future<List<Map<String, dynamic>>> getAppointments(String email) async {

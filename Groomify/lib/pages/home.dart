@@ -210,8 +210,12 @@ class _HomePageState extends State<HomePage> {
               ),
               onPressed: () async {
                 print("Groomer Email: $email");
+
                 // Save the rating to the groomer based on their email
                 await firestoreController.saveGroomerRating(email, rating);
+
+                // Move the appointment to appointmentHistory
+                await firestoreController.moveAppointmentsToHistory(email);
 
                 Navigator.of(context).pop(); // Close the dialog
               },
