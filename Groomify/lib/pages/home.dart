@@ -27,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   double maxPrice = 0.0;
   List<String> groomerEmails = [];
   List<Map<String, dynamic>> appointmentData = [];
+  List<String> filteredGroomerEmails = [];
 
   double rating = 0.0; // Variable to store groomer's rating
 
@@ -83,26 +84,14 @@ class _HomePageState extends State<HomePage> {
       List<double?> maxPrices = [];
 
       // Fetch groomer data for each email
+      // Filter groomer emails with a rating of 5
       for (final email in groomerEmails) {
-        final userData = await firestoreController.getGroomerDataByEmail(email);
-        if (userData != null) {
-          salonNames.add(userData['salonName'] ?? 'Unknown');
-          locations.add(userData['location'] ?? 'Unknown');
-
-          final priceRange = userData['price_range'];
-          if (priceRange != null) {
-            minPrices.add(priceRange['min_price'] ?? 0.0);
-            maxPrices.add(priceRange['max_price'] ?? 0.0);
-          } else {
-            minPrices.add(0.0);
-            maxPrices.add(0.0);
+        final groomerData = await firestoreController.getGroomerDataByEmail(email);
+        if (groomerData != null) {
+          final rating = groomerData['rating'] ?? 0.0;
+          if (rating == 5.0) {
+            filteredGroomerEmails.add(email);
           }
-        } else {
-          // Handle the case where userData is null, e.g., set default values
-          salonNames.add('Unknown');
-          locations.add('Unknown');
-          minPrices.add(0.0);
-          maxPrices.add(0.0);
         }
       }
 
@@ -461,9 +450,9 @@ class _HomePageState extends State<HomePage> {
                     height: 300, // Set the height of the horizontal ListView
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal, // Make it scroll horizontally
-                      itemCount: groomerEmails.length, // Use the filteredGroomerEmails list if you want to display only 5-star groomers
+                      itemCount: filteredGroomerEmails.length, // Use the filteredGroomerEmails list if you want to display only 5-star groomers
                       itemBuilder: (context, index) {
-                        final email = groomerEmails[index];
+                        final email = filteredGroomerEmails[index];
                         final groomerData = firestoreController.getGroomerDataByEmail(email);
 
                         return Container(
