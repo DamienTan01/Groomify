@@ -321,7 +321,7 @@ class FirestoreController {
   }
 
   // Add a appointment to the user's appointment history
-  Future<void> addAppointmentToHistory(String email, Map<String, dynamic> appointmentData) async {
+  Future<void> addAppointment(String email, Map<String, dynamic> appointmentData) async {
     try {
       final userRef = _firestore.collection('users').where('email', isEqualTo: email);
       final querySnapshot = await userRef.get();

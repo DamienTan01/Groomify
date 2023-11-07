@@ -123,7 +123,7 @@ class _AppointmentPage extends State<AppointmentPage> {
       };
 
       // Call the function to add the booking to the booking history
-      await firestoreController.addAppointmentToHistory(email!, appointmentData);
+      await firestoreController.addAppointment(email!, appointmentData);
 
       // Show a success message using a Snackbar
       ScaffoldMessenger.of(context).showSnackBar(
