@@ -11,11 +11,13 @@ import 'package:intl/intl.dart';
 class AppointmentPage extends StatefulWidget {
   final List<String> groomerServices;
   final String salon;
+  final String email;
 
   const AppointmentPage({
     Key? key,
     required this.groomerServices,
     required this.salon, // Pass the groomer's services as a parameter
+    required this.email,
   }) : super(key: key);
 
   @override
@@ -105,14 +107,15 @@ class _AppointmentPage extends State<AppointmentPage> {
       await firestoreController.uploadAppointmentInfo(
         context,
         widget.salon,
-        email!, // Assuming email is not null here
+        widget.email,
         _selectedDate!,
-        _selectedTime!, // Correct order: TimeOfDay
+        _selectedTime!,
         selectedServices,
       );
 
       // Create a map with the booking information
       final appointmentData = {
+        'email': widget.email,
         'salonName': widget.salon,
         'selectedDate': _selectedDate!.toUtc(),
         'selectedTime': _selectedTime!.format(context),

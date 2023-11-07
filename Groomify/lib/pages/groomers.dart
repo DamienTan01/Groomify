@@ -196,7 +196,7 @@ class _GroomerPageState extends State<GroomerPage> {
                           GestureDetector(
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                return GroomerDetails(email: email); // Replace with the actual screen you want to navigate to
+                                return GroomerDetails(email: email);
                               }));
                             },
                             child: // Inside the GridView builder, update the CircleAvatar widget to fetch the individual profile picture URL:

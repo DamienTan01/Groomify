@@ -19,6 +19,7 @@ class GroomerDetails extends StatefulWidget {
 class _GroomerDetailsState extends State<GroomerDetails> {
   final firestoreController = FirestoreController();
   int _selectedIndex = 1;
+  String? email;
   String? fullName;
   String? username;
   String? salon;
@@ -39,21 +40,22 @@ class _GroomerDetailsState extends State<GroomerDetails> {
   }
 
   Future<void> _fetchGroomerData() async {
-    final userData = await firestoreController.getGroomerDataByEmail(widget.email);
-    if (userData != null) {
+    final groomerData = await firestoreController.getGroomerDataByEmail(widget.email);
+    if (groomerData != null) {
       setState(() {
-        fullName = userData['fullName'];
-        username = userData['username'];
-        salon = userData['salonName'];
-        location = userData['location'];
-        profilePictureURL = userData['profile_picture'];
+        fullName = groomerData['fullName'];
+        username = groomerData['username'];
+        salon = groomerData['salonName'];
+        location = groomerData['location'];
+        profilePictureURL = groomerData['profile_picture'];
+        email = groomerData['email'];
 
-        if (userData['services'] != null) {
-          services = List<String>.from(userData['services']);
+        if (groomerData['services'] != null) {
+          services = List<String>.from(groomerData['services']);
         }
 
         // Retrieve and update price range
-        final priceRange = userData['price_range'];
+        final priceRange = groomerData['price_range'];
         if (priceRange != null) {
           minPrice = priceRange['min_price'] ?? minPrice;
           maxPrice = priceRange['max_price'] ?? maxPrice;
@@ -292,6 +294,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                             return AppointmentPage(
                               groomerServices: services,
                               salon: salon!,
+                              email: email!,
                             );
                           },
                         ),
