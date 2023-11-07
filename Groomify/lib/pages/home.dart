@@ -135,7 +135,7 @@ class _HomePageState extends State<HomePage> {
                 // Appointments ListView
                 Container(
                   padding: const EdgeInsets.only(top: 2, bottom: 2),
-                  height: 300,
+                  height: 400,
                   child: ListView.builder(
                     shrinkWrap: true,
                     physics: const AlwaysScrollableScrollPhysics(),
@@ -147,66 +147,83 @@ class _HomePageState extends State<HomePage> {
                       // Format the date to "day, month, year" format
                       final formattedDate = DateFormat('d MMMM y').format(selectedDate.toDate());
 
-                      return Container(
-                        margin: const EdgeInsets.all(10),
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${appointment['salonName']}',
-                              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(height: 10),
-                            Row(
-                              children: [
-                                const Text(
-                                  'Date: ',
-                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  formattedDate, // Use the formatted date here
-                                  style: const TextStyle(fontSize: 18),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 5),
-                            Row(
-                              children: [
-                                const Text(
-                                  'Time: ',
-                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  '${appointment['selectedTime']}',
-                                  style: const TextStyle(fontSize: 18),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 5),
-                            Row(
-                              children: [
-                                const Text(
-                                  'Services: ',
-                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  '${appointment['selectedServices'].join(', ')}',
-                                  style: const TextStyle(fontSize: 18),
-                                ),
-                              ],
-                            ),
-                          ],
+                      return GestureDetector(
+                        onTap: () {
+
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${appointment['salonName']}',
+                                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 10),
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Date: ',
+                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    formattedDate, // Use the formatted date here
+                                    style: const TextStyle(fontSize: 18),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 5),
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Time: ',
+                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    '${appointment['selectedTime']}',
+                                    style: const TextStyle(fontSize: 18),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 5),
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Services: ',
+                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    '${appointment['selectedServices'].join(', ')}',
+                                    style: const TextStyle(fontSize: 18),
+                                  ),
+                                ],
+                              ),
+                              // Add an edit IconButton
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.edit),
+                                    onPressed: () {
+                                      // Handle edit button click for this appointment
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },
                   ),
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 20),
                 // Text
                 Container(
                   alignment: Alignment.center,
@@ -284,6 +301,7 @@ class _HomePageState extends State<HomePage> {
                     }),
                   ),
                 ),
+                const SizedBox(height: 20),
               ],
             ),
           ],
