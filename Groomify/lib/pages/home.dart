@@ -77,13 +77,14 @@ class _HomePageState extends State<HomePage> {
     showDialog(
       context: context,
       builder: (context) {
-        final email = appointment['email'];
+        final groomerEmail = appointment['email'];
         final selectedDate = appointment['selectedDate'];
         final formattedDate =
         DateFormat('d MMMM y').format(selectedDate.toDate());
         final salonName = appointment['salonName'];
         final selectedTime = appointment['selectedTime'];
         final selectedServices = appointment['selectedServices'];
+        final docID = appointment['documentID'];
 
         return AlertDialog(
           shape: RoundedRectangleBorder(
@@ -210,7 +211,10 @@ class _HomePageState extends State<HomePage> {
               ),
               onPressed: () async {
                 // Save the rating to the groomer based on their email
-                await firestoreController.saveGroomerRating(email, rating);
+                await firestoreController.saveGroomerRating(groomerEmail, rating);
+
+                // Call the moveAppointmentToHistory function here
+                await firestoreController.moveAppointmentToHistory(email!, docID); // Pass the email and docID
 
                 Navigator.of(context).pop(); // Close the dialog
               },

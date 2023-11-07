@@ -433,4 +433,40 @@ class FirestoreController {
       print('Error saving groomer rating: $error');
     }
   }
+
+  Future<void> moveAppointmentToHistory(String userEmail, String docID) async {
+    try {
+      // Reference to the user's document in Firestore
+      final userRef = _firestore.collection('users').where('email', isEqualTo: userEmail);
+      final userQuerySnapshot = await userRef.get();
+
+      if (userQuerySnapshot.docs.isNotEmpty) {
+        final userDoc = userQuerySnapshot.docs.first;
+
+        // Get references to the source 'appointments' sub-collection and the destination 'appointmentHistory' sub-collection
+        final sourceAppointmentCollection = userDoc.reference.collection('appointments');
+        final destinationHistoryCollection = userDoc.reference.collection('appointmentHistory');
+
+        // Reference to the specific appointment document in the source sub-collection
+        final appointmentDocumentRef = sourceAppointmentCollection.doc(docID);
+        final appointmentDataSnapshot = await appointmentDocumentRef.get();
+
+        if (appointmentDataSnapshot.exists) {
+          final appointmentData = appointmentDataSnapshot.data();
+
+          // Add the appointment data to the 'appointmentHistory' sub-collection
+          await destinationHistoryCollection.doc(docID).set(appointmentData!);
+
+          // Delete the appointment from the source 'appointments' sub-collection
+          await appointmentDocumentRef.delete();
+        } else {
+          print('Appointment document not found with docID: $docID');
+        }
+      } else {
+        print('User document not found with email: $userEmail');
+      }
+    } catch (e) {
+      print('Error moving appointment to history: $e');
+    }
+  }
 }
