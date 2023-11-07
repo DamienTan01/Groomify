@@ -96,8 +96,8 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           content: SizedBox(
-            width: 400,
-            height: 260,
+            width: 500,
+            height: 380,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -136,17 +136,13 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                     const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        const Text(
-                          'Services: ',
-                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          '${selectedServices.join(', ')}',
-                          style: const TextStyle(fontSize: 22),
-                        ),
-                      ],
+                    const Text(
+                      'Services: ',
+                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      '${selectedServices.join(', ')}',
+                      style: const TextStyle(fontSize: 22),
                     ),
                     const SizedBox(height: 30),
                     const Center(
