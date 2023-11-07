@@ -288,21 +288,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  List<Map<String, dynamic>> filterGroomersWithFiveStarRatings(List<Map<String, dynamic>> groomers) {
-    // Create a new list to store groomers with 5-star ratings
-    List<Map<String, dynamic>> fiveStarGroomers = [];
-
-    // Iterate through the list of groomers and filter those with a rating of 5
-    for (var groomer in groomers) {
-      double rating = groomer['rating'] ?? 0.0; // Get the groomer's rating (default to 0.0 if not available)
-      if (rating == 5.0) {
-        fiveStarGroomers.add(groomer);
-      }
-    }
-
-    return fiveStarGroomers;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
