@@ -9,7 +9,7 @@ import 'package:groomify/pages/profile.dart';
 import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -288,6 +288,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -421,11 +423,6 @@ class _HomePageState extends State<HomePage> {
                                 IconButton(
                                   icon: const Icon(Icons.edit),
                                   onPressed: () {
-                                    // Navigator.of(context).push(
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) => EditAppointmentPage(appointmentData: appointment),
-                                    //   ),
-                                    // );
                                     _showEditDialog(appointment);
                                   },
                                 ),
@@ -466,7 +463,7 @@ class _HomePageState extends State<HomePage> {
                     height: 300, // Set the height of the horizontal ListView
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal, // Make it scroll horizontally
-                      itemCount: groomerEmails.length,
+                      itemCount: groomerEmails.length, // Use the filteredGroomerEmails list if you want to display only 5-star groomers
                       itemBuilder: (context, index) {
                         final email = groomerEmails[index];
                         final groomerData = firestoreController.getGroomerDataByEmail(email);
@@ -521,7 +518,8 @@ class _HomePageState extends State<HomePage> {
                                         final priceRange = data['price_range'];
                                         final minPrice = priceRange?['min_price'] ?? 'Not specified';
                                         final maxPrice = priceRange?['max_price'] ?? 'Not specified';
-                                        final rating = data['rating'];
+                                        final rating = data['rating'] ?? 0.0; // Use await to access the rating
+
                                         return Align(
                                           alignment: Alignment.centerLeft,
                                           child: Column(
@@ -553,7 +551,7 @@ class _HomePageState extends State<HomePage> {
                                                   ),
                                                   const SizedBox(height: 5),
                                                   RatingBar.builder(
-                                                    initialRating: rating ?? 0.0,
+                                                    initialRating: rating,
                                                     minRating: 0,
                                                     direction: Axis.horizontal,
                                                     allowHalfRating: true,
@@ -579,6 +577,7 @@ class _HomePageState extends State<HomePage> {
                                     return const CircularProgressIndicator();
                                   },
                                 ),
+
                               ],
                             ),
                           ),
