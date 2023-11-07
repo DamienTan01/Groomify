@@ -336,17 +336,14 @@ class _HomePageState extends State<HomePage> {
                               ],
                             ),
                             const SizedBox(height: 5),
-                            Row(
-                              children: [
-                                const Text(
-                                  'Services: ',
-                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  '${appointment['selectedServices'].join(', ')}',
-                                  style: const TextStyle(fontSize: 18),
-                                ),
-                              ],
+                            const Text(
+                              'Services: ',
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              '${appointment['selectedServices'].join(', ')}',
+                              style: const TextStyle(fontSize: 18),
                             ),
                             // Add an edit IconButton
                             Row(
