@@ -28,6 +28,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
   double minPrice = 0.0;
   double maxPrice = 100.0;
   List<String> services = [];
+  double rating = 0.0;
 
   @override
   void initState() {
@@ -49,6 +50,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
         location = groomerData['location'];
         profilePictureURL = groomerData['profile_picture'];
         email = groomerData['email'];
+        rating = groomerData['rating'];
 
         if (groomerData['services'] != null) {
           services = List<String>.from(groomerData['services']);
@@ -175,7 +177,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                         ),
                         const SizedBox(height: 5),
                         RatingBar.builder(
-                          initialRating: 0, // Replace with the actual rating value
+                          initialRating: rating,
                           minRating: 0,
                           direction: Axis.horizontal,
                           allowHalfRating: true,
@@ -186,9 +188,8 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                             Icons.star,
                             color: Colors.amber,
                           ),
-                          onRatingUpdate: (rating) {
-                            // Handle rating updates if needed
-                          },
+                          ignoreGestures: true,
+                          onRatingUpdate: (newRating) {},
                         ),
                       ],
                     ),
@@ -239,7 +240,6 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                     ),
                     const SizedBox(height: 5),
                     Table(
-                      // border: TableBorder.all(color: Colors.black),
                       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                       children: List.generate(
                         rowCount,
