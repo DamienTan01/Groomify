@@ -434,7 +434,8 @@ class FirestoreController {
     }
   }
 
-  Future<void> moveAppointmentToHistory(String userEmail, String docID) async {
+  // Move the appointment in Users Collection
+  Future<void> moveAppointmentToHistoryUsers(String userEmail, String docID) async {
     try {
       // Reference to the user's document in Firestore
       final userRef = _firestore.collection('users').where('email', isEqualTo: userEmail);
@@ -467,6 +468,43 @@ class FirestoreController {
       }
     } catch (e) {
       print('Error moving appointment to history: $e');
+    }
+  }
+
+  // Move the appointment in Groomers collection
+  Future<void> moveAppointmentToHistoryGroomers(String groomerEmail, String docID) async {
+    try {
+      // Reference to the groomer's document in Firestore
+      final groomerRef = _firestore.collection('groomers').where('email', isEqualTo: groomerEmail);
+      final groomerQuerySnapshot = await groomerRef.get();
+
+      if (groomerQuerySnapshot.docs.isNotEmpty) {
+        final groomerDoc = groomerQuerySnapshot.docs.first;
+
+        // Get references to the source 'appointments' sub-collection and the destination 'appointmentHistory' sub-collection for groomers
+        final sourceAppointmentCollection = groomerDoc.reference.collection('appointments');
+        final destinationHistoryCollection = groomerDoc.reference.collection('appointmentHistory');
+
+        // Reference to the specific appointment document in the source sub-collection for groomers
+        final appointmentDocumentRef = sourceAppointmentCollection.doc(docID);
+        final appointmentDataSnapshot = await appointmentDocumentRef.get();
+
+        if (appointmentDataSnapshot.exists) {
+          final appointmentData = appointmentDataSnapshot.data();
+
+          // Add the appointment data to the 'appointmentHistory' sub-collection for groomers
+          await destinationHistoryCollection.doc(docID).set(appointmentData!);
+
+          // Delete the appointment from the source 'appointments' sub-collection for groomers
+          await appointmentDocumentRef.delete();
+        } else {
+          print('Appointment document not found with docID: $docID');
+        }
+      } else {
+        print('Groomer document not found with email: $groomerEmail');
+      }
+    } catch (e) {
+      print('Error moving appointment to history (groomers): $e');
     }
   }
 }

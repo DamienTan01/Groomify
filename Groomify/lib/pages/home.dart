@@ -213,8 +213,9 @@ class _HomePageState extends State<HomePage> {
                 // Save the rating to the groomer based on their email
                 await firestoreController.saveGroomerRating(groomerEmail, rating);
 
-                // Call the moveAppointmentToHistory function here
-                await firestoreController.moveAppointmentToHistory(email!, docID); // Pass the email and docID
+                // await firestoreController.moveAppointmentToHistoryUsers(email!, docID); // Pass the email and docID
+
+                await firestoreController.moveAppointmentToHistoryGroomers(groomerEmail, docID); // Pass the email and docID
 
                 Navigator.of(context).pop(); // Close the dialog
               },
@@ -222,6 +223,7 @@ class _HomePageState extends State<HomePage> {
             ),
             TextButton(
               onPressed: () {
+                print('doc: $docID');
                 Navigator.of(context).pop(); // Close the dialog
               },
               child: const Text('Cancel', style: TextStyle(fontSize: 20, color: Colors.red)),
