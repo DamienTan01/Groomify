@@ -279,7 +279,7 @@ class _HomePageState extends State<HomePage> {
                 // Appointments ListView
                 Container(
                   padding: const EdgeInsets.only(top: 2, bottom: 2),
-                  height: 400,
+                  height: 450,
                   child: ListView.builder(
                     shrinkWrap: true,
                     physics: const AlwaysScrollableScrollPhysics(),
