@@ -30,6 +30,7 @@ class _AppointmentPage extends State<AppointmentPage> {
   DateTime? _selectedDate;
   TimeOfDay? _selectedTime;
   String? email;
+  String? fullName;
   int _selectedIndex = 1;
   List<String> selectedServices = [];
   List<CheckboxListTileModel> list = [];
@@ -91,6 +92,7 @@ class _AppointmentPage extends State<AppointmentPage> {
       if (userData != null) {
         setState(() {
           email = userData['email'];
+          fullName = userData['fullName'];
         });
       }
     }
@@ -127,7 +129,7 @@ class _AppointmentPage extends State<AppointmentPage> {
 
       // Appointment Data for Groomer
       final appointmentDataGroomer = {
-        'email': email,
+        'fullName': fullName,
         'selectedDate': _selectedDate!.toUtc(),
         'selectedTime': _selectedTime!.format(context),
         'selectedServices': selectedServices,
