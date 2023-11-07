@@ -320,7 +320,7 @@ class FirestoreController {
     }
   }
 
-  // Add a appointment to the user's appointment history
+  // Add a appointment
   Future<void> addAppointment(String email, Map<String, dynamic> appointmentData) async {
     try {
       final userRef = _firestore.collection('users').where('email', isEqualTo: email);
@@ -329,7 +329,7 @@ class FirestoreController {
       if (querySnapshot.docs.isNotEmpty) {
         final userDoc = querySnapshot.docs.first;
 
-        // Get a reference to the appointment history subcollection
+        // Get a reference to the appointment subcollection
         final appointmentHistoryCollection = userDoc.reference.collection('appointments');
 
         // Add the appointment data as a new document in the appoointment history subcollection
@@ -341,7 +341,7 @@ class FirestoreController {
   }
 
   // Retrieve appointment history for the current logged-in user
-  Future<List<Map<String, dynamic>>> getAppointmentHistory(String email) async {
+  Future<List<Map<String, dynamic>>> getAppointments(String email) async {
     try {
       final userRef = _firestore.collection('users').where('email', isEqualTo: email);
       final querySnapshot = await userRef.get();
@@ -349,7 +349,6 @@ class FirestoreController {
       if (querySnapshot.docs.isNotEmpty) {
         final userDoc = querySnapshot.docs.first;
 
-        // Get a reference to the appointment history subcollection
         final appointmentHistoryCollection = userDoc.reference.collection('appointments');
 
         final appointmentHistoryQuerySnapshot = await appointmentHistoryCollection.get();
