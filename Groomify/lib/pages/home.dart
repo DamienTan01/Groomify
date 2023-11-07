@@ -209,11 +209,9 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               onPressed: () async {
-                print("Groomer Email: $email");
-
                 // Save the rating to the groomer based on their email
                 await firestoreController.saveGroomerRating(email, rating);
-                
+
                 Navigator.of(context).pop(); // Close the dialog
               },
               child: const Text('Complete'),
