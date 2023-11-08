@@ -506,7 +506,7 @@ class FirestoreController {
   }
 
   // Move the appointment in Groomers collection
-  Future<void> moveAppointmentToHistoryGroomers(String groomerEmail, String docID) async {
+  Future<void> moveAppointmentToHistoryGroomers(String groomerEmail, String groomerDocID) async {
     try {
       // Reference to the groomer's document in Firestore
       final groomerRef = _firestore.collection('groomers').where('email', isEqualTo: groomerEmail);
@@ -520,19 +520,19 @@ class FirestoreController {
         final destinationHistoryCollection = groomerDoc.reference.collection('appointmentHistory');
 
         // Reference to the specific appointment document in the source sub-collection for groomers
-        final appointmentDocumentRef = sourceAppointmentCollection.doc(docID);
+        final appointmentDocumentRef = sourceAppointmentCollection.doc(groomerDocID);
         final appointmentDataSnapshot = await appointmentDocumentRef.get();
 
         if (appointmentDataSnapshot.exists) {
           final appointmentData = appointmentDataSnapshot.data();
 
           // Add the appointment data to the 'appointmentHistory' sub-collection for groomers
-          await destinationHistoryCollection.doc(docID).set(appointmentData!);
+          await destinationHistoryCollection.doc(groomerDocID).set(appointmentData!);
 
           // Delete the appointment from the source 'appointments' sub-collection for groomers
           await appointmentDocumentRef.delete();
         } else {
-          print('Appointment document not found with docID: $docID');
+          print('Appointment document not found with docID: $groomerDocID');
         }
       } else {
         print('Groomer document not found with email: $groomerEmail');
