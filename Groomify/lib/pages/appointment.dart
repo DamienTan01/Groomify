@@ -71,16 +71,62 @@ class _AppointmentPage extends State<AppointmentPage> {
     }
   }
 
+  void _onDaySelected(DateTime selectedDate, DateTime focusedDay) {
+    final now = DateTime.now();
+    final selectedDateTime = DateTime(
+      selectedDate.year,
+      selectedDate.month,
+      selectedDate.day,
+      _selectedTime?.hour ?? now.hour,
+      _selectedTime?.minute ?? now.minute,
+    );
+
+    if (selectedDateTime.isBefore(now)) {
+      // If the selected date and time are in the past, show a Snackbar and don't update the selected date.
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please select a valid date and time.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } else {
+      setState(() {
+        _selectedDate = selectedDate;
+        _focusedDay = focusedDay;
+      });
+    }
+  }
+
   void _selectTime() async {
+    final now = DateTime.now();
+
     final selectedTime = await showTimePicker(
       context: context,
-      initialTime: TimeOfDay.now(),
+      initialTime: _selectedTime ?? TimeOfDay.now(),
     );
 
     if (selectedTime != null) {
-      setState(() {
-        _selectedTime = selectedTime;
-      });
+      final selectedDateTime = DateTime(
+        _selectedDate?.year ?? now.year,
+        _selectedDate?.month ?? now.month,
+        _selectedDate?.day ?? now.day,
+        selectedTime.hour,
+        selectedTime.minute,
+      );
+
+      if (selectedDateTime.isBefore(now)) {
+        // Handle the case when the selected time is in the past
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please select a valid time.'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      } else {
+        setState(() {
+          _selectedTime = selectedTime;
+        });
+      }
     }
   }
 
@@ -226,12 +272,7 @@ class _AppointmentPage extends State<AppointmentPage> {
                   selectedDayPredicate: (day) {
                     return isSameDay(_selectedDate, day);
                   },
-                  onDaySelected: (selectedDate, focusedDay) {
-                    setState(() {
-                      _selectedDate = selectedDate;
-                      _focusedDay = focusedDay;
-                    });
-                  },
+                  onDaySelected: _onDaySelected,
                 ),
                 const SizedBox(height: 30),
                 // Display selected time in one box

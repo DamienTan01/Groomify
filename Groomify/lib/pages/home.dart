@@ -117,6 +117,12 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         appointmentData = appointments;
       });
+
+      // Check if appointments are approaching and send notifications
+      for (final appointment in appointmentData) {
+        final appointmentDateTime = appointment['selectedDate'].toDate();
+        firestoreController.sendAppointmentNotification(email, appointmentDateTime);
+      }
     }
   }
 
