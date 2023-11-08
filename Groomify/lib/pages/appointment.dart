@@ -99,61 +99,84 @@ class _AppointmentPage extends State<AppointmentPage> {
   }
 
   void _confirmAppointment(BuildContext context) async {
-    if (email != null && _selectedDate != null && _selectedTime != null) {
+    final now = DateTime.now();
+
+    if (_selectedDate == null || _selectedTime == null) {
+      // Handle the case when the date or time is not selected
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please select both date and time.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } else if (_selectedDate!.isBefore(now)) {
+      // Handle the case when the selected date is in the past
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please select a valid date.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } else {
       final selectedServices = list
           .where((checkbox) => checkbox.isSelected)
           .map((checkbox) => checkbox.title)
           .toList();
 
-      // Save the new booking information
-      await firestoreController.uploadAppointmentInfo(
-        context,
-        widget.salon,
-        widget.email,
-        _selectedDate!,
-        _selectedTime!,
-        selectedServices,
-      );
+      if (selectedServices.isEmpty) {
+        // Handle the case when no services are selected
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please select at least one service.'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      } else {
+        // Save the new booking information
+        await firestoreController.uploadAppointmentInfo(
+          context,
+          widget.salon,
+          widget.email,
+          _selectedDate!,
+          _selectedTime!,
+          selectedServices,
+        );
 
-      // Appointment Data for User
-      final appointmentDataUser = {
-        'email': widget.email,
-        'salonName': widget.salon,
-        'selectedDate': _selectedDate!.toUtc(),
-        'selectedTime': _selectedTime!.format(context),
-        'selectedServices': selectedServices,
-      };
+        // Appointment Data for User
+        final appointmentDataUser = {
+          'email': widget.email,
+          'salonName': widget.salon,
+          'selectedDate': _selectedDate!.toUtc(),
+          'selectedTime': _selectedTime!.format(context),
+          'selectedServices': selectedServices,
+        };
 
-      // Call the function to add the booking to the booking history
-      await firestoreController.addAppointmentToUser(email!, appointmentDataUser);
+        // Call the function to add the booking to the booking history
+        await firestoreController.addAppointmentToUser(email!, appointmentDataUser);
 
-      // Appointment Data for Groomer
-      final appointmentDataGroomer = {
-        'fullName': fullName,
-        'selectedDate': _selectedDate!.toUtc(),
-        'selectedTime': _selectedTime!.format(context),
-        'selectedServices': selectedServices,
-      };
-      await firestoreController.addAppointmentToGroomer(widget.email, appointmentDataGroomer);
+        // Appointment Data for Groomer
+        final appointmentDataGroomer = {
+          'fullName': fullName,
+          'selectedDate': _selectedDate!.toUtc(),
+          'selectedTime': _selectedTime!.format(context),
+          'selectedServices': selectedServices,
+        };
+        await firestoreController.addAppointmentToGroomer(widget.email, appointmentDataGroomer);
 
-      // Show a success message using a Snackbar
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Appointment confirmed!'),
-          duration: Duration(seconds: 2), // Adjust the duration as needed
-        ),
-      );
+        // Show a success message using a Snackbar
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Appointment confirmed!'),
+            duration: Duration(seconds: 2),
+          ),
+        );
 
-      // Navigate back to the GroomerDetails
-      Navigator.pop(context);
-    } else {
-      // Handle the case when some required data is missing
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please select date, time, and services.'),
-          duration: Duration(seconds: 2), // Adjust the duration as needed
-        ),
-      );
+        // Navigate to the new HomePage
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      }
     }
   }
 
