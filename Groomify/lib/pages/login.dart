@@ -42,40 +42,43 @@ class _LoginPageState extends State<LoginPage> {
               height: 30,
             ),
             //Email
-            Container(
-              decoration: BoxDecoration(
-                  color: const Color(0xffD1B3C4),
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: const [
-                    BoxShadow(
-                        blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
-                  ]),
-              child: SizedBox(
-                width: 300,
-                height: 50,
-                child: TextField(
-                  controller: emailController,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: const Color(0xffD1B3C4),
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: const [
+                      BoxShadow(
+                          blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
+                    ]),
+                child: SizedBox(
+                  width: 300,
+                  height: 63,
+                  child: TextField(
+                    controller: emailController,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                    decoration: InputDecoration(
+                        hintText: 'Email',
+                        prefixIcon: const Icon(
+                          Icons.email,
+                          color: Color(0xff735D78),
+                        ),
+                        hintStyle: const TextStyle(color: Colors.white),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(color: Colors.grey, width: 1.0)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                                color: Colors.grey.withOpacity(0.5), width: 1.0)),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10))),
                   ),
-                  decoration: InputDecoration(
-                      hintText: 'Email',
-                      prefixIcon: const Icon(
-                        Icons.email,
-                        color: Color(0xff735D78),
-                      ),
-                      hintStyle: const TextStyle(color: Colors.white),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(color: Colors.grey, width: 1.0)),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
-                              color: Colors.grey.withOpacity(0.5), width: 1.0)),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10))),
                 ),
               ),
             ),
@@ -83,40 +86,43 @@ class _LoginPageState extends State<LoginPage> {
               height: 50,
             ),
             //Password
-            Container(
-              decoration: BoxDecoration(
-                  color: const Color(0xffD1B3C4),
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: const [
-                    BoxShadow(
-                        blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
-                  ]),
-              child: SizedBox(
-                width: 300,
-                height: 50,
-                child: TextField(
-                  controller: passwordController,
-                  obscureText: true,
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20),
-                  decoration: InputDecoration(
-                      hintText: 'Password',
-                      prefixIcon: const Icon(
-                        Icons.password,
-                        color: Color(0xff735D78),
-                      ),
-                      hintStyle: const TextStyle(color: Colors.white),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(color: Colors.grey, width: 1.0)),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
-                              color: Colors.grey.withOpacity(0.5), width: 1.0)),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10))),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: const Color(0xffD1B3C4),
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: const [
+                      BoxShadow(
+                          blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
+                    ]),
+                child: SizedBox(
+                  width: 300,
+                  height: 63,
+                  child: TextField(
+                    controller: passwordController,
+                    obscureText: true,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                    decoration: InputDecoration(
+                        hintText: 'Password',
+                        prefixIcon: const Icon(
+                          Icons.password,
+                          color: Color(0xff735D78),
+                        ),
+                        hintStyle: const TextStyle(color: Colors.white),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(color: Colors.grey, width: 1.0)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                                color: Colors.grey.withOpacity(0.5), width: 1.0)),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10))),
+                  ),
                 ),
               ),
             ),

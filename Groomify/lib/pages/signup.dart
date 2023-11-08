@@ -33,7 +33,7 @@ class _SignupPageState extends State<SignupPage> {
             Container(
               width: w,
               height: h * 0.3,
-              margin: const EdgeInsets.only(top: 30),
+              margin: const EdgeInsets.only(top: 10),
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
@@ -53,7 +53,7 @@ class _SignupPageState extends State<SignupPage> {
                   ]),
               child: SizedBox(
                 width: 300,
-                height: 50,
+                height: 63,
                 child: TextFormField(
                   controller: fullNameController,
                   inputFormatters: [
@@ -92,7 +92,7 @@ class _SignupPageState extends State<SignupPage> {
                   ]),
               child: SizedBox(
                 width: 300,
-                height: 50,
+                height: 63,
                 child: TextField(
                   controller: usernameController,
                   style: const TextStyle(
@@ -127,7 +127,7 @@ class _SignupPageState extends State<SignupPage> {
                   ]),
               child: SizedBox(
                 width: 300,
-                height: 50,
+                height: 63,
                 child: TextField(
                   controller: emailController,
                   style: const TextStyle(
@@ -162,7 +162,7 @@ class _SignupPageState extends State<SignupPage> {
                   ]),
               child: SizedBox(
                 width: 300,
-                height: 50,
+                height: 63,
                 child: TextField(
                   controller: passwordController,
                   obscureText: true,
@@ -187,10 +187,10 @@ class _SignupPageState extends State<SignupPage> {
               ),
             ),
             const SizedBox(height: 45,),
-            //Role dropdown
+            // Role dropdown
             Container(
               width: 300,
-              height: 50,
+              height: 63,
               decoration: BoxDecoration(
                 color: const Color(0xffD1B3C4),
                 borderRadius: BorderRadius.circular(10),
@@ -202,31 +202,34 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                 ],
               ),
-              child: DropdownButtonFormField<String>(
-                value: selectedRole,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectedRole = newValue!;
-                  });
-                },
-                decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.people, color: Color(0xff735D78),),
-                  border: InputBorder.none,
-                ),
-                dropdownColor: const Color(0xffD1B3C4),
-                items: <String>['User', 'Groomer'].map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: Colors.white,
+              child: Align(
+                alignment: Alignment.center,
+                child: DropdownButtonFormField<String>(
+                  value: selectedRole,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedRole = newValue!;
+                    });
+                  },
+                  decoration: const InputDecoration(
+                    prefixIcon: Icon(Icons.people, color: Color(0xff735D78)),
+                    border: InputBorder.none,
+                  ),
+                  dropdownColor: const Color(0xffD1B3C4),
+                  items: <String>['User', 'Groomer'].map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        value,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                  );
-                }).toList(),
+                    );
+                  }).toList(),
+                ),
               ),
             ),
             const SizedBox(height: 50,),
