@@ -276,12 +276,9 @@ class _AppointmentPage extends State<AppointmentPage> {
                 ),
                 const SizedBox(height: 30),
                 // Display selected time in one box
-                GestureDetector(
-                  onTap: _selectTime,
-                  child: TimeBox(
-                    title: 'Selected Time',
-                    time: _selectedTime,
-                  ),
+                TimeBox(
+                  title: 'Selected Time',
+                  time: _selectedTime,
                 ),
                 const SizedBox(height: 10),
                 SizedBox(

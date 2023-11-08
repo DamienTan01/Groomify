@@ -38,6 +38,10 @@ class _GroomerHomeState extends State<GroomerHome> {
     }
   }
 
+  void refreshPage() {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GroomerHome()));
+  }
+
   @override
   void initState() {
     super.initState();
@@ -53,6 +57,127 @@ class _GroomerHomeState extends State<GroomerHome> {
         appointmentData = appointments;
       });
     }
+  }
+
+  void _showEditDialog(Map<String, dynamic> appointment) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        final groomerEmail = appointment['email'];
+        final selectedDate = appointment['selectedDate'];
+        final formattedDate =
+        DateFormat('d MMMM y').format(selectedDate.toDate());
+        final fullName = appointment['fullName'];
+        final selectedTime = appointment['selectedTime'];
+        final selectedServices = appointment['selectedServices'];
+        final docID = appointment['documentID'];
+
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          backgroundColor: const Color(0xffF7D1CD),
+          title: const Center(
+            child: Text(
+              'Complete Appointment :)',
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          content: SizedBox(
+            width: 500,
+            height: 300,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: 20),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '$fullName',
+                      style: const TextStyle(
+                          fontSize: 25, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        const Text(
+                          'Date: ',
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          formattedDate,
+                          style: const TextStyle(fontSize: 22),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        const Text(
+                          'Time: ',
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          '$selectedTime',
+                          style: const TextStyle(fontSize: 22),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'Services: ',
+                      style: TextStyle(
+                          fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      '${selectedServices.join(', ')}',
+                      style: const TextStyle(fontSize: 22),
+                    ),
+                    const SizedBox(height: 30),
+                  ],
+                ),
+                const SizedBox(height: 5),
+              ],
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xff735D78),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                textStyle: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
+              ),
+              onPressed: () async {
+                await firestoreController.moveAppointmentToHistoryGroomers(groomerEmail, docID); // Pass the email and docID
+
+                Navigator.of(context).pop();
+
+                refreshPage();// Close the dialog
+              },
+              child: const Text('Complete'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: const Text('Cancel', style: TextStyle(fontSize: 20, color: Colors.red)),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -186,6 +311,18 @@ class _GroomerHomeState extends State<GroomerHome> {
                         Text(
                           '${appointment['selectedServices'].join(', ')}',
                           style: const TextStyle(fontSize: 18),
+                        ),
+                        // Add an edit IconButton
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.edit),
+                              onPressed: () {
+                                _showEditDialog(appointment);
+                              },
+                            ),
+                          ],
                         ),
                       ],
                     ),
