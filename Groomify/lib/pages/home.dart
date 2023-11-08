@@ -87,7 +87,6 @@ class _HomePageState extends State<HomePage> {
       List<double?> minPrices = [];
       List<double?> maxPrices = [];
 
-      // Fetch groomer data for each email
       // Filter groomer emails with a rating of 5
       for (final email in groomerEmails) {
         final groomerData = await firestoreController.getGroomerDataByEmail(email);
@@ -266,7 +265,7 @@ class _HomePageState extends State<HomePage> {
                 // Save the rating to the groomer based on their email
                 await firestoreController.saveGroomerRating(groomerEmail, rating);
 
-                await firestoreController.moveAppointmentToHistoryUsers(email!, docID); // Pass the email and docID
+                // await firestoreController.moveAppointmentToHistoryUsers(email!, docID); // Pass the email and docID
 
                 await firestoreController.moveAppointmentToHistoryGroomers(groomerEmail, docID); // Pass the email and docID
 
@@ -278,6 +277,7 @@ class _HomePageState extends State<HomePage> {
             ),
             TextButton(
               onPressed: () {
+                print('email: $groomerEmail');
                 Navigator.of(context).pop(); // Close the dialog
               },
               child: const Text('Cancel', style: TextStyle(fontSize: 20, color: Colors.red)),
