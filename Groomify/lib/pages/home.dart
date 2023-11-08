@@ -145,7 +145,7 @@ class _HomePageState extends State<HomePage> {
           ),
           content: SizedBox(
             width: 500,
-            height: 380,
+            height: 400,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
