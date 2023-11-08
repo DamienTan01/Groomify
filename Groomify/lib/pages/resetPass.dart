@@ -61,8 +61,8 @@ class _ResetPassState extends State<ResetPass> {
                           blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
                     ]),
                 child: SizedBox(
-                  width: 280,
-                  height: 50,
+                  width: 300,
+                  height: 63,
                   child: TextField(
                     controller: emailController,
                     style: const TextStyle(

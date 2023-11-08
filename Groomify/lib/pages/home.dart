@@ -113,7 +113,7 @@ class _HomePageState extends State<HomePage> {
     final user = AuthController.instance.auth.currentUser;
     final email = user!.email;
     if (email != null) {
-      final appointments = await firestoreController.getAppointments(email);
+      final appointments = await firestoreController.getAppointmentsUser(email);
       setState(() {
         appointmentData = appointments;
       });
@@ -346,8 +346,17 @@ class _HomePageState extends State<HomePage> {
                 // Appointments ListView
                 Container(
                   padding: const EdgeInsets.only(top: 2, bottom: 2),
-                  height: 450,
-                  child: ListView.builder(
+                  height: appointmentData.isEmpty ? 280 : 450,
+                  child: appointmentData.isEmpty
+                      ? const Center(
+                    child: Text(
+                      "No Appointments Made",
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  )
+                      : ListView.builder(
                     shrinkWrap: true,
                     physics: const AlwaysScrollableScrollPhysics(),
                     itemCount: appointmentData.length, // Show a maximum of 2 appointments

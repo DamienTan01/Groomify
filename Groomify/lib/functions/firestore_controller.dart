@@ -371,9 +371,43 @@ class FirestoreController {
   }
 
   // Retrieve appointments made for the current logged-in user
-  Future<List<Map<String, dynamic>>> getAppointments(String email) async {
+  Future<List<Map<String, dynamic>>> getAppointmentsUser(String email) async {
     try {
       final userRef = _firestore.collection('users').where('email', isEqualTo: email);
+      final querySnapshot = await userRef.get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        final userDoc = querySnapshot.docs.first;
+
+        final appointmentHistoryCollection = userDoc.reference.collection('appointments');
+
+        final appointmentHistoryQuerySnapshot = await appointmentHistoryCollection.get();
+
+        if (appointmentHistoryQuerySnapshot.docs.isNotEmpty) {
+          // Iterate through the documents and extract the appointment history data.
+          List<Map<String, dynamic>> appointmentHistory = appointmentHistoryQuerySnapshot.docs
+              .map((doc) {
+            final appointmentData = doc.data();
+            return appointmentData;
+          })
+              .toList();
+
+          return appointmentHistory;
+        } else {
+          return []; // No booking history documents found
+        }
+      } else {
+        return []; // User document not found
+      }
+    } catch (e) {
+      print('Error fetching booking history: $e');
+      return [];
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getAppointmentsGroomer(String email) async {
+    try {
+      final userRef = _firestore.collection('groomers').where('email', isEqualTo: email);
       final querySnapshot = await userRef.get();
 
       if (querySnapshot.docs.isNotEmpty) {

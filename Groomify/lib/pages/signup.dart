@@ -323,7 +323,10 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                           recognizer: TapGestureRecognizer()..onTap=()=>Get.to(()=>const LoginPage())
                       )
-                    ]))
+                    ])),
+            const SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),
