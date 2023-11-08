@@ -51,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                         blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
                   ]),
               child: SizedBox(
-                width: 280,
+                width: 300,
                 height: 50,
                 child: TextField(
                   controller: emailController,
@@ -92,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                         blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
                   ]),
               child: SizedBox(
-                width: 280,
+                width: 300,
                 height: 50,
                 child: TextField(
                   controller: passwordController,

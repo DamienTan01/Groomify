@@ -58,6 +58,10 @@ class _HomePageState extends State<HomePage> {
     _loadAppointments();
   }
 
+  void refreshPage() {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HomePage()));
+  }
+
   Future<void> _fetchUserData() async {
     final user = AuthController.instance.auth.currentUser;
     if (user != null) {
@@ -260,13 +264,14 @@ class _HomePageState extends State<HomePage> {
 
                 await firestoreController.moveAppointmentToHistoryGroomers(groomerEmail, docID); // Pass the email and docID
 
-                Navigator.of(context).pop(); // Close the dialog
+                Navigator.of(context).pop();
+
+                refreshPage();// Close the dialog
               },
               child: const Text('Complete'),
             ),
             TextButton(
               onPressed: () {
-                print('doc: $docID');
                 Navigator.of(context).pop(); // Close the dialog
               },
               child: const Text('Cancel', style: TextStyle(fontSize: 20, color: Colors.red)),

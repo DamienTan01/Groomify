@@ -52,7 +52,7 @@ class _SignupPageState extends State<SignupPage> {
                         blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
                   ]),
               child: SizedBox(
-                width: 280,
+                width: 300,
                 height: 50,
                 child: TextFormField(
                   controller: fullNameController,
@@ -91,7 +91,7 @@ class _SignupPageState extends State<SignupPage> {
                         blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
                   ]),
               child: SizedBox(
-                width: 280,
+                width: 300,
                 height: 50,
                 child: TextField(
                   controller: usernameController,
@@ -126,7 +126,7 @@ class _SignupPageState extends State<SignupPage> {
                         blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
                   ]),
               child: SizedBox(
-                width: 280,
+                width: 300,
                 height: 50,
                 child: TextField(
                   controller: emailController,
@@ -161,7 +161,7 @@ class _SignupPageState extends State<SignupPage> {
                         blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
                   ]),
               child: SizedBox(
-                width: 280,
+                width: 300,
                 height: 50,
                 child: TextField(
                   controller: passwordController,
@@ -189,7 +189,7 @@ class _SignupPageState extends State<SignupPage> {
             const SizedBox(height: 45,),
             //Role dropdown
             Container(
-              width: 280,
+              width: 300,
               height: 50,
               decoration: BoxDecoration(
                 color: const Color(0xffD1B3C4),

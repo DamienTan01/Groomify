@@ -314,7 +314,6 @@ class _AppointmentPage extends State<AppointmentPage> {
                     ),
                     onPressed: () async {
                       _confirmAppointment(context);
-
                     },
                     child: const Text('Confirm'),
                   ),
