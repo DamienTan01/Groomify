@@ -510,42 +510,37 @@ class FirestoreController {
   // Move the appointment in Groomers collection
   Future<void> moveAppointmentToHistoryGroomers(String groomerEmail, String docID) async {
     try {
-      if (groomerEmail == null || docID == null) {
-        print('Groomer email or docID is null.');
-        return;
-      }
+      // Reference to the user's document in Firestore
+      final userRef = _firestore.collection('users').where('email', isEqualTo: groomerEmail);
+      final userQuerySnapshot = await userRef.get();
 
-      // Reference to the groomer's document in Firestore
-      final groomerRef = _firestore.collection('groomers').where('email', isEqualTo: groomerEmail);
-      final groomerQuerySnapshot = await groomerRef.get();
+      if (userQuerySnapshot.docs.isNotEmpty) {
+        final userDoc = userQuerySnapshot.docs.first;
 
-      if (groomerQuerySnapshot.docs.isNotEmpty) {
-        final groomerDoc = groomerQuerySnapshot.docs.first;
+        // Get references to the source 'appointments' sub-collection and the destination 'appointmentHistory' sub-collection
+        final sourceAppointmentCollection = userDoc.reference.collection('appointments');
+        final destinationHistoryCollection = userDoc.reference.collection('appointmentHistory');
 
-        // Get references to the source 'appointments' sub-collection and the destination 'appointmentHistory' sub-collection for groomers
-        final sourceAppointmentCollection = groomerDoc.reference.collection('appointments');
-        final destinationHistoryCollection = groomerDoc.reference.collection('appointmentHistory');
-
-        // Reference to the specific appointment document in the source sub-collection for groomers
+        // Reference to the specific appointment document in the source sub-collection
         final appointmentDocumentRef = sourceAppointmentCollection.doc(docID);
         final appointmentDataSnapshot = await appointmentDocumentRef.get();
 
         if (appointmentDataSnapshot.exists) {
           final appointmentData = appointmentDataSnapshot.data();
 
-          // Add the appointment data to the 'appointmentHistory' sub-collection for groomers
+          // Add the appointment data to the 'appointmentHistory' sub-collection
           await destinationHistoryCollection.doc(docID).set(appointmentData!);
 
-          // Delete the appointment from the source 'appointments' sub-collection for groomers
+          // Delete the appointment from the source 'appointments' sub-collection
           await appointmentDocumentRef.delete();
         } else {
           print('Appointment document not found with docID: $docID');
         }
       } else {
-        print('Groomer document not found with email: $groomerEmail');
+        print('User document not found with email: $groomerEmail');
       }
     } catch (e) {
-      print('Error moving appointment to history (groomers): $e');
+      print('Error moving appointment to history: $e');
     }
   }
 

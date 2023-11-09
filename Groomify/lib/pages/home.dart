@@ -27,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   double maxPrice = 0.0;
   List<String> groomerEmails = [];
   List<Map<String, dynamic>> appointmentData = [];
+  List<Map<String, dynamic>> groomerAppointmentData = [];
   List<String> fiveStarGroomerEmails = [];
 
   double rating = 0.0; // Variable to store groomer's rating
@@ -55,7 +56,8 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _fetchUserData();
     _fetchGroomerData();
-    _loadAppointments();
+    // _loadAppointments();
+    _loadGroomerAppointments();
   }
 
   void refreshPage() {
@@ -108,20 +110,31 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void _loadAppointments() async {
+  // void _loadAppointments() async {
+  //   final user = AuthController.instance.auth.currentUser;
+  //   final email = user!.email;
+  //   if (email != null) {
+  //     final appointments = await firestoreController.getAppointmentsUser(email);
+  //     setState(() {
+  //       appointmentData = appointments;
+  //     });
+  //
+  //     // Check if appointments are approaching and send notifications
+  //     for (final appointment in appointmentData) {
+  //       final appointmentDateTime = appointment['selectedDate'].toDate();
+  //       firestoreController.sendAppointmentNotification(email, appointmentDateTime);
+  //     }
+  //   }
+  // }
+
+  void _loadGroomerAppointments() async {
     final user = AuthController.instance.auth.currentUser;
     final email = user!.email;
     if (email != null) {
-      final appointments = await firestoreController.getAppointmentsUser(email);
+      final groomerAppointments = await firestoreController.getAppointmentsGroomer(email);
       setState(() {
-        appointmentData = appointments;
+        groomerAppointmentData = groomerAppointments;
       });
-
-      // Check if appointments are approaching and send notifications
-      for (final appointment in appointmentData) {
-        final appointmentDateTime = appointment['selectedDate'].toDate();
-        firestoreController.sendAppointmentNotification(email, appointmentDateTime);
-      }
     }
   }
 
@@ -277,7 +290,8 @@ class _HomePageState extends State<HomePage> {
             ),
             TextButton(
               onPressed: () {
-                print('email: $groomerEmail');
+                print('email: $email');
+                print('id: $docID');
                 Navigator.of(context).pop(); // Close the dialog
               },
               child: const Text('Cancel', style: TextStyle(fontSize: 20, color: Colors.red)),
@@ -352,8 +366,8 @@ class _HomePageState extends State<HomePage> {
                 // Appointments ListView
                 Container(
                   padding: const EdgeInsets.only(top: 2, bottom: 2),
-                  height: appointmentData.isEmpty ? 280 : 450,
-                  child: appointmentData.isEmpty
+                  height: groomerAppointmentData.isEmpty ? 280 : 450,
+                  child: groomerAppointmentData.isEmpty
                       ? const Center(
                     child: Text(
                       "No Appointments Made",
@@ -365,9 +379,9 @@ class _HomePageState extends State<HomePage> {
                       : ListView.builder(
                     shrinkWrap: true,
                     physics: const AlwaysScrollableScrollPhysics(),
-                    itemCount: appointmentData.length, // Show a maximum of 2 appointments
+                    itemCount: groomerAppointmentData.length, // Show a maximum of 2 appointments
                     itemBuilder: (context, index) {
-                      final appointment = appointmentData[index];
+                      final appointment = groomerAppointmentData[index];
                       final selectedDate = appointment['selectedDate'];
 
                       // Format the date to "day, month, year" format
