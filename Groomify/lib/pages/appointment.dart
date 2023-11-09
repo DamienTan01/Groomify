@@ -27,7 +27,7 @@ class AppointmentPage extends StatefulWidget {
 class _AppointmentPage extends State<AppointmentPage> {
   final firestoreController = FirestoreController();
   final DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDate;
+  DateTime? _selectedDate = DateTime.now();
   TimeOfDay? _selectedTime;
   String? email;
   String? fullName;
@@ -88,7 +88,7 @@ class _AppointmentPage extends State<AppointmentPage> {
   void _selectDate(DateTime date) {
     final now = DateTime.now();
 
-    if (date.isBefore(now)) {
+    if (date.isBefore(now) && !isSameDay(date, now)) {
       showSnackBar('Please select a valid date.');
     } else {
       setState(() {
