@@ -7,6 +7,7 @@ import 'package:groomify/pages/groomer_details.dart';
 import 'package:groomify/pages/groomers.dart';
 import 'package:groomify/pages/profile.dart';
 import 'package:intl/intl.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -116,8 +117,6 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         appointmentData = appointments;
       });
-
-
     }
   }
 
