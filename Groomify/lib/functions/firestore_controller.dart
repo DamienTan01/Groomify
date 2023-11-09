@@ -271,8 +271,8 @@ class FirestoreController {
       if (querySnapshot.docs.isNotEmpty) {
         // Iterate through the documents and extract the email field from each document.
         List<String> emails = querySnapshot.docs.map((doc) {
-          final userData = doc.data();
-          return userData['email'] as String;
+          final groomerData = doc.data();
+          return groomerData['email'] as String;
         }).toList();
 
         return emails;
