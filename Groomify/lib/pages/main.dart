@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:groomify/functions/auth_controller.dart';
 import 'package:groomify/pages/login.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,6 +8,7 @@ Future<void> main() async {
   //Wait for binding of firebase and authcontroller
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  Get.put(AuthController());
   runApp(const MyApp());
 }
 
