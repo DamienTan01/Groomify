@@ -260,7 +260,7 @@ class _HomePageState extends State<HomePage> {
                 // Save the rating to the groomer based on their email
                 await firestoreController.saveGroomerRating(groomerEmail, rating);
 
-                // await firestoreController.moveAppointmentToHistoryUsers(email!, docID); // Pass the email and docID
+                await firestoreController.moveAppointmentToHistoryUsers(email!, docID); // Pass the email and docID
 
                 await firestoreController.moveAppointmentToHistoryGroomers(groomerEmail, docID); // Pass the email and docID
 
