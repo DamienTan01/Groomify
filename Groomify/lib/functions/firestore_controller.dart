@@ -285,6 +285,29 @@ class FirestoreController {
     }
   }
 
+  // Retrieve all groomer emails by going through 'Groomers' collection in Firestore
+  Future<List<String>> getAllUserEmails() async {
+    try {
+      final groomersCollection = _firestore.collection('users');
+      final querySnapshot = await groomersCollection.get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        // Iterate through the documents and extract the email field from each document.
+        List<String> emails = querySnapshot.docs.map((doc) {
+          final userData = doc.data();
+          return userData['email'] as String;
+        }).toList();
+
+        return emails;
+      } else {
+        return []; // No groomer documents found
+      }
+    } catch (e) {
+      print('Error fetching user emails: $e');
+      return [];
+    }
+  }
+
   Future<void> uploadAppointmentInfo(
       BuildContext context, // Pass the context from the calling function
       String email, // The user's email

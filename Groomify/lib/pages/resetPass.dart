@@ -4,6 +4,9 @@ import 'package:get/get.dart';
 import 'package:groomify/pages/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:groomify/pages/signup.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 class ResetPass extends StatefulWidget {
   const ResetPass({super.key});
@@ -106,9 +109,30 @@ class _ResetPassState extends State<ResetPass> {
                       color: Colors.white,
                     ),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     String email = emailController.text;
-                    ResetPassModel().resetPassword(email, context);
+                    String? result = await ResetPassModel().resetPassword(email, context);
+
+                    if (result != null) {
+                      // Display an error message if result is not null
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Error'),
+                            content: Text(result),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context); // Close the dialog
+                                },
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
                   },
                   child: const Text('Reset'),
                 ),
@@ -164,40 +188,18 @@ class _ResetPassState extends State<ResetPass> {
   }
 }
 
-//Reset Password Function
 class ResetPassModel {
-  Future<void> resetPassword(String email, BuildContext context) async {
+  Future<String?> resetPassword(String email, BuildContext context) async {
     final localContext = context;
-    try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
 
-      // Show success dialog
+    if (email.isEmpty) {
+      // Display an error message when the email field is empty
       showDialog(
         context: localContext,
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Password Reset'),
-            content: const Text('A Password Reset email has been sent to your inbox. '),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context); // Close the dialog
-                  Navigator.pop(context); // Navigate back to the previous page (login page)
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
-    } catch (error) {
-      // Show error dialog - an error occurred
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Error'),
-            content: const Text('Please check that the email entered is valid.'),
+            content: const Text('Please enter an email address.'),
             actions: [
               TextButton(
                 onPressed: () {
@@ -209,6 +211,69 @@ class ResetPassModel {
           );
         },
       );
+    }
+
+    String? validateEmail(String email) {
+      if (!RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$').hasMatch(email)) {
+        return 'Enter a valid email address';
+      }
+      return null;
+    }
+
+    final emailValidationMessage = validateEmail(email);
+
+    if (emailValidationMessage != null) {
+      // Email is not valid, return the validation message
+      return emailValidationMessage;
+    }
+
+    // Validate if the entered email is registered as a groomer or user
+    final isGroomerEmail = await isEmailRegistered(email, 'groomers');
+    final isUserEmail = await isEmailRegistered(email, 'users');
+
+    if (isGroomerEmail || isUserEmail) {
+      // Email is registered, proceed with password reset
+      try {
+        await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+
+        // Show success dialog
+        showDialog(
+          context: localContext,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Password Reset'),
+              content: const Text('A Password Reset email has been sent to your inbox. '),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context); // Close the dialog
+                    Navigator.pop(context); // Navigate back to the previous page (login page)
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+        return null; // Return null to indicate success
+      } catch (error) {
+        return 'Password reset failed'; // Return an error message if password reset fails
+      }
+    } else {
+      // Email is not registered, return an error message
+      return 'The entered email is not registered.';
+    }
+  }
+
+  Future<bool> isEmailRegistered(String email, String collectionName) async {
+    try {
+      final collection = _firestore.collection(collectionName);
+      final querySnapshot = await collection.where('email', isEqualTo: email).get();
+
+      return querySnapshot.docs.isNotEmpty;
+    } catch (e) {
+      // Handle any errors, such as Firestore query errors
+      return false;
     }
   }
 }
