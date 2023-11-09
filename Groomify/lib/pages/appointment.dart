@@ -26,7 +26,7 @@ class AppointmentPage extends StatefulWidget {
 
 class _AppointmentPage extends State<AppointmentPage> {
   final firestoreController = FirestoreController();
-  DateTime _focusedDay = DateTime.now();
+  final DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDate;
   TimeOfDay? _selectedTime;
   String? email;
@@ -71,65 +71,6 @@ class _AppointmentPage extends State<AppointmentPage> {
     }
   }
 
-  void _onDaySelected(DateTime selectedDate, DateTime focusedDay) {
-    final now = DateTime.now();
-    final selectedDateTime = DateTime(
-      selectedDate.year,
-      selectedDate.month,
-      selectedDate.day,
-      _selectedTime?.hour ?? now.hour,
-      _selectedTime?.minute ?? now.minute,
-    );
-
-    if (selectedDateTime.isBefore(now)) {
-      // If the selected date and time are in the past, show a Snackbar and don't update the selected date.
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please select a valid date and time.'),
-          duration: Duration(seconds: 2),
-        ),
-      );
-    } else {
-      setState(() {
-        _selectedDate = selectedDate;
-        _focusedDay = focusedDay;
-      });
-    }
-  }
-
-  void _selectTime() async {
-    final now = DateTime.now();
-
-    final selectedTime = await showTimePicker(
-      context: context,
-      initialTime: _selectedTime ?? TimeOfDay.now(),
-    );
-
-    if (selectedTime != null) {
-      final selectedDateTime = DateTime(
-        _selectedDate?.year ?? now.year,
-        _selectedDate?.month ?? now.month,
-        _selectedDate?.day ?? now.day,
-        selectedTime.hour,
-        selectedTime.minute,
-      );
-
-      if (selectedDateTime.isBefore(now)) {
-        // Handle the case when the selected time is in the past
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Please select a valid time.'),
-            duration: Duration(seconds: 2),
-          ),
-        );
-      } else {
-        setState(() {
-          _selectedTime = selectedTime;
-        });
-      }
-    }
-  }
-
   Future<void> _fetchUserData() async {
     final user = AuthController.instance.auth.currentUser;
     if (user != null) {
@@ -144,25 +85,57 @@ class _AppointmentPage extends State<AppointmentPage> {
     }
   }
 
-  void _confirmAppointment(BuildContext context) async {
+  void _selectDate(DateTime date) {
     final now = DateTime.now();
 
+    if (date.isBefore(now)) {
+      showSnackBar('Please select a valid date.');
+    } else {
+      setState(() {
+        _selectedDate = date;
+      });
+    }
+  }
+
+  void selectTime() async {
+    final now = DateTime.now();
+
+    final pickedTime = await showTimePicker(
+      context: context,
+      initialTime: _selectedTime ?? TimeOfDay.now(),
+    );
+
+    if (pickedTime != null) {
+      final selectedDateTime = DateTime(
+        _selectedDate?.year ?? now.year,
+        _selectedDate?.month ?? now.month,
+        _selectedDate?.day ?? now.day,
+        pickedTime.hour,
+        pickedTime.minute,
+      );
+
+      if (selectedDateTime.isBefore(now)) {
+        showSnackBar('Please select a valid time.');
+      } else {
+        setState(() {
+          _selectedTime = pickedTime;
+        });
+      }
+    }
+  }
+
+  void showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
+  void _confirmAppointment(BuildContext context) async {
     if (_selectedDate == null || _selectedTime == null) {
-      // Handle the case when the date or time is not selected
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please select both date and time.'),
-          duration: Duration(seconds: 2),
-        ),
-      );
-    } else if (_selectedDate!.isBefore(now)) {
-      // Handle the case when the selected date is in the past
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please select a valid date.'),
-          duration: Duration(seconds: 2),
-        ),
-      );
+      showSnackBar('Please select both date and time.');
     } else {
       final selectedServices = list
           .where((checkbox) => checkbox.isSelected)
@@ -170,13 +143,7 @@ class _AppointmentPage extends State<AppointmentPage> {
           .toList();
 
       if (selectedServices.isEmpty) {
-        // Handle the case when no services are selected
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Please select at least one service.'),
-            duration: Duration(seconds: 2),
-          ),
-        );
+        showSnackBar('Please select at least one service.');
       } else {
         // Save the new booking information
         await firestoreController.uploadAppointmentInfo(
@@ -210,17 +177,12 @@ class _AppointmentPage extends State<AppointmentPage> {
         await firestoreController.addAppointmentToGroomer(widget.email, appointmentDataGroomer);
 
         // Show a success message using a Snackbar
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Appointment confirmed!'),
-            duration: Duration(seconds: 2),
-          ),
-        );
+        showSnackBar('Appointment confirmed!');
 
         // Navigate to the new HomePage
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => HomePage()),
+          MaterialPageRoute(builder: (context) => const HomePage()),
         );
       }
     }
@@ -259,6 +221,7 @@ class _AppointmentPage extends State<AppointmentPage> {
             DateBox(
               title: 'Selected Date',
               date: _selectedDate,
+              onDateSelected: _selectDate, // Call the selectDate function when a date is selected
             ),
             const SizedBox(height: 10),
             Column(
@@ -272,7 +235,9 @@ class _AppointmentPage extends State<AppointmentPage> {
                   selectedDayPredicate: (day) {
                     return isSameDay(_selectedDate, day);
                   },
-                  onDaySelected: _onDaySelected,
+                  onDaySelected: (date, focusedDay) {
+                    _selectDate(date); // Call the selectDate function when a date is selected
+                  },
                 ),
                 const SizedBox(height: 30),
                 // Display selected time in one box
@@ -297,7 +262,7 @@ class _AppointmentPage extends State<AppointmentPage> {
                         color: Colors.white,
                       ),
                     ),
-                    onPressed: _selectTime, // Show time picker when the button is pressed
+                    onPressed: selectTime, // Show time picker when the button is pressed
                     child: const Text('Select Time'), // Display only "Select Time" in the button
                   ),
                 ),
@@ -431,34 +396,42 @@ class TimeBox extends StatelessWidget {
 class DateBox extends StatelessWidget {
   final String title;
   final DateTime? date;
+  final void Function(DateTime date)? onDateSelected; // Define the onDateSelected parameter
 
-  const DateBox({Key? key, required this.title, required this.date}) : super(key: key);
+  const DateBox({Key? key, required this.title, required this.date, this.onDateSelected}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xff735D78)),
-        borderRadius: BorderRadius.circular(10), // Fix the typo here
-      ),
-      padding: const EdgeInsets.all(8),
-      child: Column(
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
+    return GestureDetector( // Wrap the DateBox with a GestureDetector
+      onTap: () {
+        if (onDateSelected != null) {
+          onDateSelected!(date ?? DateTime.now()); // Call the onDateSelected function when tapped
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: const Color(0xff735D78)),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        padding: const EdgeInsets.all(8),
+        child: Column(
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          const SizedBox(height: 5),
-          Text(
-            date != null
-                ? DateFormat('MMMM d, yyyy').format(date!)
-                : 'Not selected',
-            style: const TextStyle(fontSize: 22),
-          ),
-        ],
+            const SizedBox(height: 5),
+            Text(
+              date != null
+                  ? DateFormat('MMMM d, yyyy').format(date!)
+                  : 'Not selected',
+              style: const TextStyle(fontSize: 22),
+            ),
+          ],
+        ),
       ),
     );
   }
