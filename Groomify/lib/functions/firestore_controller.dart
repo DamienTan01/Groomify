@@ -4,8 +4,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:groomify/pages/groomer_profile.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server/gmail.dart';
 
 class FirestoreController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -541,39 +539,6 @@ class FirestoreController {
       }
     } catch (e) {
       print('Error moving appointment to history: $e');
-    }
-  }
-
-  // Send an email notification when the appointment is approaching
-  Future<void> sendAppointmentNotification(
-      String userEmail,
-      DateTime appointmentDateTime,
-      ) async {
-    final DateTime currentTime = DateTime.now();
-    final Duration timeUntilAppointment = appointmentDateTime.difference(currentTime);
-
-    // Define a threshold time before the appointment to send the notification (e.g., 1 hour before)
-    const Duration notificationThreshold = Duration(hours: 1);
-
-    if (timeUntilAppointment <= notificationThreshold) {
-      final smtpServer = gmail('dtan0385@gmail.com', 'Dtan2001');
-
-      final message = Message()
-        ..from = const Address('dtan0385@gmail.com', 'Groomify')
-        ..recipients.add(userEmail) // User's email address
-        ..subject = 'Appointment Reminder'
-        ..text = 'Your appointment is approaching. Please be on time!'; // Customize the message
-
-      try {
-        final sendReport = await send(message, smtpServer);
-        if (sendReport != null) {
-          print('Message sent successfully');
-        } else {
-          print('Failed to send the email');
-        }
-      } catch (e) {
-        print('Error sending email: $e');
-      }
     }
   }
 }
