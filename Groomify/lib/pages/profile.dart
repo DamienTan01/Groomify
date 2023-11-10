@@ -143,7 +143,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: IconButton(
                   iconSize: 30,
                   onPressed: () {
-                    firestoreController.uploadGroomerProfilePicture(email!);
+                    firestoreController.uploadProfilePicture(email!);
                   },
                   icon: const Icon(Icons.add_a_photo),
                 ),
