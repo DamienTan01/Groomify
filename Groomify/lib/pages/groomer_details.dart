@@ -163,6 +163,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Salon Name
                     Center(
                       child: Text(
                         salon ?? 'Loading...',
@@ -170,6 +171,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                       ),
                     ),
                     const SizedBox(height: 20),
+                    // Rating
                     Row(
                       children: [
                         const Text(
@@ -195,6 +197,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                       ],
                     ),
                     const SizedBox(height: 15),
+                    // Location
                     const Text(
                       'Location: ',
                       style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
@@ -205,6 +208,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                       style: const TextStyle(fontSize: 20),
                     ),
                     const SizedBox(height: 15),
+                    // Full Name
                     const Text(
                       'Full Name: ',
                       style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
@@ -215,6 +219,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                       style: const TextStyle(fontSize: 20),
                     ),
                     const SizedBox(height: 15),
+                    // Username
                     const Text(
                       'Username: ',
                       style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
@@ -225,6 +230,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                       style: const TextStyle(fontSize: 20),
                     ),
                     const SizedBox(height: 15),
+                    // Price Range
                     const Text(
                       'Price Range (RM): ',
                       style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
@@ -235,6 +241,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                       style: const TextStyle(fontSize: 20),
                     ),
                     const SizedBox(height: 15),
+                    // Services
                     const Text(
                       'Services: ',
                       style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
