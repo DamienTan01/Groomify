@@ -71,6 +71,27 @@ class FirestoreController {
     }
   }
 
+  // Update contact number (Users)
+  Future<void> updateContact(String contact, String email) async {
+    try {
+      final userRef = _firestore.collection('users').where('email', isEqualTo: email);
+      final querySnapshot = await userRef.get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        final userDoc = querySnapshot.docs.first;
+        final userData = userDoc.data();
+
+        // Update the 'salon' field with the provided salon name
+        userData['contactNo'] = contact;
+
+        // Update the document in Firestore
+        userDoc.reference.update(userData);
+      }
+    } catch (e) {
+      print('Error updating contact number: $e');
+    }
+  }
+
   // Retrieve data by email (Groomers)
   Future<Map<String, dynamic>?> getGroomerDataByEmail(String email) async {
     try {
@@ -202,8 +223,8 @@ class FirestoreController {
     }
   }
 
-  // Update the 'contactNo' field in Firestore
-  Future<void> updateContact(String contact, String email) async {
+  // Update the contact number (Groomers)
+  Future<void> updateContactGroomers(String contact, String email) async {
     try {
       final userRef = _firestore.collection('groomers').where('email', isEqualTo: email);
       final querySnapshot = await userRef.get();

@@ -13,13 +13,16 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  TextEditingController contactController = TextEditingController();
   int _selectedIndex = 2;
-  bool showPassword = false;
+  bool isEditingContact = false;
   String? fullName;
   String? username;
   String? email;
   String? password;
   String? role;
+  String? contact;
+  String? tempContact;
   String? profilePictureURL;
 
   final firestoreController = FirestoreController();
@@ -70,6 +73,7 @@ class _ProfilePageState extends State<ProfilePage> {
           email = userData['email'];
           password = userData['password'];
           role = userData['role'];
+          contact = userData['contact'];
           profilePictureURL = userData['profile_picture'];
         });
       }
@@ -122,143 +126,224 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
         elevation: 0,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const SizedBox(height: 50),
-          // Profile Picture
-          Stack(
-            children: [
-              CircleAvatar(
-                radius: 90,
-                backgroundImage: profilePictureURL != null
-                    ? NetworkImage(profilePictureURL!)
-                    : const NetworkImage(
-                  'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg',
-                ),
-              ),
-              Positioned(
-                bottom: -10,
-                left: 120,
-                child: IconButton(
-                  iconSize: 30,
-                  onPressed: () {
-                    firestoreController.uploadProfilePicture(email!);
-                  },
-                  icon: const Icon(Icons.add_a_photo),
-                ),
-              )
-            ],
-          ),
-          const SizedBox(height: 50),
-          //User Data
-          Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 50),
+            // Profile Picture
+            Stack(
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Full Name:',
-                      style: TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      fullName ?? 'Loading...',
-                      style: const TextStyle(fontSize: 20),
-                    ),
-                  ],
+                CircleAvatar(
+                  radius: 90,
+                  backgroundImage: profilePictureURL != null
+                      ? NetworkImage(profilePictureURL!)
+                      : const NetworkImage(
+                    'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg',
+                  ),
                 ),
-                const SizedBox(height: 25),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Username:',
-                      style: TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      username ?? 'Loading...',
-                      style: const TextStyle(fontSize: 20),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 25),
-                //Email
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Email:',
-                      style: TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      email ?? 'Loading...',
-                      style: const TextStyle(fontSize: 20),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 25),
-                //Role
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Role:',
-                      style: TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      role ?? 'Loading...',
-                      style: const TextStyle(fontSize: 20),
-                    ),
-                  ],
-                ),
+                Positioned(
+                  bottom: -10,
+                  left: 120,
+                  child: IconButton(
+                    iconSize: 30,
+                    onPressed: () {
+                      firestoreController.uploadProfilePicture(email!);
+                    },
+                    icon: const Icon(Icons.add_a_photo),
+                  ),
+                )
               ],
             ),
-          ),
-          const SizedBox(height: 50),
-          Align(
-            alignment: Alignment.centerRight,
-            child: Container(
-              margin: const EdgeInsets.only(right: 20), // Adjust the margin as needed
-              child: SizedBox(
-                width: w * 0.3,
-                height: h * 0.05,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    elevation: 5,
-                    backgroundColor: const Color(0xff735D78),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    textStyle: const TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+            const SizedBox(height: 50),
+            //User Data
+            Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Full Name:',
+                        style: TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        fullName ?? 'Loading...',
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 25),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Username:',
+                        style: TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        username ?? 'Loading...',
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 25),
+                  //Email
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Email:',
+                        style: TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        email ?? 'Loading...',
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 25),
+                  // Contact Number
+                  SizedBox(
+                    width: 200,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Contact Number:',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            if (!isEditingContact)
+                              Text(
+                                isEditingContact
+                                    ? contactController.text
+                                    : formatPhoneNumber(contact),
+                                style: const TextStyle(fontSize: 20),
+                              )
+                            else
+                              Expanded(
+                                child: TextFormField(
+                                  controller: contactController,
+                                  keyboardType: TextInputType.phone,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                  ),
+                                  decoration: const InputDecoration(
+                                    hintText: 'Enter Contact',
+                                  ),
+                                  // Add validation to ensure the entered text is a valid contact number
+                                  validator: (value) {
+                                    if (value != null && value.isNotEmpty) {
+                                      return null; // Return null if the input is valid
+                                    } else {
+                                      return 'Please enter a valid contact number';
+                                    }
+                                  },
+                                ),
+                              ),
+                            IconButton(
+                              icon: Icon(isEditingContact ? Icons.check : Icons.edit),
+                              onPressed: () {
+                                // Toggle editing mode
+                                setState(() {
+                                  if (isEditingContact) {
+                                    // Save the edited location and exit editing mode
+                                    contact = contactController.text;
+                                  } else {
+                                    // Store the existing location value in tempLocation
+                                    tempContact = contact;
+                                  }
+                                  isEditingContact = !isEditingContact;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                  onPressed: () async {
-                    refreshPage();
-                  },
-                  child: const Text('Update'),
+                  const SizedBox(height: 25),
+                  //Role
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Role:',
+                        style: TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        role ?? 'Loading...',
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 50),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Container(
+                margin: const EdgeInsets.only(right: 20), // Adjust the margin as needed
+                child: SizedBox(
+                  width: w * 0.3,
+                  height: h * 0.05,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 5,
+                      backgroundColor: const Color(0xff735D78),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      textStyle: const TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    onPressed: () async {
+                      // Update the 'contactNo' field in Firestore
+                      await firestoreController.updateContact(contact!, email!);
+
+                      refreshPage();
+                    },
+                    child: const Text('Update'),
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       bottomNavigationBar: CustomNavBar(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
       ),
     );
+  }
+}
+
+// Function to format the phone number with hyphen after the first 3 digits
+String formatPhoneNumber(String? phoneNumber) {
+  if (phoneNumber != null && phoneNumber.isNotEmpty) {
+    // Insert hyphen after the first 3 digits
+    return phoneNumber.replaceRange(3, 3, '-');
+  } else {
+    return '';
   }
 }

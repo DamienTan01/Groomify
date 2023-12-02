@@ -56,7 +56,7 @@ class _ProfilePageState extends State<GroomerProfile> {
     }
   }
 
-  // Fetch user data from Firestore when the widget is initialized
+  // Fetch groomer data from Firestore when the widget is initialized
   @override
   void initState() {
     super.initState();
@@ -579,7 +579,7 @@ class _ProfilePageState extends State<GroomerProfile> {
                       await firestoreController.updateSalonLocation(location!, email!);
 
                       // Update the 'contactNo' field in Firestore
-                      await firestoreController.updateContact(contact!, email!);
+                      await firestoreController.updateContactGroomers(contact!, email!);
 
                       // Update the 'services' field in Firestore
                       await firestoreController.updateServices(list, email!);
