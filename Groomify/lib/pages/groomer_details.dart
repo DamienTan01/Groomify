@@ -230,6 +230,17 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                       style: const TextStyle(fontSize: 20),
                     ),
                     const SizedBox(height: 15),
+                    // Contact
+                    const Text(
+                      'Contact Number: ',
+                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      username ?? 'Loading...',
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                    const SizedBox(height: 15),
                     // Price Range
                     const Text(
                       'Price Range (RM): ',
