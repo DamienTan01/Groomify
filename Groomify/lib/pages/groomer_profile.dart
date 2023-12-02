@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:groomify/pages/groomer_btmNavBar.dart';
 import 'package:groomify/functions/auth_controller.dart';
 import 'package:groomify/functions/firestore_controller.dart';
@@ -413,19 +414,30 @@ class _ProfilePageState extends State<GroomerProfile> {
                         children: [
                           if (!isEditingContact)
                             Text(
-                              isEditingContact ? contactController.text : (contact ?? ''), // Use the controller text if editing, or the existing location if not null
+                              isEditingContact
+                                  ? contactController.text
+                                  : formatPhoneNumber(contact),
                               style: const TextStyle(fontSize: 20),
                             )
                           else
                             Expanded(
                               child: TextFormField(
                                 controller: contactController,
+                                keyboardType: TextInputType.phone,
                                 style: const TextStyle(
                                   fontSize: 20,
                                 ),
                                 decoration: const InputDecoration(
                                   hintText: 'Enter Contact',
                                 ),
+                                // Add validation to ensure the entered text is a valid contact number
+                                validator: (value) {
+                                  if (value != null && value.isNotEmpty) {
+                                    return null; // Return null if the input is valid
+                                  } else {
+                                    return 'Please enter a valid contact number';
+                                  }
+                                },
                               ),
                             ),
                           IconButton(
@@ -565,6 +577,9 @@ class _ProfilePageState extends State<GroomerProfile> {
                       // Update the 'location' field in Firestore
                       await firestoreController.updateSalonLocation(location!, email!);
 
+                      // Update the 'contactNo' field in Firestore
+                      await firestoreController.updateContact(contact!, email!);
+
                       // Update the 'services' field in Firestore
                       await firestoreController.updateServices(list, email!);
 
@@ -598,4 +613,14 @@ class CheckboxListTileModel {
     required this.title,
     required this.isSelected,
   });
+}
+
+// Function to format the phone number with hyphen after the first 3 digits
+String formatPhoneNumber(String? phoneNumber) {
+  if (phoneNumber != null && phoneNumber.isNotEmpty) {
+    // Insert hyphen after the first 3 digits
+    return phoneNumber.replaceRange(3, 3, '-');
+  } else {
+    return '';
+  }
 }

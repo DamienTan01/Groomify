@@ -202,6 +202,27 @@ class FirestoreController {
     }
   }
 
+  // Update the 'contactNo' field in Firestore
+  Future<void> updateContact(String contact, String email) async {
+    try {
+      final userRef = _firestore.collection('groomers').where('email', isEqualTo: email);
+      final querySnapshot = await userRef.get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        final userDoc = querySnapshot.docs.first;
+        final userData = userDoc.data();
+
+        // Update the 'salon' field with the provided salon name
+        userData['contactNo'] = contact;
+
+        // Update the document in Firestore
+        userDoc.reference.update(userData);
+      }
+    } catch (e) {
+      print('Error updating contact number: $e');
+    }
+  }
+
   // Update the 'services' field in Firestore based on checkbox values
   Future<void> updateServices(List<CheckboxListTileModel> checkboxes, String email) async {
     try {

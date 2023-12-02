@@ -25,6 +25,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
   String? salon;
   String? location;
   String? profilePictureURL;
+  String? contact;
   double minPrice = 0.0;
   double maxPrice = 100.0;
   List<String> services = [];
@@ -237,7 +238,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      username ?? 'Loading...',
+                      contact ?? 'Loading...',
                       style: const TextStyle(fontSize: 20),
                     ),
                     const SizedBox(height: 15),
