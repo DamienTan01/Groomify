@@ -53,6 +53,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
         email = groomerData['email'];
         final dynamic ratingData = groomerData['rating'];
         rating = ratingData is double ? ratingData : 0.0;
+        contact = groomerData['contactNo'];
 
         if (groomerData['services'] != null) {
           services = List<String>.from(groomerData['services']);
@@ -238,7 +239,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      contact ?? 'Loading...',
+                      formatPhoneNumber(contact) ?? 'Loading...',
                       style: const TextStyle(fontSize: 20),
                     ),
                     const SizedBox(height: 15),
@@ -334,5 +335,15 @@ class _GroomerDetailsState extends State<GroomerDetails> {
         onItemTapped: _onItemTapped,
       ),
     );
+  }
+}
+
+// Function to format the phone number with hyphen after the first 3 digits
+String formatPhoneNumber(String? phoneNumber) {
+  if (phoneNumber != null && phoneNumber.isNotEmpty) {
+    // Insert hyphen after the first 3 digits
+    return phoneNumber.replaceRange(3, 3, '-');
+  } else {
+    return '';
   }
 }

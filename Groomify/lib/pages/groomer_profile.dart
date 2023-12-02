@@ -82,6 +82,7 @@ class _ProfilePageState extends State<GroomerProfile> {
           role = userData['role'];
           salon = userData['salonName'];
           location = userData['location'];
+          contact = userData['contactNo'];
           profilePictureURL = userData['profile_picture'];
 
           // Update selectedServices based on Firestore data
