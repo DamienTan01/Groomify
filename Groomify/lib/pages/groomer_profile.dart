@@ -14,10 +14,12 @@ class GroomerProfile extends StatefulWidget {
 class _ProfilePageState extends State<GroomerProfile> {
   TextEditingController salonController = TextEditingController();
   TextEditingController locationController = TextEditingController();
+  TextEditingController contactController = TextEditingController();
   int _selectedIndex = 1;
   bool showPassword = false;
   bool isEditingSalon = false;
   bool isEditingLocation = false;
+  bool isEditingContact = false;
   String? fullName;
   String? username;
   String? email;
@@ -27,6 +29,8 @@ class _ProfilePageState extends State<GroomerProfile> {
   String? tempSalon;
   String? location;
   String? tempLocation;
+  String? contact;
+  String? tempContact;
   String? profilePictureURL;
   double minPrice = 0.0;
   double maxPrice = 100.0;
@@ -382,6 +386,61 @@ class _ProfilePageState extends State<GroomerProfile> {
                                   tempLocation = location;
                                 }
                                 isEditingLocation = !isEditingLocation;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 25),
+                // Contact Number
+                SizedBox(
+                  width: 200,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Contact Number:',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          if (!isEditingContact)
+                            Text(
+                              isEditingContact ? contactController.text : (contact ?? ''), // Use the controller text if editing, or the existing location if not null
+                              style: const TextStyle(fontSize: 20),
+                            )
+                          else
+                            Expanded(
+                              child: TextFormField(
+                                controller: contactController,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                ),
+                                decoration: const InputDecoration(
+                                  hintText: 'Enter Contact',
+                                ),
+                              ),
+                            ),
+                          IconButton(
+                            icon: Icon(isEditingContact ? Icons.check : Icons.edit),
+                            onPressed: () {
+                              // Toggle editing mode
+                              setState(() {
+                                if (isEditingContact) {
+                                  // Save the edited location and exit editing mode
+                                  contact = contactController.text;
+                                } else {
+                                  // Store the existing location value in tempLocation
+                                  tempContact = contact;
+                                }
+                                isEditingContact = !isEditingContact;
                               });
                             },
                           ),
