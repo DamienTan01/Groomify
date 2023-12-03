@@ -270,23 +270,6 @@ class _ProfilePageState extends State<GroomerProfile> {
                   ],
                 ),
                 const SizedBox(height: 25),
-                //Role
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Role:',
-                      style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      role ?? 'Loading...',
-                      style: const TextStyle(fontSize: 20),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 25),
                 // Salon Name
                 SizedBox(
                   width: 200,

@@ -116,7 +116,6 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         appointmentData = appointments;
       });
-
     }
   }
 
@@ -132,6 +131,11 @@ class _HomePageState extends State<HomePage> {
         final selectedTime = appointment['selectedTime'];
         final selectedServices = appointment['selectedServices'];
         final docID = appointment['documentID'];
+        final groomerDocID = appointment['groomerDocID'];
+
+        print('Email: $groomerEmail');
+        print('Groomer Document ID: $groomerDocID');
+        print('Document ID: $docID');
 
         return AlertDialog(
           shape: RoundedRectangleBorder(
@@ -272,8 +276,6 @@ class _HomePageState extends State<HomePage> {
             ),
             TextButton(
               onPressed: () {
-                print('email: $email');
-                print('id: $docID');
                 Navigator.of(context).pop(); // Close the dialog
               },
               child: const Text('Cancel', style: TextStyle(fontSize: 20, color: Colors.red)),
@@ -419,7 +421,7 @@ class _HomePageState extends State<HomePage> {
                               '${appointment['selectedServices'].join(', ')}',
                               style: const TextStyle(fontSize: 18),
                             ),
-                            // Add an edit IconButton
+                            // Edit IconButton
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [

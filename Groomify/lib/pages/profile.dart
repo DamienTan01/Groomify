@@ -275,23 +275,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 25),
-                  //Role
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Role:',
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        role ?? 'Loading...',
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                    ],
-                  ),
                 ],
               ),
             ),
@@ -327,6 +310,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             ),
+            const SizedBox(height: 20),
           ],
         ),
       ),
