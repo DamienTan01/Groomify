@@ -27,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   double maxPrice = 0.0;
   List<String> groomerEmails = [];
   List<Map<String, dynamic>> appointmentData = [];
+  List<Map<String, dynamic>> groomerAppointmentData = [];
   List<String> fiveStarGroomerEmails = [];
 
   double rating = 0.0; // Variable to store groomer's rating
@@ -113,8 +114,10 @@ class _HomePageState extends State<HomePage> {
     final email = user!.email;
     if (email != null) {
       final appointments = await firestoreController.getAppointmentsUser(email);
+      final groomerAppointments = await firestoreController.getAppointmentsGroomer(email);
       setState(() {
         appointmentData = appointments;
+        groomerAppointmentData = groomerAppointments;
       });
     }
   }
@@ -133,7 +136,8 @@ class _HomePageState extends State<HomePage> {
         final docID = appointment['documentID'];
         final groomerDocID = appointment['groomerDocID'];
 
-        print('Email: $groomerEmail');
+        print('Email: $email');
+        print('Groomer Email: $groomerEmail');
         print('Groomer Document ID: $groomerDocID');
         print('Document ID: $docID');
 
@@ -266,7 +270,7 @@ class _HomePageState extends State<HomePage> {
 
                 await firestoreController.moveAppointmentToHistoryUsers(email!, docID); // Pass the email and docID
 
-                await firestoreController.moveAppointmentToHistoryGroomers(groomerEmail, docID); // Pass the email and docID
+                await firestoreController.moveAppointmentToHistoryGroomers(groomerEmail!, groomerDocID); // Pass the email and docID
 
                 Navigator.of(context).pop();
 
