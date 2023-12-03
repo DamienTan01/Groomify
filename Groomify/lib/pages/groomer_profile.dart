@@ -419,13 +419,20 @@ class _ProfilePageState extends State<GroomerProfile> {
                       ),
                     ),
                     const SizedBox(height: 5),
-                    ElevatedButton(
-                      onPressed: () => _selectTime(context, true),
-                      child: Text(
-                        selectedOpeningTime != null
-                            ? selectedOpeningTime!.format(context)
-                            : 'Select Opening Time',
-                        style: const TextStyle(fontSize: 20),
+                    SizedBox(
+                      width: 220,
+                      child: ElevatedButton(
+                        onPressed: () => _selectTime(context, true),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xffD1B3C4),
+                        ),
+                        child: Text(
+                          selectedOpeningTime != null
+                              ? selectedOpeningTime!.format(context)
+                              : 'Select Opening Time',
+                          style:
+                              const TextStyle(fontSize: 20, color: Colors.black),
+                        ),
                       ),
                     ),
                   ],
@@ -443,13 +450,20 @@ class _ProfilePageState extends State<GroomerProfile> {
                       ),
                     ),
                     const SizedBox(height: 5),
-                    ElevatedButton(
-                      onPressed: () => _selectTime(context, false),
-                      child: Text(
-                        selectedClosingTime != null
-                            ? selectedClosingTime!.format(context)
-                            : 'Select Closing Time',
-                        style: const TextStyle(fontSize: 20),
+                    SizedBox(
+                      width: 220,
+                      child: ElevatedButton(
+                        onPressed: () => _selectTime(context, false),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xffD1B3C4),
+                        ),
+                        child: Text(
+                          selectedClosingTime != null
+                              ? selectedClosingTime!.format(context)
+                              : 'Select Closing Time',
+                          style:
+                              const TextStyle(fontSize: 20, color: Colors.black),
+                        ),
                       ),
                     ),
                   ],
@@ -582,7 +596,8 @@ class _ProfilePageState extends State<GroomerProfile> {
                   RangeSlider(
                     values: RangeValues(minPrice, maxPrice),
                     min: 0,
-                    max: 100, // You can adjust min and max values according to your needs
+                    max:
+                        100, // You can adjust min and max values according to your needs
                     divisions: 10, // Optional: Divisions for the slider
                     onChanged: (newRange) {
                       setState(() {
