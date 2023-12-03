@@ -26,6 +26,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
   String? location;
   String? profilePictureURL;
   String? contact;
+  Map<String, TimeOfDay?> operatingHours = {};
   double minPrice = 0.0;
   double maxPrice = 100.0;
   List<String> services = [];
@@ -55,6 +56,23 @@ class _GroomerDetailsState extends State<GroomerDetails> {
         final dynamic ratingData = groomerData['rating'];
         rating = ratingData is double ? ratingData : 0.0;
         contact = groomerData['contactNo'];
+
+        // Operating Hours
+        Map<String, TimeOfDay?> operatingHoursData = {
+          'openingTime': groomerData['opening_time'] != null
+              ? TimeOfDay(
+                  hour: groomerData['opening_time']['hour'],
+                  minute: groomerData['opening_time']['minute'],
+                )
+              : null,
+          'closingTime': groomerData['closing_time'] != null
+              ? TimeOfDay(
+                  hour: groomerData['closing_time']['hour'],
+                  minute: groomerData['closing_time']['minute'],
+                )
+              : null,
+        };
+        operatingHours = operatingHoursData;
 
         if (groomerData['services'] != null) {
           services = List<String>.from(groomerData['services']);
@@ -218,7 +236,23 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                       style: const TextStyle(fontSize: 20),
                     ),
                     const SizedBox(height: 15),
-
+                    // Operating Hours
+                    const Text(
+                      'Operating Hours: ',
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 5),
+                    operatingHours['openingTime'] != null &&
+                            operatingHours['closingTime'] != null
+                        ? Text(
+                            '${formatTimeOfDay(operatingHours['openingTime']!)} - ${formatTimeOfDay(operatingHours['closingTime']!)}',
+                            style: const TextStyle(fontSize: 20),
+                          )
+                        : const Text(
+                            'Not Available',
+                            style: TextStyle(fontSize: 20, color: Colors.red),
+                          ),
                     const SizedBox(height: 15),
                     // Full Name
                     const Text(
@@ -251,10 +285,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                           TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5),
-                    Text(
-                      formatPhoneNumber(contact) ?? 'Loading...',
-                      style: const TextStyle(fontSize: 20),
-                    ),
+                    formatContactNumber(contact),
                     const SizedBox(height: 15),
                     // Price Range
                     const Text(
@@ -361,11 +392,37 @@ class _GroomerDetailsState extends State<GroomerDetails> {
 }
 
 // Function to format the phone number with hyphen after the first 3 digits
-String formatPhoneNumber(String? phoneNumber) {
+Widget formatContactNumber(String? phoneNumber) {
   if (phoneNumber != null && phoneNumber.isNotEmpty) {
     // Insert hyphen after the first 3 digits
-    return phoneNumber.replaceRange(3, 3, '-');
+    final formattedNumber = phoneNumber.replaceRange(3, 3, '-');
+    return Text(
+      formattedNumber,
+      style: const TextStyle(fontSize: 20),
+    );
   } else {
-    return '';
+    return const Text(
+      'Not Available',
+      style: TextStyle(fontSize: 20, color: Colors.red),
+    );
   }
+}
+
+// Function to format the time of operating hours
+String formatTimeOfDay(TimeOfDay timeOfDay) {
+  int hour = timeOfDay.hour;
+  int minute = timeOfDay.minute;
+  String period = 'AM';
+
+  if (hour >= 12) {
+    period = 'PM';
+    if (hour > 12) {
+      hour -= 12;
+    }
+  }
+
+  final hourStr = hour.toString();
+  final minuteStr = minute.toString().padLeft(2, '0');
+
+  return '$hourStr:$minuteStr $period';
 }
