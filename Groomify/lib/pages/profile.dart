@@ -65,7 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
     final user = AuthController.instance.auth.currentUser;
     if (user != null) {
       final userData =
-      await firestoreController.getUserDataByEmail(user.email!);
+        await firestoreController.getUserDataByEmail(user.email!);
       if (userData != null) {
         setState(() {
           fullName = userData['fullName'];
@@ -73,7 +73,7 @@ class _ProfilePageState extends State<ProfilePage> {
           email = userData['email'];
           password = userData['password'];
           role = userData['role'];
-          contact = userData['contact'];
+          contact = userData['contactNo'];
           profilePictureURL = userData['profile_picture'];
         });
       }
