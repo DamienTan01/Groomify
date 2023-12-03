@@ -36,6 +36,8 @@ class _ProfilePageState extends State<GroomerProfile> {
   double minPrice = 0.0;
   double maxPrice = 100.0;
   List<String> selectedServices = [];
+  TimeOfDay? selectedOpeningTime;
+  TimeOfDay? selectedClosingTime;
 
   final firestoreController = FirestoreController();
 
@@ -149,6 +151,23 @@ class _ProfilePageState extends State<GroomerProfile> {
       isSelected: false,
     ),
   ];
+
+  Future<void> _selectTime(BuildContext context, bool isOpeningTime) async {
+    final pickedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+
+    if (pickedTime != null) {
+      setState(() {
+        if (isOpeningTime) {
+          selectedOpeningTime = pickedTime;
+        } else {
+          selectedClosingTime = pickedTime;
+        }
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -388,6 +407,54 @@ class _ProfilePageState extends State<GroomerProfile> {
                   ),
                 ),
                 const SizedBox(height: 25),
+                // Opening Time
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Opening Time:',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    ElevatedButton(
+                      onPressed: () => _selectTime(context, true),
+                      child: Text(
+                        selectedOpeningTime != null
+                            ? selectedOpeningTime!.format(context)
+                            : 'Select Opening Time',
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 25),
+                // Closing Time
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Closing Time:',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    ElevatedButton(
+                      onPressed: () => _selectTime(context, false),
+                      child: Text(
+                        selectedClosingTime != null
+                            ? selectedClosingTime!.format(context)
+                            : 'Select Closing Time',
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 25),
                 // Contact Number
                 SizedBox(
                   width: 200,
@@ -515,8 +582,7 @@ class _ProfilePageState extends State<GroomerProfile> {
                   RangeSlider(
                     values: RangeValues(minPrice, maxPrice),
                     min: 0,
-                    max:
-                        100, // You can adjust min and max values according to your needs
+                    max: 100, // You can adjust min and max values according to your needs
                     divisions: 10, // Optional: Divisions for the slider
                     onChanged: (newRange) {
                       setState(() {
@@ -572,6 +638,10 @@ class _ProfilePageState extends State<GroomerProfile> {
                       // Update the 'location' field in Firestore
                       await firestoreController.updateSalonLocation(
                           location!, email!);
+
+                      // Update 'operatingHours' field in Firestore
+                      await firestoreController.updateOperatingHours(
+                          selectedOpeningTime, selectedClosingTime, email!);
 
                       // Update the 'contactNo' field in Firestore
                       await firestoreController.updateContactGroomers(

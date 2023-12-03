@@ -236,6 +236,34 @@ class FirestoreController {
     }
   }
 
+  // Update the 'operatingHours' field in Firestore
+  Future<void> updateOperatingHours(
+      TimeOfDay? openingTime, TimeOfDay? closingTime, String email) async {
+    try {
+      final userRef =
+          _firestore.collection('groomers').where('email', isEqualTo: email);
+      final querySnapshot = await userRef.get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        final userDoc = querySnapshot.docs.first;
+        final userData = userDoc.data();
+
+        // Update the 'opening_time' and 'closing_time' fields with the provided time values
+        userData['opening_time'] = openingTime != null
+            ? {'hour': openingTime.hour, 'minute': openingTime.minute}
+            : null;
+        userData['closing_time'] = closingTime != null
+            ? {'hour': closingTime.hour, 'minute': closingTime.minute}
+            : null;
+
+        // Update the document in Firestore
+        userDoc.reference.update(userData);
+      }
+    } catch (e) {
+      print('Error updating operating hours: $e');
+    }
+  }
+
   // Update the contact number (Groomers)
   Future<void> updateContactGroomers(String contact, String email) async {
     try {
