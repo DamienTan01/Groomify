@@ -42,7 +42,8 @@ class _GroomerDetailsState extends State<GroomerDetails> {
   }
 
   Future<void> _fetchGroomerData() async {
-    final groomerData = await firestoreController.getGroomerDataByEmail(widget.email);
+    final groomerData =
+        await firestoreController.getGroomerDataByEmail(widget.email);
     if (groomerData != null) {
       setState(() {
         fullName = groomerData['fullName'];
@@ -76,15 +77,18 @@ class _GroomerDetailsState extends State<GroomerDetails> {
 
     if (index == 0) {
       // Navigate to the Home page
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HomePage()));
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => const HomePage()));
     }
     if (index == 1) {
       // Navigate to the Groomer page
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GroomerPage()));
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => const GroomerPage()));
     }
     if (index == 2) {
       // Navigate to the Profile page
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ProfilePage()));
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => const ProfilePage()));
     }
   }
 
@@ -99,7 +103,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
     // Create a list of TableCell widgets for each service
     final List<TableCell> serviceCells = List.generate(
       rowCount * colCount,
-          (index) {
+      (index) {
         if (index < services.length) {
           return TableCell(
             child: Padding(
@@ -152,8 +156,8 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                 backgroundImage: profilePictureURL != null
                     ? NetworkImage(profilePictureURL!)
                     : const NetworkImage(
-                  'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg',
-                ),
+                        'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg',
+                      ),
               ),
             ),
             const SizedBox(height: 20),
@@ -169,7 +173,8 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                     Center(
                       child: Text(
                         salon ?? 'Loading...',
-                        style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold),
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -178,7 +183,8 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                       children: [
                         const Text(
                           'Rating: ',
-                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 5),
                         RatingBar.builder(
@@ -188,7 +194,8 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                           allowHalfRating: true,
                           itemCount: 5,
                           itemSize: 30,
-                          itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                          itemPadding:
+                              const EdgeInsets.symmetric(horizontal: 4.0),
                           itemBuilder: (context, _) => const Icon(
                             Icons.star,
                             color: Colors.amber,
@@ -202,7 +209,8 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                     // Location
                     const Text(
                       'Location: ',
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5),
                     Text(
@@ -215,7 +223,8 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                     // Full Name
                     const Text(
                       'Full Name: ',
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5),
                     Text(
@@ -226,7 +235,8 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                     // Username
                     const Text(
                       'Username: ',
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5),
                     Text(
@@ -237,7 +247,8 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                     // Contact
                     const Text(
                       'Contact Number: ',
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5),
                     Text(
@@ -248,7 +259,8 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                     // Price Range
                     const Text(
                       'Price Range (RM): ',
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5),
                     Text(
@@ -259,27 +271,35 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                     // Services
                     const Text(
                       'Services: ',
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5),
                     Table(
-                      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                      defaultVerticalAlignment:
+                          TableCellVerticalAlignment.middle,
                       children: List.generate(
                         rowCount,
-                            (rowIndex) {
+                        (rowIndex) {
                           return TableRow(
-                            children: serviceCells.sublist(
-                              rowIndex * colCount,
-                              (rowIndex + 1) * colCount,
-                            ).map((cell) => TableCell(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 4, right: 4), // Add left padding
-                                child: Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: cell.child, // Access the child of the TableCell
-                                ),
-                              ),
-                            )).toList(),
+                            children: serviceCells
+                                .sublist(
+                                  rowIndex * colCount,
+                                  (rowIndex + 1) * colCount,
+                                )
+                                .map((cell) => TableCell(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 4,
+                                            right: 4), // Add left padding
+                                        child: Container(
+                                          alignment: Alignment.centerLeft,
+                                          child: cell
+                                              .child, // Access the child of the TableCell
+                                        ),
+                                      ),
+                                    ))
+                                .toList(),
                           );
                         },
                       ),

@@ -20,7 +20,6 @@ class _GroomerHomeState extends State<GroomerHome> {
   String? profilePictureURL;
   String? salon;
   String? location;
-  List<String> groomerEmails = [];
   List<Map<String, dynamic>> appointmentData = [];
 
   void _onItemTapped(int index) {
@@ -30,33 +29,179 @@ class _GroomerHomeState extends State<GroomerHome> {
 
     if (index == 0) {
       // Navigate to the Home page
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GroomerHome()));
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => const GroomerHome()));
     }
     if (index == 1) {
       // Navigate to the Profile page
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GroomerProfile()));
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const GroomerProfile()));
     }
   }
 
   void refreshPage() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GroomerHome()));
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const GroomerHome()));
   }
 
   @override
   void initState() {
     super.initState();
+    _fetchUserData();
     _loadAppointments();
+  }
+
+  Future<void> _fetchUserData() async {
+    final user = AuthController.instance.auth.currentUser;
+    if (user != null) {
+      final userData =
+          await firestoreController.getGroomerDataByEmail(user.email!);
+      if (userData != null) {
+        setState(() {
+          email = userData['email'];
+        });
+      }
+    }
   }
 
   void _loadAppointments() async {
     final user = AuthController.instance.auth.currentUser;
     final email = user!.email;
+
+    print('User Email: $email');
+
     if (email != null) {
-      final appointments = await firestoreController.getAppointmentsGroomer(email);
+      final appointments =
+          await firestoreController.getAppointmentsGroomer(email);
       setState(() {
         appointmentData = appointments;
       });
     }
+  }
+
+  void _showEditDialog(Map<String, dynamic> appointment) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        final selectedDate = appointment['selectedDate'];
+        final formattedDate =
+            DateFormat('d MMMM y').format(selectedDate.toDate());
+        final fullName = appointment['fullName'];
+        final selectedTime = appointment['selectedTime'];
+        final selectedServices = appointment['selectedServices'];
+        final docID = appointment['documentID'];
+
+        // Print the logged-in user's email for debugging
+        print('Logged-in User Email: $email');
+
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          backgroundColor: const Color(0xffF7D1CD),
+          title: const Center(
+            child: Text(
+              'Complete Appointment :)',
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          content: SizedBox(
+            width: 500,
+            height: 350,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: 20),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '$fullName',
+                      style: const TextStyle(
+                          fontSize: 25, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        const Text(
+                          'Date: ',
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          formattedDate,
+                          style: const TextStyle(fontSize: 22),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        const Text(
+                          'Time: ',
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          '$selectedTime',
+                          style: const TextStyle(fontSize: 22),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'Services: ',
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      '${selectedServices.join(', ')}',
+                      style: const TextStyle(fontSize: 22),
+                    ),
+                    const SizedBox(height: 30),
+                  ],
+                ),
+                const SizedBox(height: 5),
+              ],
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xff735D78),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                textStyle: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
+              ),
+              onPressed: () async {
+                await firestoreController.moveAppointmentToHistoryGroomers(
+                    email!, docID); // Pass the email and docID
+
+                Navigator.of(context).pop();
+
+                refreshPage(); // Close the dialog
+              },
+              child: const Text('Complete'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: const Text('Cancel',
+                  style: TextStyle(fontSize: 20, color: Colors.red)),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -88,12 +233,11 @@ class _GroomerHomeState extends State<GroomerHome> {
               color: const Color(0xff735D78),
               onPressed: () {
                 AuthController.instance.logout();
-              }
-          )
+              })
         ],
         elevation: 0,
       ),
-      body: SingleChildScrollView (
+      body: SingleChildScrollView(
         child: Column(
           children: [
             const SizedBox(height: 20),
@@ -121,81 +265,99 @@ class _GroomerHomeState extends State<GroomerHome> {
             // Appointments ListView
             Container(
               padding: const EdgeInsets.only(top: 2, bottom: 2),
+              height: appointmentData.isEmpty ? 280 : 450,
               child: appointmentData.isEmpty
                   ? const Center(
-                child: Text(
-                  "No Appointments Made",
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
-              )
+                      child: Text(
+                        "No Appointments",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                    )
                   : ListView.builder(
-                shrinkWrap: true,
-                physics: const AlwaysScrollableScrollPhysics(),
-                itemCount: appointmentData.length, // Show a maximum of 2 appointments
-                itemBuilder: (context, index) {
-                  final appointment = appointmentData[index];
-                  final selectedDate = appointment['selectedDate'];
+                      shrinkWrap: true,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      itemCount: appointmentData.length,
+                      itemBuilder: (context, index) {
+                        final appointment = appointmentData[index];
+                        final selectedDate = appointment['selectedDate'];
+                        final formattedDate = DateFormat('d MMMM y')
+                            .format(selectedDate.toDate());
 
-                  // Format the date to "day, month, year" format
-                  final formattedDate = DateFormat('d MMMM y').format(selectedDate.toDate());
-
-                  return Container(
-                    margin: const EdgeInsets.all(10),
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(15),
+                        return Container(
+                          margin: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${appointment['fullName']}',
+                                style: const TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 10),
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Date: ',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    formattedDate,
+                                    style: const TextStyle(fontSize: 18),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 5),
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Time: ',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    '${appointment['selectedTime']}',
+                                    style: const TextStyle(fontSize: 18),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 5),
+                              const Text(
+                                'Services: ',
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 5),
+                              Text(
+                                '${appointment['selectedServices'].join(', ')}',
+                                style: const TextStyle(fontSize: 18),
+                              ),
+                              // Edit IconButton
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.edit),
+                                    onPressed: () {
+                                      _showEditDialog(appointment);
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
+                      },
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '${appointment['fullName']}',
-                          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 10),
-                        Row(
-                          children: [
-                            const Text(
-                              'Date: ',
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              formattedDate, // Use the formatted date here
-                              style: const TextStyle(fontSize: 18),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 5),
-                        Row(
-                          children: [
-                            const Text(
-                              'Time: ',
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              '${appointment['selectedTime']}',
-                              style: const TextStyle(fontSize: 18),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 5),
-                        const Text(
-                          'Services: ',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 5),
-                        Text(
-                          '${appointment['selectedServices'].join(', ')}',
-                          style: const TextStyle(fontSize: 18),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
             ),
             const SizedBox(height: 20),
           ],

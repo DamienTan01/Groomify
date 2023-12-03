@@ -288,7 +288,10 @@ class _ProfilePageState extends State<GroomerProfile> {
                         children: [
                           if (!isEditingSalon)
                             Text(
-                              isEditingSalon ? salonController.text : (salon ?? ''), // Use the controller text if editing, or the existing salon name if not null
+                              isEditingSalon
+                                  ? salonController.text
+                                  : (salon ??
+                                      ''), // Use the controller text if editing, or the existing salon name if not null
                               style: const TextStyle(fontSize: 20),
                             )
                           else
@@ -304,7 +307,8 @@ class _ProfilePageState extends State<GroomerProfile> {
                               ),
                             ),
                           IconButton(
-                            icon: Icon(isEditingSalon ? Icons.check : Icons.edit),
+                            icon:
+                                Icon(isEditingSalon ? Icons.check : Icons.edit),
                             onPressed: () {
                               // Toggle editing mode
                               setState(() {
@@ -343,7 +347,10 @@ class _ProfilePageState extends State<GroomerProfile> {
                         children: [
                           if (!isEditingLocation)
                             Text(
-                              isEditingLocation ? locationController.text : (location ?? ''), // Use the controller text if editing, or the existing location if not null
+                              isEditingLocation
+                                  ? locationController.text
+                                  : (location ??
+                                      ''), // Use the controller text if editing, or the existing location if not null
                               style: const TextStyle(fontSize: 20),
                             )
                           else
@@ -359,7 +366,8 @@ class _ProfilePageState extends State<GroomerProfile> {
                               ),
                             ),
                           IconButton(
-                            icon: Icon(isEditingLocation ? Icons.check : Icons.edit),
+                            icon: Icon(
+                                isEditingLocation ? Icons.check : Icons.edit),
                             onPressed: () {
                               // Toggle editing mode
                               setState(() {
@@ -425,7 +433,8 @@ class _ProfilePageState extends State<GroomerProfile> {
                               ),
                             ),
                           IconButton(
-                            icon: Icon(isEditingContact ? Icons.check : Icons.edit),
+                            icon: Icon(
+                                isEditingContact ? Icons.check : Icons.edit),
                             onPressed: () {
                               // Toggle editing mode
                               setState(() {
@@ -506,7 +515,8 @@ class _ProfilePageState extends State<GroomerProfile> {
                   RangeSlider(
                     values: RangeValues(minPrice, maxPrice),
                     min: 0,
-                    max: 100, // You can adjust min and max values according to your needs
+                    max:
+                        100, // You can adjust min and max values according to your needs
                     divisions: 10, // Optional: Divisions for the slider
                     onChanged: (newRange) {
                       setState(() {
@@ -556,18 +566,22 @@ class _ProfilePageState extends State<GroomerProfile> {
                     ),
                     onPressed: () async {
                       // Update the 'salon' field in Firestore
-                      await firestoreController.updateGroomingSalon(salon!, email!);
+                      await firestoreController.updateGroomingSalon(
+                          salon!, email!);
 
                       // Update the 'location' field in Firestore
-                      await firestoreController.updateSalonLocation(location!, email!);
+                      await firestoreController.updateSalonLocation(
+                          location!, email!);
 
                       // Update the 'contactNo' field in Firestore
-                      await firestoreController.updateContactGroomers(contact!, email!);
+                      await firestoreController.updateContactGroomers(
+                          contact!, email!);
 
                       // Update the 'services' field in Firestore
                       await firestoreController.updateServices(list, email!);
 
-                      await firestoreController.updatePriceRange(minPrice, maxPrice, email!);
+                      await firestoreController.updatePriceRange(
+                          minPrice, maxPrice, email!);
 
                       // Refresh the page after updating
                       refreshPage();

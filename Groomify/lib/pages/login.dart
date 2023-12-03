@@ -50,7 +50,9 @@ class _LoginPageState extends State<LoginPage> {
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: const [
                       BoxShadow(
-                          blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
+                          blurRadius: 3,
+                          offset: Offset(2, 3),
+                          color: Colors.grey)
                     ]),
                 child: SizedBox(
                   width: 300,
@@ -71,11 +73,13 @@ class _LoginPageState extends State<LoginPage> {
                         hintStyle: const TextStyle(color: Colors.white),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(color: Colors.grey, width: 1.0)),
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0)),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             borderSide: BorderSide(
-                                color: Colors.grey.withOpacity(0.5), width: 1.0)),
+                                color: Colors.grey.withOpacity(0.5),
+                                width: 1.0)),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10))),
                   ),
@@ -94,7 +98,9 @@ class _LoginPageState extends State<LoginPage> {
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: const [
                       BoxShadow(
-                          blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
+                          blurRadius: 3,
+                          offset: Offset(2, 3),
+                          color: Colors.grey)
                     ]),
                 child: SizedBox(
                   width: 300,
@@ -115,11 +121,13 @@ class _LoginPageState extends State<LoginPage> {
                         hintStyle: const TextStyle(color: Colors.white),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(color: Colors.grey, width: 1.0)),
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0)),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             borderSide: BorderSide(
-                                color: Colors.grey.withOpacity(0.5), width: 1.0)),
+                                color: Colors.grey.withOpacity(0.5),
+                                width: 1.0)),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10))),
                   ),
@@ -147,10 +155,13 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 onPressed: () async {
-                  final emailValidationResult = AuthController.instance.validateEmail(emailController.text);
-                  final passwordValidationResult = AuthController.instance.validatePassword(passwordController.text);
+                  final emailValidationResult = AuthController.instance
+                      .validateEmail(emailController.text);
+                  final passwordValidationResult = AuthController.instance
+                      .validatePassword(passwordController.text);
 
-                  if (emailValidationResult == '' && passwordValidationResult == '') {
+                  if (emailValidationResult == '' &&
+                      passwordValidationResult == '') {
                     // Both email and password are valid, proceed with login
                     AuthController.instance.login(
                       emailController.text.trim(),
@@ -159,10 +170,12 @@ class _LoginPageState extends State<LoginPage> {
                   } else {
                     // Show error popups for invalid input
                     if (emailValidationResult.isNotEmpty) {
-                      AuthController.instance.showErrorPopup(context, 'Email Error', emailValidationResult);
+                      AuthController.instance.showErrorPopup(
+                          context, 'Email Error', emailValidationResult);
                     }
                     if (passwordValidationResult.isNotEmpty) {
-                      AuthController.instance.showErrorPopup(context, 'Password Error', passwordValidationResult);
+                      AuthController.instance.showErrorPopup(
+                          context, 'Password Error', passwordValidationResult);
                     }
                   }
                 },
@@ -175,23 +188,24 @@ class _LoginPageState extends State<LoginPage> {
             //Forgot Password
             RichText(
               text: TextSpan(
-                text: "Forgot password? ",
-                style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18),
-                children: [
-                  TextSpan(
-                    text: "Reset password",
-                    style: const TextStyle(
-                      decoration: TextDecoration.underline,
-                      color: Colors.blue,
+                  text: "Forgot password? ",
+                  style: const TextStyle(
+                      color: Colors.black,
                       fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
-                      recognizer: TapGestureRecognizer()..onTap=()=>Get.to(()=>const ResetPass())
-                  )]
-            ),),
+                      fontSize: 18),
+                  children: [
+                    TextSpan(
+                        text: "Reset password",
+                        style: const TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () => Get.to(() => const ResetPass()))
+                  ]),
+            ),
             const SizedBox(
               height: 25,
             ),
@@ -204,17 +218,17 @@ class _LoginPageState extends State<LoginPage> {
                         fontWeight: FontWeight.bold,
                         fontSize: 18),
                     children: [
-                      TextSpan(
-                          text: " Sign up now",
-                          style: const TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: Colors.blue,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                          recognizer: TapGestureRecognizer()..onTap=()=>Get.to(()=>const SignupPage())
-                      )
-                    ])),
+                  TextSpan(
+                      text: " Sign up now",
+                      style: const TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () => Get.to(() => const SignupPage()))
+                ])),
           ],
         ),
       ),

@@ -58,7 +58,8 @@ class _SignupPageState extends State<SignupPage> {
                   controller: fullNameController,
                   inputFormatters: [
                     // only accept letters from a to z
-                    FilteringTextInputFormatter(RegExp(r'[a-zA-Z]+|\s'), allow: true)
+                    FilteringTextInputFormatter(RegExp(r'[a-zA-Z]+|\s'),
+                        allow: true)
                   ],
                   style: const TextStyle(
                       color: Colors.white,
@@ -66,11 +67,15 @@ class _SignupPageState extends State<SignupPage> {
                       fontSize: 20),
                   decoration: InputDecoration(
                       hintText: 'Full Name',
-                      prefixIcon: const Icon(Icons.first_page, color: Color(0xff735D78),),
+                      prefixIcon: const Icon(
+                        Icons.first_page,
+                        color: Color(0xff735D78),
+                      ),
                       hintStyle: const TextStyle(color: Colors.white),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(color: Colors.grey, width: 1.0)),
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0)),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
@@ -80,7 +85,9 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 45,),
+            const SizedBox(
+              height: 45,
+            ),
             //Username
             Container(
               decoration: BoxDecoration(
@@ -101,11 +108,15 @@ class _SignupPageState extends State<SignupPage> {
                       fontSize: 20),
                   decoration: InputDecoration(
                       hintText: 'Username',
-                      prefixIcon: const Icon(Icons.last_page, color: Color(0xff735D78),),
+                      prefixIcon: const Icon(
+                        Icons.last_page,
+                        color: Color(0xff735D78),
+                      ),
                       hintStyle: const TextStyle(color: Colors.white),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(color: Colors.grey, width: 1.0)),
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0)),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
@@ -115,7 +126,9 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 45,),
+            const SizedBox(
+              height: 45,
+            ),
             //Email
             Container(
               decoration: BoxDecoration(
@@ -136,11 +149,15 @@ class _SignupPageState extends State<SignupPage> {
                       fontSize: 20),
                   decoration: InputDecoration(
                       hintText: 'Email',
-                      prefixIcon: const Icon(Icons.email, color: Color(0xff735D78),),
+                      prefixIcon: const Icon(
+                        Icons.email,
+                        color: Color(0xff735D78),
+                      ),
                       hintStyle: const TextStyle(color: Colors.white),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(color: Colors.grey, width: 1.0)),
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0)),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
@@ -150,7 +167,9 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 45,),
+            const SizedBox(
+              height: 45,
+            ),
             //Password
             Container(
               decoration: BoxDecoration(
@@ -172,11 +191,15 @@ class _SignupPageState extends State<SignupPage> {
                       fontSize: 20),
                   decoration: InputDecoration(
                       hintText: 'Password',
-                      prefixIcon: const Icon(Icons.password, color: Color(0xff735D78),),
+                      prefixIcon: const Icon(
+                        Icons.password,
+                        color: Color(0xff735D78),
+                      ),
                       hintStyle: const TextStyle(color: Colors.white),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(color: Colors.grey, width: 1.0)),
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0)),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
@@ -186,7 +209,9 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 45,),
+            const SizedBox(
+              height: 45,
+            ),
             // Role dropdown
             Container(
               width: 300,
@@ -232,7 +257,9 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 50,),
+            const SizedBox(
+              height: 50,
+            ),
             //Button
             SizedBox(
               width: w * 0.4,
@@ -251,19 +278,25 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                 ),
                 onPressed: () {
-                  final emailValidationResult = AuthController.instance.validateEmail(emailController.text);
-                  final passwordValidationResult = AuthController.instance.validatePassword(passwordController.text);
-                  final fullNameValidationResult = AuthController.instance.validateFullName(fullNameController.text);
-                  final usernameValidationResult = AuthController.instance.validateUserName(usernameController.text);
+                  final emailValidationResult = AuthController.instance
+                      .validateEmail(emailController.text);
+                  final passwordValidationResult = AuthController.instance
+                      .validatePassword(passwordController.text);
+                  final fullNameValidationResult = AuthController.instance
+                      .validateFullName(fullNameController.text);
+                  final usernameValidationResult = AuthController.instance
+                      .validateUserName(usernameController.text);
 
-                  if (emailValidationResult == '' && passwordValidationResult == '') {
+                  if (emailValidationResult == '' &&
+                      passwordValidationResult == '') {
                     // Based on the selected role, navigate to the appropriate page
                     if (selectedRole == 'User') {
                       // Both email and password are valid, proceed with registration
                       AuthController.instance.register(
                         emailController.text.trim(),
                         passwordController.text.trim(),
-                        fullNameController.text.trim(), // Provide full name here
+                        fullNameController.text
+                            .trim(), // Provide full name here
                         usernameController.text.trim(),
                         selectedRole,
                       );
@@ -273,7 +306,8 @@ class _SignupPageState extends State<SignupPage> {
                       AuthController.instance.groomerRegister(
                         emailController.text.trim(),
                         passwordController.text.trim(),
-                        fullNameController.text.trim(), // Provide full name here
+                        fullNameController.text
+                            .trim(), // Provide full name here
                         usernameController.text.trim(),
                         selectedRole,
                       );
@@ -285,16 +319,20 @@ class _SignupPageState extends State<SignupPage> {
                   } else {
                     // Show error popups for invalid input
                     if (emailValidationResult.isNotEmpty) {
-                      AuthController.instance.showErrorPopup(context, 'Email Error',emailValidationResult);
+                      AuthController.instance.showErrorPopup(
+                          context, 'Email Error', emailValidationResult);
                     }
                     if (passwordValidationResult.isNotEmpty) {
-                      AuthController.instance.showErrorPopup(context, 'Password Error',passwordValidationResult);
+                      AuthController.instance.showErrorPopup(
+                          context, 'Password Error', passwordValidationResult);
                     }
                     if (fullNameValidationResult.isNotEmpty) {
-                      AuthController.instance.showErrorPopup(context, 'Full Name Error',fullNameValidationResult);
+                      AuthController.instance.showErrorPopup(
+                          context, 'Full Name Error', fullNameValidationResult);
                     }
                     if (usernameValidationResult.isNotEmpty) {
-                      AuthController.instance.showErrorPopup(context, 'Username Error',usernameValidationResult);
+                      AuthController.instance.showErrorPopup(
+                          context, 'Username Error', usernameValidationResult);
                     }
                   }
                 },
@@ -313,17 +351,17 @@ class _SignupPageState extends State<SignupPage> {
                         fontWeight: FontWeight.bold,
                         fontSize: 18),
                     children: [
-                      TextSpan(
-                          text: " Login Here",
-                          style: const TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: Colors.blue,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                          recognizer: TapGestureRecognizer()..onTap=()=>Get.to(()=>const LoginPage())
-                      )
-                    ])),
+                  TextSpan(
+                      text: " Login Here",
+                      style: const TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () => Get.to(() => const LoginPage()))
+                ])),
             const SizedBox(
               height: 20,
             ),

@@ -35,14 +35,17 @@ class FirestoreController {
 
     if (pickedFile != null) {
       final file = File(pickedFile.path);
-      final storageReference = FirebaseStorage.instance.ref().child('profile_picture/$email.jpg');
+      final storageReference =
+          FirebaseStorage.instance.ref().child('profile_picture/$email.jpg');
       final uploadTask = storageReference.putFile(file);
 
       await uploadTask.whenComplete(() async {
         final imageUrl = await storageReference.getDownloadURL();
 
         // Save the image URL to Firestore under the 'profile_picture' field for the user with the specified email.
-        final userRef = FirebaseFirestore.instance.collection('users').where('email', isEqualTo: email);
+        final userRef = FirebaseFirestore.instance
+            .collection('users')
+            .where('email', isEqualTo: email);
         userRef.get().then((querySnapshot) {
           if (querySnapshot.docs.isNotEmpty) {
             final userDoc = querySnapshot.docs.first;
@@ -56,7 +59,8 @@ class FirestoreController {
   //Retrieve image url (Users)
   Future<String?> getProfilePictureURL(String email) async {
     try {
-      final userRef = _firestore.collection('users').where('email', isEqualTo: email);
+      final userRef =
+          _firestore.collection('users').where('email', isEqualTo: email);
       final querySnapshot = await userRef.get();
 
       if (querySnapshot.docs.isNotEmpty) {
@@ -74,7 +78,8 @@ class FirestoreController {
   // Update contact number (Users)
   Future<void> updateContact(String contact, String email) async {
     try {
-      final userRef = _firestore.collection('users').where('email', isEqualTo: email);
+      final userRef =
+          _firestore.collection('users').where('email', isEqualTo: email);
       final querySnapshot = await userRef.get();
 
       if (querySnapshot.docs.isNotEmpty) {
@@ -119,14 +124,17 @@ class FirestoreController {
 
     if (pickedFile != null) {
       final file = File(pickedFile.path);
-      final storageReference = FirebaseStorage.instance.ref().child('profile_picture/$email.jpg');
+      final storageReference =
+          FirebaseStorage.instance.ref().child('profile_picture/$email.jpg');
       final uploadTask = storageReference.putFile(file);
 
       await uploadTask.whenComplete(() async {
         final imageUrl = await storageReference.getDownloadURL();
 
         // Save the image URL to Firestore under the 'profile_picture' field for the user with the specified email.
-        final userRef = FirebaseFirestore.instance.collection('groomers').where('email', isEqualTo: email);
+        final userRef = FirebaseFirestore.instance
+            .collection('groomers')
+            .where('email', isEqualTo: email);
         userRef.get().then((querySnapshot) {
           if (querySnapshot.docs.isNotEmpty) {
             final userDoc = querySnapshot.docs.first;
@@ -140,7 +148,8 @@ class FirestoreController {
   //Retrieve image url (Groomers)
   Future<String?> getGroomerProfilePictureURL(String email) async {
     try {
-      final userRef = _firestore.collection('groomers').where('email', isEqualTo: email);
+      final userRef =
+          _firestore.collection('groomers').where('email', isEqualTo: email);
       final querySnapshot = await userRef.get();
 
       if (querySnapshot.docs.isNotEmpty) {
@@ -158,8 +167,10 @@ class FirestoreController {
   // Retrieve the 'role' field for a user by email
   Future<String?> getUserRoleByEmail(String email) async {
     try {
-      final userRef = _firestore.collection('users').where('email', isEqualTo: email);
-      final groomerRef = _firestore.collection('groomers').where('email', isEqualTo: email);
+      final userRef =
+          _firestore.collection('users').where('email', isEqualTo: email);
+      final groomerRef =
+          _firestore.collection('groomers').where('email', isEqualTo: email);
 
       final userQuerySnapshot = await userRef.get();
       final groomerQuerySnapshot = await groomerRef.get();
@@ -184,7 +195,8 @@ class FirestoreController {
   // Update the 'salon' field in Firestore
   Future<void> updateGroomingSalon(String salon, String email) async {
     try {
-      final userRef = _firestore.collection('groomers').where('email', isEqualTo: email);
+      final userRef =
+          _firestore.collection('groomers').where('email', isEqualTo: email);
       final querySnapshot = await userRef.get();
 
       if (querySnapshot.docs.isNotEmpty) {
@@ -205,7 +217,8 @@ class FirestoreController {
   // Update the 'salon' field in Firestore
   Future<void> updateSalonLocation(String location, String email) async {
     try {
-      final userRef = _firestore.collection('groomers').where('email', isEqualTo: email);
+      final userRef =
+          _firestore.collection('groomers').where('email', isEqualTo: email);
       final querySnapshot = await userRef.get();
 
       if (querySnapshot.docs.isNotEmpty) {
@@ -226,7 +239,8 @@ class FirestoreController {
   // Update the contact number (Groomers)
   Future<void> updateContactGroomers(String contact, String email) async {
     try {
-      final userRef = _firestore.collection('groomers').where('email', isEqualTo: email);
+      final userRef =
+          _firestore.collection('groomers').where('email', isEqualTo: email);
       final querySnapshot = await userRef.get();
 
       if (querySnapshot.docs.isNotEmpty) {
@@ -245,9 +259,11 @@ class FirestoreController {
   }
 
   // Update the 'services' field in Firestore based on checkbox values
-  Future<void> updateServices(List<CheckboxListTileModel> checkboxes, String email) async {
+  Future<void> updateServices(
+      List<CheckboxListTileModel> checkboxes, String email) async {
     try {
-      final userRef = _firestore.collection('groomers').where('email', isEqualTo: email);
+      final userRef =
+          _firestore.collection('groomers').where('email', isEqualTo: email);
       final querySnapshot = await userRef.get();
 
       if (querySnapshot.docs.isNotEmpty) {
@@ -274,9 +290,11 @@ class FirestoreController {
   }
 
   // Update the 'price_range' field in Firestore
-  Future<void> updatePriceRange(double minPrice, double maxPrice, String email) async {
+  Future<void> updatePriceRange(
+      double minPrice, double maxPrice, String email) async {
     try {
-      final userRef = _firestore.collection('groomers').where('email', isEqualTo: email);
+      final userRef =
+          _firestore.collection('groomers').where('email', isEqualTo: email);
       final querySnapshot = await userRef.get();
 
       if (querySnapshot.docs.isNotEmpty) {
@@ -351,15 +369,16 @@ class FirestoreController {
   }
 
   Future<void> uploadAppointmentInfo(
-      BuildContext context, // Pass the context from the calling function
-      String email, // The user's email
-      String salon, // Salon Name
-      DateTime selectedDate, // The selected appointment date
-      TimeOfDay selectedTime, // The selected appointment time
-      List<String> selectedServices, // List of selected services
-      ) async {
+    BuildContext context, // Pass the context from the calling function
+    String email, // The user's email
+    String salon, // Salon Name
+    DateTime selectedDate, // The selected appointment date
+    TimeOfDay selectedTime, // The selected appointment time
+    List<String> selectedServices, // List of selected services
+  ) async {
     try {
-      final userRef = _firestore.collection('users').where('email', isEqualTo: email);
+      final userRef =
+          _firestore.collection('users').where('email', isEqualTo: email);
       final querySnapshot = await userRef.get();
 
       if (querySnapshot.docs.isNotEmpty) {
@@ -381,9 +400,11 @@ class FirestoreController {
         // Update the document in Firestore
         userDoc.reference.update(userData).then((_) {
           // After updating the document, retrieve the Firestore document ID and update the appointment data
-          final appointmentDocumentRef = userDoc.reference.collection('appointments').doc();
+          final appointmentDocumentRef =
+              userDoc.reference.collection('appointments').doc();
           appointmentData['documentID'] = appointmentDocumentRef.id;
-          appointmentDocumentRef.set(appointmentData); // Set the appointment data in Firestore
+          appointmentDocumentRef
+              .set(appointmentData); // Set the appointment data in Firestore
         });
       }
     } catch (e) {
@@ -392,21 +413,26 @@ class FirestoreController {
   }
 
   // Add a appointment for user
-  Future<void> addAppointmentToUser(String email, Map<String, dynamic> appointmentDataUser) async {
+  Future<void> addAppointmentToUser(
+      String email, Map<String, dynamic> appointmentDataUser) async {
     try {
-      final userRef = _firestore.collection('users').where('email', isEqualTo: email);
+      final userRef =
+          _firestore.collection('users').where('email', isEqualTo: email);
       final querySnapshot = await userRef.get();
 
       if (querySnapshot.docs.isNotEmpty) {
         final userDoc = querySnapshot.docs.first;
 
         // Get a reference to the appointment subcollection
-        final appointmentHistoryCollection = userDoc.reference.collection('appointments');
+        final appointmentHistoryCollection =
+            userDoc.reference.collection('appointments');
 
         // Add the appointment data as a new document in the appointment subcollection
         final appointmentDocumentRef = appointmentHistoryCollection.doc();
-        appointmentDataUser['documentID'] = appointmentDocumentRef.id; // Store the Firestore document ID
-        appointmentDocumentRef.set(appointmentDataUser); // Set the appointment data in Firestore
+        appointmentDataUser['documentID'] =
+            appointmentDocumentRef.id; // Store the Firestore document ID
+        appointmentDocumentRef
+            .set(appointmentDataUser); // Set the appointment data in Firestore
       }
     } catch (e) {
       print('Error adding appointment to history: $e');
@@ -414,21 +440,26 @@ class FirestoreController {
   }
 
   // Add appointment to groomer
-  Future<void> addAppointmentToGroomer(String email, Map<String, dynamic> appointmentDataGroomer) async {
+  Future<void> addAppointmentToGroomer(
+      String email, Map<String, dynamic> appointmentDataGroomer) async {
     try {
-      final groomerRef = _firestore.collection('groomers').where('email', isEqualTo: email);
+      final groomerRef =
+          _firestore.collection('groomers').where('email', isEqualTo: email);
       final querySnapshot = await groomerRef.get();
 
       if (querySnapshot.docs.isNotEmpty) {
         final groomerDoc = querySnapshot.docs.first;
 
         // Get a reference to the appointment subcollection
-        final appointmentHistoryCollection = groomerDoc.reference.collection('appointments');
+        final appointmentHistoryCollection =
+            groomerDoc.reference.collection('appointments');
 
         // Add the appointment data as a new document in the appointment subcollection
         final appointmentDocumentRef = appointmentHistoryCollection.doc();
-        appointmentDataGroomer['documentID'] = appointmentDocumentRef.id; // Store the Firestore document ID
-        appointmentDocumentRef.set(appointmentDataGroomer); // Set the appointment data in Firestore
+        appointmentDataGroomer['documentID'] =
+            appointmentDocumentRef.id; // Store the Firestore document ID
+        appointmentDocumentRef.set(
+            appointmentDataGroomer); // Set the appointment data in Firestore
       }
     } catch (e) {
       print('Error adding appointment to groomer: $e');
@@ -438,24 +469,26 @@ class FirestoreController {
   // Retrieve appointments made for the current logged-in user
   Future<List<Map<String, dynamic>>> getAppointmentsUser(String email) async {
     try {
-      final userRef = _firestore.collection('users').where('email', isEqualTo: email);
+      final userRef =
+          _firestore.collection('users').where('email', isEqualTo: email);
       final querySnapshot = await userRef.get();
 
       if (querySnapshot.docs.isNotEmpty) {
         final userDoc = querySnapshot.docs.first;
 
-        final appointmentHistoryCollection = userDoc.reference.collection('appointments');
+        final appointmentHistoryCollection =
+            userDoc.reference.collection('appointments');
 
-        final appointmentHistoryQuerySnapshot = await appointmentHistoryCollection.get();
+        final appointmentHistoryQuerySnapshot =
+            await appointmentHistoryCollection.get();
 
         if (appointmentHistoryQuerySnapshot.docs.isNotEmpty) {
           // Iterate through the documents and extract the appointment history data.
-          List<Map<String, dynamic>> appointmentHistory = appointmentHistoryQuerySnapshot.docs
-              .map((doc) {
+          List<Map<String, dynamic>> appointmentHistory =
+              appointmentHistoryQuerySnapshot.docs.map((doc) {
             final appointmentData = doc.data();
             return appointmentData;
-          })
-              .toList();
+          }).toList();
 
           return appointmentHistory;
         } else {
@@ -470,26 +503,29 @@ class FirestoreController {
     }
   }
 
-  Future<List<Map<String, dynamic>>> getAppointmentsGroomer(String email) async {
+  Future<List<Map<String, dynamic>>> getAppointmentsGroomer(
+      String email) async {
     try {
-      final userRef = _firestore.collection('groomers').where('email', isEqualTo: email);
+      final userRef =
+          _firestore.collection('groomers').where('email', isEqualTo: email);
       final querySnapshot = await userRef.get();
 
       if (querySnapshot.docs.isNotEmpty) {
         final userDoc = querySnapshot.docs.first;
 
-        final appointmentHistoryCollection = userDoc.reference.collection('appointments');
+        final appointmentHistoryCollection =
+            userDoc.reference.collection('appointments');
 
-        final appointmentHistoryQuerySnapshot = await appointmentHistoryCollection.get();
+        final appointmentHistoryQuerySnapshot =
+            await appointmentHistoryCollection.get();
 
         if (appointmentHistoryQuerySnapshot.docs.isNotEmpty) {
           // Iterate through the documents and extract the appointment history data.
-          List<Map<String, dynamic>> appointmentHistory = appointmentHistoryQuerySnapshot.docs
-              .map((doc) {
+          List<Map<String, dynamic>> appointmentHistory =
+              appointmentHistoryQuerySnapshot.docs.map((doc) {
             final appointmentData = doc.data();
             return appointmentData;
-          })
-              .toList();
+          }).toList();
 
           return appointmentHistory;
         } else {
@@ -518,7 +554,8 @@ class FirestoreController {
         final numberOfRatings = groomerDoc.data()['numberOfRatings'] ?? 0;
 
         // Calculate the new average rating based on the new rating and the number of ratings
-        final newRating = (currentRating * numberOfRatings + rating) / (numberOfRatings + 1);
+        final newRating =
+            (currentRating * numberOfRatings + rating) / (numberOfRatings + 1);
 
         // Update the groomer's document with the new rating and the incremented number of ratings
         await groomerDoc.reference.update({
@@ -534,18 +571,22 @@ class FirestoreController {
   }
 
   // Move the appointment in Users Collection
-  Future<void> moveAppointmentToHistoryUsers(String userEmail, String docID) async {
+  Future<void> moveAppointmentToHistoryUsers(
+      String userEmail, String docID) async {
     try {
       // Reference to the user's document in Firestore
-      final userRef = _firestore.collection('users').where('email', isEqualTo: userEmail);
+      final userRef =
+          _firestore.collection('users').where('email', isEqualTo: userEmail);
       final userQuerySnapshot = await userRef.get();
 
       if (userQuerySnapshot.docs.isNotEmpty) {
         final userDoc = userQuerySnapshot.docs.first;
 
         // Get references to the source 'appointments' sub-collection and the destination 'appointmentHistory' sub-collection
-        final sourceAppointmentCollection = userDoc.reference.collection('appointments');
-        final destinationHistoryCollection = userDoc.reference.collection('appointmentHistory');
+        final sourceAppointmentCollection =
+            userDoc.reference.collection('appointments');
+        final destinationHistoryCollection =
+            userDoc.reference.collection('appointmentHistory');
 
         // Reference to the specific appointment document in the source sub-collection
         final appointmentDocumentRef = sourceAppointmentCollection.doc(docID);
@@ -571,18 +612,23 @@ class FirestoreController {
   }
 
   // Move the appointment in Groomers collection
-  Future<void> moveAppointmentToHistoryGroomers(String groomerEmail, String docID) async {
+  Future<void> moveAppointmentToHistoryGroomers(
+      String groomerEmail, String docID) async {
     try {
       // Reference to the user's document in Firestore
-      final userRef = _firestore.collection('users').where('email', isEqualTo: groomerEmail);
+      final userRef = _firestore
+          .collection('groomers')
+          .where('email', isEqualTo: groomerEmail);
       final userQuerySnapshot = await userRef.get();
 
       if (userQuerySnapshot.docs.isNotEmpty) {
         final userDoc = userQuerySnapshot.docs.first;
 
         // Get references to the source 'appointments' sub-collection and the destination 'appointmentHistory' sub-collection
-        final sourceAppointmentCollection = userDoc.reference.collection('appointments');
-        final destinationHistoryCollection = userDoc.reference.collection('appointmentHistory');
+        final sourceAppointmentCollection =
+            userDoc.reference.collection('appointments');
+        final destinationHistoryCollection =
+            userDoc.reference.collection('appointmentHistory');
 
         // Reference to the specific appointment document in the source sub-collection
         final appointmentDocumentRef = sourceAppointmentCollection.doc(docID);

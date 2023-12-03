@@ -4,7 +4,8 @@ class GroomerNavBar extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
 
-  const GroomerNavBar({super.key,
+  const GroomerNavBar({
+    super.key,
     required this.selectedIndex,
     required this.onItemTapped,
   });

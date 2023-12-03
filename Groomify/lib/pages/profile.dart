@@ -65,7 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
     final user = AuthController.instance.auth.currentUser;
     if (user != null) {
       final userData =
-        await firestoreController.getUserDataByEmail(user.email!);
+          await firestoreController.getUserDataByEmail(user.email!);
       if (userData != null) {
         setState(() {
           fullName = userData['fullName'];
@@ -81,7 +81,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> _fetchProfilePicture() async {
-    final profilePictureURL = await firestoreController.getGroomerProfilePictureURL(email!);
+    final profilePictureURL =
+        await firestoreController.getGroomerProfilePictureURL(email!);
     if (profilePictureURL != null) {
       setState(() {
         this.profilePictureURL = profilePictureURL;
@@ -139,8 +140,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   backgroundImage: profilePictureURL != null
                       ? NetworkImage(profilePictureURL!)
                       : const NetworkImage(
-                    'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg',
-                  ),
+                          'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg',
+                        ),
                 ),
                 Positioned(
                   bottom: -10,
@@ -255,7 +256,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                               ),
                             IconButton(
-                              icon: Icon(isEditingContact ? Icons.check : Icons.edit),
+                              icon: Icon(
+                                  isEditingContact ? Icons.check : Icons.edit),
                               onPressed: () {
                                 // Toggle editing mode
                                 setState(() {
@@ -282,7 +284,8 @@ class _ProfilePageState extends State<ProfilePage> {
             Align(
               alignment: Alignment.centerRight,
               child: Container(
-                margin: const EdgeInsets.only(right: 20), // Adjust the margin as needed
+                margin: const EdgeInsets.only(
+                    right: 20), // Adjust the margin as needed
                 child: SizedBox(
                   width: w * 0.3,
                   height: h * 0.05,

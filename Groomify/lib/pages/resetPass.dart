@@ -61,7 +61,9 @@ class _ResetPassState extends State<ResetPass> {
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: const [
                       BoxShadow(
-                          blurRadius: 3, offset: Offset(2, 3), color: Colors.grey)
+                          blurRadius: 3,
+                          offset: Offset(2, 3),
+                          color: Colors.grey)
                     ]),
                 child: SizedBox(
                   width: 300,
@@ -74,15 +76,20 @@ class _ResetPassState extends State<ResetPass> {
                         fontSize: 20),
                     decoration: InputDecoration(
                         hintText: 'Email',
-                        prefixIcon: const Icon(Icons.email, color: Color(0xff735D78),),
+                        prefixIcon: const Icon(
+                          Icons.email,
+                          color: Color(0xff735D78),
+                        ),
                         hintStyle: const TextStyle(color: Colors.white),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(color: Colors.grey, width: 1.0)),
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0)),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             borderSide: BorderSide(
-                                color: Colors.grey.withOpacity(0.5), width: 1.0)),
+                                color: Colors.grey.withOpacity(0.5),
+                                width: 1.0)),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10))),
                   ),
@@ -111,7 +118,8 @@ class _ResetPassState extends State<ResetPass> {
                   ),
                   onPressed: () async {
                     String email = emailController.text;
-                    String? result = await ResetPassModel().resetPassword(email, context);
+                    String? result =
+                        await ResetPassModel().resetPassword(email, context);
 
                     if (result != null) {
                       // Display an error message if result is not null
@@ -138,7 +146,9 @@ class _ResetPassState extends State<ResetPass> {
                 ),
               ),
               //SizedBox
-              const SizedBox(height: 30,),
+              const SizedBox(
+                height: 30,
+              ),
               //Login Page
               RichText(
                   text: TextSpan(
@@ -148,18 +158,20 @@ class _ResetPassState extends State<ResetPass> {
                           fontWeight: FontWeight.bold,
                           fontSize: 18),
                       children: [
-                        TextSpan(
-                            text: " Login Here",
-                            style: const TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: Colors.blue,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                            recognizer: TapGestureRecognizer()..onTap=()=>Get.to(()=>const LoginPage())
-                        )
-                      ])),
-              const SizedBox(height: 25,),
+                    TextSpan(
+                        text: " Login Here",
+                        style: const TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () => Get.to(() => const LoginPage()))
+                  ])),
+              const SizedBox(
+                height: 25,
+              ),
               //Signup Page
               RichText(
                   text: TextSpan(
@@ -169,17 +181,17 @@ class _ResetPassState extends State<ResetPass> {
                           fontWeight: FontWeight.bold,
                           fontSize: 18),
                       children: [
-                        TextSpan(
-                            text: " Sign up now",
-                            style: const TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: Colors.blue,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                            recognizer: TapGestureRecognizer()..onTap=()=>Get.to(()=>const SignupPage())
-                        )
-                      ])),
+                    TextSpan(
+                        text: " Sign up now",
+                        style: const TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () => Get.to(() => const SignupPage()))
+                  ])),
             ],
           ),
         ),
@@ -242,12 +254,14 @@ class ResetPassModel {
           builder: (BuildContext context) {
             return AlertDialog(
               title: const Text('Password Reset'),
-              content: const Text('A Password Reset email has been sent to your inbox. '),
+              content: const Text(
+                  'A Password Reset email has been sent to your inbox. '),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context); // Close the dialog
-                    Navigator.pop(context); // Navigate back to the previous page (login page)
+                    Navigator.pop(
+                        context); // Navigate back to the previous page (login page)
                   },
                   child: const Text('OK'),
                 ),
@@ -268,7 +282,8 @@ class ResetPassModel {
   Future<bool> isEmailRegistered(String email, String collectionName) async {
     try {
       final collection = _firestore.collection(collectionName);
-      final querySnapshot = await collection.where('email', isEqualTo: email).get();
+      final querySnapshot =
+          await collection.where('email', isEqualTo: email).get();
 
       return querySnapshot.docs.isNotEmpty;
     } catch (e) {
@@ -277,4 +292,3 @@ class ResetPassModel {
     }
   }
 }
-

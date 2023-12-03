@@ -170,6 +170,7 @@ class _AppointmentPage extends State<AppointmentPage> {
         // Appointment Data for Groomer
         final appointmentDataGroomer = {
           'fullName': fullName,
+          'email': email,
           'selectedDate': _selectedDate!.toUtc(),
           'selectedTime': _selectedTime!.format(context),
           'selectedServices': selectedServices,

@@ -37,15 +37,18 @@ class _GroomerPageState extends State<GroomerPage> {
 
     if (index == 0) {
       // Navigate to the Home page
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HomePage()));
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => const HomePage()));
     }
     if (index == 1) {
       // Navigate to the Groomer page
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GroomerPage()));
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => const GroomerPage()));
     }
     if (index == 2) {
       // Navigate to the Profile page
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ProfilePage()));
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => const ProfilePage()));
     }
   }
 
@@ -92,10 +95,18 @@ class _GroomerPageState extends State<GroomerPage> {
       // You can use these lists to display or process the data as needed.
       setState(() {
         // Update the state variables with the lists of data
-        salon = salonNames.isNotEmpty ? salonNames[0] : null; // Assign the first element of the list
-        location = locations.isNotEmpty ? locations[0] : null; // Assign the first element of the list
-        minPrice = (minPrices.isNotEmpty ? minPrices[0] : 0.0)!; // Assign the first element of the list or a default value
-        maxPrice = (maxPrices.isNotEmpty ? maxPrices[0] : 0.0)!; // Assign the first element of the list or a default value
+        salon = salonNames.isNotEmpty
+            ? salonNames[0]
+            : null; // Assign the first element of the list
+        location = locations.isNotEmpty
+            ? locations[0]
+            : null; // Assign the first element of the list
+        minPrice = (minPrices.isNotEmpty
+            ? minPrices[0]
+            : 0.0)!; // Assign the first element of the list or a default value
+        maxPrice = (maxPrices.isNotEmpty
+            ? maxPrices[0]
+            : 0.0)!; // Assign the first element of the list or a default value
       });
     }
   }
@@ -119,7 +130,8 @@ class _GroomerPageState extends State<GroomerPage> {
       filteredGroomerEmails.addAll(groomerEmails);
     } else {
       for (final email in groomerEmails) {
-        final groomerData = await firestoreController.getGroomerDataByEmail(email);
+        final groomerData =
+            await firestoreController.getGroomerDataByEmail(email);
         if (groomerData != null) {
           final salonName = groomerData['salonName']?.toString() ?? '';
           if (salonName.isNotEmpty &&
@@ -222,7 +234,8 @@ class _GroomerPageState extends State<GroomerPage> {
                   itemCount: filteredGroomerEmails.length,
                   itemBuilder: (context, index) {
                     final email = filteredGroomerEmails[index];
-                    final groomerData = firestoreController.getGroomerDataByEmail(email);
+                    final groomerData =
+                        firestoreController.getGroomerDataByEmail(email);
 
                     return SizedBox(
                       width: 190,
@@ -231,26 +244,31 @@ class _GroomerPageState extends State<GroomerPage> {
                           //Image
                           GestureDetector(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
                                 return GroomerDetails(email: email);
                               }));
                             },
                             child: // Inside the GridView builder, update the CircleAvatar widget to fetch the individual profile picture URL:
-                            Center(
+                                Center(
                               child: FutureBuilder<Map<String, dynamic>?>(
                                 future: groomerData,
                                 builder: (context, snapshot) {
-                                  if (snapshot.connectionState == ConnectionState.done) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.done) {
                                     final data = snapshot.data;
                                     if (data != null) {
-                                      final profilePictureURL = data['profile_picture'];
+                                      final profilePictureURL =
+                                          data['profile_picture'];
                                       return CircleAvatar(
-                                        radius: 75, // Adjust the radius as needed
-                                        backgroundImage: profilePictureURL != null
+                                        radius:
+                                            75, // Adjust the radius as needed
+                                        backgroundImage: profilePictureURL !=
+                                                null
                                             ? NetworkImage(profilePictureURL)
                                             : const NetworkImage(
-                                          'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg',
-                                        ),
+                                                'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg',
+                                              ),
                                       );
                                     }
                                   } else if (snapshot.hasError) {
@@ -266,21 +284,26 @@ class _GroomerPageState extends State<GroomerPage> {
                           FutureBuilder<Map<String, dynamic>?>(
                             future: groomerData,
                             builder: (context, snapshot) {
-                              if (snapshot.connectionState == ConnectionState.done) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done) {
                                 final data = snapshot.data;
                                 if (data != null) {
                                   final salonName = data['salonName'];
                                   final priceRange = data['price_range'];
-                                  final minPrice = priceRange?['min_price'] ?? 'Not specified';
-                                  final maxPrice = priceRange?['max_price'] ?? 'Not specified';
+                                  final minPrice = priceRange?['min_price'] ??
+                                      'Not specified';
+                                  final maxPrice = priceRange?['max_price'] ??
+                                      'Not specified';
                                   final rating = data['rating'];
                                   return Align(
                                     alignment: Alignment.centerLeft,
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
-                                          salonName ?? 'Unknown', // Add null check here
+                                          salonName ??
+                                              'Unknown', // Add null check here
                                           style: const TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
@@ -301,7 +324,9 @@ class _GroomerPageState extends State<GroomerPage> {
                                           children: [
                                             const Text(
                                               'Rating: ',
-                                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                             const SizedBox(height: 5),
                                             RatingBar.builder(
@@ -311,8 +336,11 @@ class _GroomerPageState extends State<GroomerPage> {
                                               allowHalfRating: true,
                                               itemCount: 5,
                                               itemSize: 16,
-                                              itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                                              itemBuilder: (context, _) => const Icon(
+                                              itemPadding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 4.0),
+                                              itemBuilder: (context, _) =>
+                                                  const Icon(
                                                 Icons.star,
                                                 color: Colors.amber,
                                               ),
