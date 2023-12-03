@@ -27,7 +27,6 @@ class _HomePageState extends State<HomePage> {
   double maxPrice = 0.0;
   List<String> groomerEmails = [];
   List<Map<String, dynamic>> appointmentData = [];
-  List<Map<String, dynamic>> groomerAppointmentData = [];
   List<String> fiveStarGroomerEmails = [];
 
   double rating = 0.0; // Variable to store groomer's rating
@@ -114,10 +113,8 @@ class _HomePageState extends State<HomePage> {
     final email = user!.email;
     if (email != null) {
       final appointments = await firestoreController.getAppointmentsUser(email);
-      final groomerAppointments = await firestoreController.getAppointmentsGroomer(email);
       setState(() {
         appointmentData = appointments;
-        groomerAppointmentData = groomerAppointments;
       });
     }
   }
@@ -129,16 +126,14 @@ class _HomePageState extends State<HomePage> {
         final groomerEmail = appointment['email'];
         final selectedDate = appointment['selectedDate'];
         final formattedDate =
-        DateFormat('d MMMM y').format(selectedDate.toDate());
+          DateFormat('d MMMM y').format(selectedDate.toDate());
         final salonName = appointment['salonName'];
         final selectedTime = appointment['selectedTime'];
         final selectedServices = appointment['selectedServices'];
         final docID = appointment['documentID'];
-        final groomerDocID = appointment['groomerDocID'];
 
         print('Email: $email');
         print('Groomer Email: $groomerEmail');
-        print('Groomer Document ID: $groomerDocID');
         print('Document ID: $docID');
 
         return AlertDialog(
@@ -269,8 +264,6 @@ class _HomePageState extends State<HomePage> {
                 await firestoreController.saveGroomerRating(groomerEmail, rating);
 
                 await firestoreController.moveAppointmentToHistoryUsers(email!, docID); // Pass the email and docID
-
-                await firestoreController.moveAppointmentToHistoryGroomers(groomerEmail!, groomerDocID); // Pass the email and docID
 
                 Navigator.of(context).pop();
 
