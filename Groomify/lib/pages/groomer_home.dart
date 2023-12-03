@@ -265,7 +265,7 @@ class _GroomerHomeState extends State<GroomerHome> {
             // Appointments ListView
             Container(
               padding: const EdgeInsets.only(top: 2, bottom: 2),
-              height: appointmentData.isEmpty ? 280 : 450,
+              height: 650,
               child: appointmentData.isEmpty
                   ? const Center(
                       child: Text(
