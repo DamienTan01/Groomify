@@ -176,6 +176,7 @@ class _AppointmentPage extends State<AppointmentPage> {
           'selectedDate': _selectedDate!.toUtc(),
           'selectedTime': _selectedTime!.format(context),
           'selectedServices': selectedServices,
+          'contactNo': contact,
         };
         await firestoreController.addAppointmentToGroomer(widget.email, appointmentDataGroomer);
 
