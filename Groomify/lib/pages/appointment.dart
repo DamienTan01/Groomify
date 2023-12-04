@@ -31,6 +31,7 @@ class _AppointmentPage extends State<AppointmentPage> {
   TimeOfDay? _selectedTime;
   String? email;
   String? fullName;
+  String? contact;
   int _selectedIndex = 1;
   List<String> selectedServices = [];
   List<CheckboxListTileModel> list = [];
@@ -80,6 +81,7 @@ class _AppointmentPage extends State<AppointmentPage> {
         setState(() {
           email = userData['email'];
           fullName = userData['fullName'];
+          contact = userData['contactNo'];
         });
       }
     }
