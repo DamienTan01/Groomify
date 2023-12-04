@@ -36,8 +36,8 @@ class _ProfilePageState extends State<GroomerProfile> {
   double minPrice = 0.0;
   double maxPrice = 100.0;
   List<String> selectedServices = [];
-  TimeOfDay? selectedOpeningTime;
-  TimeOfDay? selectedClosingTime;
+  TimeOfDay? openingTime;
+  TimeOfDay? closingTime;
 
   final firestoreController = FirestoreController();
 
@@ -86,6 +86,23 @@ class _ProfilePageState extends State<GroomerProfile> {
           location = userData['location'];
           contact = userData['contactNo'];
           profilePictureURL = userData['profile_picture'];
+
+          final openingTimeData = userData['opening_time'];
+          final closingTimeData = userData['closing_time'];
+
+          if (openingTimeData != null) {
+            openingTime = TimeOfDay(
+              hour: openingTimeData['hour'] ?? 0,
+              minute: openingTimeData['minute'] ?? 0,
+            );
+          }
+
+          if (closingTimeData != null) {
+            closingTime = TimeOfDay(
+              hour: closingTimeData['hour'] ?? 0,
+              minute: closingTimeData['minute'] ?? 0,
+            );
+          }
 
           // Update selectedServices based on Firestore data
           selectedServices = List<String>.from(userData['services']);
@@ -161,9 +178,9 @@ class _ProfilePageState extends State<GroomerProfile> {
     if (pickedTime != null) {
       setState(() {
         if (isOpeningTime) {
-          selectedOpeningTime = pickedTime;
+          openingTime = pickedTime;
         } else {
-          selectedClosingTime = pickedTime;
+          closingTime = pickedTime;
         }
       });
     }
@@ -427,11 +444,10 @@ class _ProfilePageState extends State<GroomerProfile> {
                           backgroundColor: const Color(0xffD1B3C4),
                         ),
                         child: Text(
-                          selectedOpeningTime != null
-                              ? selectedOpeningTime!.format(context)
+                          openingTime != null
+                              ? openingTime!.format(context)
                               : 'Select Opening Time',
-                          style:
-                              const TextStyle(fontSize: 20, color: Colors.black),
+                          style: const TextStyle(fontSize: 20, color: Colors.black),
                         ),
                       ),
                     ),
@@ -458,11 +474,10 @@ class _ProfilePageState extends State<GroomerProfile> {
                           backgroundColor: const Color(0xffD1B3C4),
                         ),
                         child: Text(
-                          selectedClosingTime != null
-                              ? selectedClosingTime!.format(context)
+                          closingTime != null
+                              ? closingTime!.format(context)
                               : 'Select Closing Time',
-                          style:
-                              const TextStyle(fontSize: 20, color: Colors.black),
+                          style: const TextStyle(fontSize: 20, color: Colors.black),
                         ),
                       ),
                     ),
@@ -647,7 +662,7 @@ class _ProfilePageState extends State<GroomerProfile> {
                     ),
                     onPressed: () async {
                       // Check if both opening time and closing time are not null
-                      if (selectedOpeningTime != null && selectedClosingTime != null) {
+                      if (openingTime != null && closingTime != null) {
                         // Update the 'salon' field in Firestore
                         await firestoreController.updateGroomingSalon(
                             salon!, email!);
@@ -658,7 +673,7 @@ class _ProfilePageState extends State<GroomerProfile> {
 
                         // Update 'operatingHours' field in Firestore
                         await firestoreController.updateOperatingHours(
-                            selectedOpeningTime, selectedClosingTime, email!);
+                            openingTime, closingTime, email!);
 
                         // Update the 'contactNo' field in Firestore
                         await firestoreController.updateContactGroomers(

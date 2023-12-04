@@ -68,8 +68,6 @@ class _GroomerHomeState extends State<GroomerHome> {
     final user = AuthController.instance.auth.currentUser;
     final email = user!.email;
 
-    print('User Email: $email');
-
     if (email != null) {
       final appointments =
           await firestoreController.getAppointmentsGroomer(email);
