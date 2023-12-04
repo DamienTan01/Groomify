@@ -8,7 +8,7 @@ import 'package:groomify/pages/profile.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class GroomerDetails extends StatefulWidget {
-  final String email; // Pass the groomer's email as a parameter to this widget
+  final String email;
 
   const GroomerDetails({required this.email, Key? key}) : super(key: key);
 
@@ -32,13 +32,12 @@ class _GroomerDetailsState extends State<GroomerDetails> {
   List<String> services = [];
   double rating = 0.0;
 
+  String? errorMessage;
+  bool showBookNowButton = true;
+
   @override
   void initState() {
     super.initState();
-    _fetchGroomerData();
-  }
-
-  void refreshPage() {
     _fetchGroomerData();
   }
 
@@ -57,7 +56,6 @@ class _GroomerDetailsState extends State<GroomerDetails> {
         rating = ratingData is double ? ratingData : 0.0;
         contact = groomerData['contactNo'];
 
-        // Operating Hours
         Map<String, TimeOfDay?> operatingHoursData = {
           'openingTime': groomerData['opening_time'] != null
               ? TimeOfDay(
@@ -78,14 +76,26 @@ class _GroomerDetailsState extends State<GroomerDetails> {
           services = List<String>.from(groomerData['services']);
         }
 
-        // Retrieve and update price range
         final priceRange = groomerData['price_range'];
         if (priceRange != null) {
           minPrice = priceRange['min_price'] ?? minPrice;
           maxPrice = priceRange['max_price'] ?? maxPrice;
         }
+
+        // Check if contact is null or empty
+        if (contact == null || contact!.isEmpty) {
+          errorMessage = 'Not Available';
+          showBookNowButton = false;
+        } else {
+          errorMessage = null;
+          showBookNowButton = true;
+        }
       });
     }
+  }
+
+  void refreshPage() {
+    _fetchGroomerData();
   }
 
   void _onItemTapped(int index) {
@@ -94,17 +104,14 @@ class _GroomerDetailsState extends State<GroomerDetails> {
     });
 
     if (index == 0) {
-      // Navigate to the Home page
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => const HomePage()));
     }
     if (index == 1) {
-      // Navigate to the Groomer page
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => const GroomerPage()));
     }
     if (index == 2) {
-      // Navigate to the Profile page
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => const ProfilePage()));
     }
@@ -114,18 +121,17 @@ class _GroomerDetailsState extends State<GroomerDetails> {
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
-    // Define the number of rows and columns
+
     const int rowCount = 3;
     const int colCount = 3;
 
-    // Create a list of TableCell widgets for each service
     final List<TableCell> serviceCells = List.generate(
       rowCount * colCount,
       (index) {
         if (index < services.length) {
           return TableCell(
             child: Padding(
-              padding: const EdgeInsets.all(8.0), // Adjust padding as needed
+              padding: const EdgeInsets.all(8.0),
               child: Text(
                 services[index],
                 style: const TextStyle(fontSize: 20),
@@ -133,7 +139,6 @@ class _GroomerDetailsState extends State<GroomerDetails> {
             ),
           );
         } else {
-          // Return empty TableCell for remaining cells
           return TableCell(
             child: Container(),
           );
@@ -166,7 +171,6 @@ class _GroomerDetailsState extends State<GroomerDetails> {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            // Groomer Details
             Align(
               alignment: Alignment.center,
               child: CircleAvatar(
@@ -179,7 +183,6 @@ class _GroomerDetailsState extends State<GroomerDetails> {
               ),
             ),
             const SizedBox(height: 20),
-            // Display Groomer Details
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
@@ -187,7 +190,6 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Salon Name
                     Center(
                       child: Text(
                         salon ?? 'Loading...',
@@ -196,7 +198,6 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    // Rating
                     Row(
                       children: [
                         const Text(
@@ -224,7 +225,6 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                       ],
                     ),
                     const SizedBox(height: 15),
-                    // Location
                     const Text(
                       'Location: ',
                       style:
@@ -236,7 +236,6 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                       style: const TextStyle(fontSize: 20),
                     ),
                     const SizedBox(height: 15),
-                    // Operating Hours
                     const Text(
                       'Operating Hours: ',
                       style:
@@ -254,7 +253,6 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                             style: TextStyle(fontSize: 20, color: Colors.red),
                           ),
                     const SizedBox(height: 15),
-                    // Full Name
                     const Text(
                       'Full Name: ',
                       style:
@@ -266,7 +264,6 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                       style: const TextStyle(fontSize: 20),
                     ),
                     const SizedBox(height: 15),
-                    // Username
                     const Text(
                       'Username: ',
                       style:
@@ -278,16 +275,20 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                       style: const TextStyle(fontSize: 20),
                     ),
                     const SizedBox(height: 15),
-                    // Contact
                     const Text(
                       'Contact Number: ',
                       style:
                           TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5),
-                    formatContactNumber(contact),
+                    errorMessage != null
+                        ? Text(
+                            errorMessage!,
+                            style: const TextStyle(
+                                fontSize: 20, color: Colors.red),
+                          )
+                        : formatContactNumber(contact),
                     const SizedBox(height: 15),
-                    // Price Range
                     const Text(
                       'Price Range (RM): ',
                       style:
@@ -299,7 +300,6 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                       style: const TextStyle(fontSize: 20),
                     ),
                     const SizedBox(height: 15),
-                    // Services
                     const Text(
                       'Services: ',
                       style:
@@ -321,12 +321,10 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                                 .map((cell) => TableCell(
                                       child: Padding(
                                         padding: const EdgeInsets.only(
-                                            left: 4,
-                                            right: 4), // Add left padding
+                                            left: 4, right: 4),
                                         child: Container(
                                           alignment: Alignment.centerLeft,
-                                          child: cell
-                                              .child, // Access the child of the TableCell
+                                          child: cell.child,
                                         ),
                                       ),
                                     ))
@@ -360,21 +358,23 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                         color: Colors.white,
                       ),
                     ),
-                    onPressed: () async {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return AppointmentPage(
-                              groomerServices: services,
-                              salon: salon!,
-                              email: email!,
-                              contact: contact!,
+                    onPressed: showBookNowButton
+                        ? () async {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return AppointmentPage(
+                                    groomerServices: services,
+                                    salon: salon!,
+                                    email: email!,
+                                    contact: contact!,
+                                  );
+                                },
+                              ),
                             );
-                          },
-                        ),
-                      );
-                    },
+                          }
+                        : null,
                     child: const Text('Book Now'),
                   ),
                 ),
@@ -392,10 +392,8 @@ class _GroomerDetailsState extends State<GroomerDetails> {
   }
 }
 
-// Function to format the phone number with hyphen after the first 3 digits
 Widget formatContactNumber(String? phoneNumber) {
   if (phoneNumber != null && phoneNumber.isNotEmpty) {
-    // Insert hyphen after the first 3 digits
     final formattedNumber = phoneNumber.replaceRange(3, 3, '-');
     return Text(
       formattedNumber,
@@ -409,7 +407,6 @@ Widget formatContactNumber(String? phoneNumber) {
   }
 }
 
-// Function to format the time of operating hours
 String formatTimeOfDay(TimeOfDay timeOfDay) {
   int hour = timeOfDay.hour;
   int minute = timeOfDay.minute;
