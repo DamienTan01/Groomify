@@ -67,7 +67,7 @@ class _GroomerHomeState extends State<GroomerHome> {
   void _loadAppointments() async {
     final user = AuthController.instance.auth.currentUser;
     final email = user!.email;
-    
+
     if (email != null) {
       final appointments =
           await firestoreController.getAppointmentsGroomer(email);
@@ -87,6 +87,7 @@ class _GroomerHomeState extends State<GroomerHome> {
         final fullName = appointment['fullName'];
         final selectedTime = appointment['selectedTime'];
         final selectedServices = appointment['selectedServices'];
+        final contactNo = appointment['contactNo'];
         final docID = appointment['documentID'];
 
         // Print the logged-in user's email for debugging
@@ -155,9 +156,24 @@ class _GroomerHomeState extends State<GroomerHome> {
                       style:
                           TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
+                    const SizedBox(height: 5),
                     Text(
                       '${selectedServices.join(', ')}',
                       style: const TextStyle(fontSize: 22),
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'Contact Number: ',
+                      style:
+                      TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      '${appointment['contactNo'] ?? "Not Available"}',
+                      style: TextStyle(
+                        fontSize: 22,
+                        color: appointment['contactNo'] == null ? Colors.red : null,
+                      ),
                     ),
                     const SizedBox(height: 30),
                   ],
@@ -338,6 +354,19 @@ class _GroomerHomeState extends State<GroomerHome> {
                               Text(
                                 '${appointment['selectedServices'].join(', ')}',
                                 style: const TextStyle(fontSize: 18),
+                              ), const SizedBox(height: 5),
+                              const Text(
+                                'Contact Number: ',
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 5),
+                              Text(
+                                '${appointment['contactNo'] ?? "Not Available"}',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: appointment['contactNo'] == null ? Colors.red : null,
+                                ),
                               ),
                               // Edit IconButton
                               Row(

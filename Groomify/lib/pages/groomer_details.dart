@@ -369,6 +369,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                               groomerServices: services,
                               salon: salon!,
                               email: email!,
+                              contact: contact!,
                             );
                           },
                         ),

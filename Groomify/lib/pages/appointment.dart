@@ -12,12 +12,14 @@ class AppointmentPage extends StatefulWidget {
   final List<String> groomerServices;
   final String salon;
   final String email;
+  final String contact;
 
   const AppointmentPage({
     Key? key,
     required this.groomerServices,
     required this.salon, // Pass the groomer's services as a parameter
     required this.email,
+    required this.contact,
   }) : super(key: key);
 
   @override
@@ -152,6 +154,7 @@ class _AppointmentPage extends State<AppointmentPage> {
           context,
           widget.salon,
           widget.email,
+          widget.contact,
           _selectedDate!,
           _selectedTime!,
           selectedServices,
@@ -164,6 +167,7 @@ class _AppointmentPage extends State<AppointmentPage> {
           'selectedDate': _selectedDate!.toUtc(),
           'selectedTime': _selectedTime!.format(context),
           'selectedServices': selectedServices,
+          'contactNo': widget.contact,
         };
 
         // Call the function to add the booking to the booking history

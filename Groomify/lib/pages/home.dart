@@ -143,6 +143,7 @@ class _HomePageState extends State<HomePage> {
         final salonName = appointment['salonName'];
         final selectedTime = appointment['selectedTime'];
         final selectedServices = appointment['selectedServices'];
+        final contact = appointment['contactNo'];
         final docID = appointment['documentID'];
 
         return AlertDialog(
@@ -211,6 +212,19 @@ class _HomePageState extends State<HomePage> {
                     Text(
                       '${selectedServices.join(', ')}',
                       style: const TextStyle(fontSize: 22),
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'Contact No: ',
+                      style:
+                      TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      '${appointment['contactNo'] ?? "Not Available"}',
+                      style: TextStyle(
+                        fontSize: 22,
+                        color: appointment['contactNo'] == null ? Colors.red : null,
+                      ),
                     ),
                     const SizedBox(height: 30),
                     const Center(
@@ -359,7 +373,7 @@ class _HomePageState extends State<HomePage> {
                 // Appointments ListView
                 Container(
                   padding: const EdgeInsets.only(top: 2, bottom: 2),
-                  height: appointmentData.isEmpty ? 280 : 450,
+                  height: appointmentData.isEmpty ? 280 : 300,
                   child: appointmentData.isEmpty
                       ? const Center(
                           child: Text(
@@ -439,6 +453,20 @@ class _HomePageState extends State<HomePage> {
                                   Text(
                                     '${appointment['selectedServices'].join(', ')}',
                                     style: const TextStyle(fontSize: 18),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  const Text(
+                                    'Contact Number: ',
+                                    style: TextStyle(
+                                        fontSize: 18, fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    '${appointment['contactNo'] ?? "Not Available"}',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: appointment['contactNo'] == null ? Colors.red : null,
+                                    ),
                                   ),
                                   // Edit IconButton
                                   Row(

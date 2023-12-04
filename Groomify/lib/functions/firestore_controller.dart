@@ -400,6 +400,7 @@ class FirestoreController {
     BuildContext context, // Pass the context from the calling function
     String email, // The user's email
     String salon, // Salon Name
+    String contact,
     DateTime selectedDate, // The selected appointment date
     TimeOfDay selectedTime, // The selected appointment time
     List<String> selectedServices, // List of selected services
@@ -420,6 +421,7 @@ class FirestoreController {
           'selectedTime': selectedTime.format(context),
           'selectedServices': selectedServices,
           'documentID': '', // This field will store the Firestore document ID
+          'contactNo': contact,
         };
 
         // Add the appointment information to the 'appointments' field in the user's document
