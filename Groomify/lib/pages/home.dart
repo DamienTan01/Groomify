@@ -373,7 +373,7 @@ class _HomePageState extends State<HomePage> {
                 // Appointments ListView
                 Container(
                   padding: const EdgeInsets.only(top: 2, bottom: 2),
-                  height: appointmentData.isEmpty ? 280 : 300,
+                  height: appointmentData.isEmpty ? 300 : 300,
                   child: appointmentData.isEmpty
                       ? const Center(
                           child: Text(
