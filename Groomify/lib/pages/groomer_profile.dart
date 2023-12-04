@@ -646,30 +646,52 @@ class _ProfilePageState extends State<GroomerProfile> {
                       ),
                     ),
                     onPressed: () async {
-                      // Update the 'salon' field in Firestore
-                      await firestoreController.updateGroomingSalon(
-                          salon!, email!);
+                      // Check if both opening time and closing time are not null
+                      if (selectedOpeningTime != null && selectedClosingTime != null) {
+                        // Update the 'salon' field in Firestore
+                        await firestoreController.updateGroomingSalon(
+                            salon!, email!);
 
-                      // Update the 'location' field in Firestore
-                      await firestoreController.updateSalonLocation(
-                          location!, email!);
+                        // Update the 'location' field in Firestore
+                        await firestoreController.updateSalonLocation(
+                            location!, email!);
 
-                      // Update 'operatingHours' field in Firestore
-                      await firestoreController.updateOperatingHours(
-                          selectedOpeningTime, selectedClosingTime, email!);
+                        // Update 'operatingHours' field in Firestore
+                        await firestoreController.updateOperatingHours(
+                            selectedOpeningTime, selectedClosingTime, email!);
 
-                      // Update the 'contactNo' field in Firestore
-                      await firestoreController.updateContactGroomers(
-                          contact!, email!);
+                        // Update the 'contactNo' field in Firestore
+                        await firestoreController.updateContactGroomers(
+                            contact!, email!);
 
-                      // Update the 'services' field in Firestore
-                      await firestoreController.updateServices(list, email!);
+                        // Update the 'services' field in Firestore
+                        await firestoreController.updateServices(list, email!);
 
-                      await firestoreController.updatePriceRange(
-                          minPrice, maxPrice, email!);
+                        await firestoreController.updatePriceRange(
+                            minPrice, maxPrice, email!);
 
-                      // Refresh the page after updating
-                      refreshPage();
+                        // Refresh the page after updating
+                        refreshPage();
+                      } else {
+                        // Display an error message if times are null
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text('Error'),
+                              content: const Text('Please select opening and closing times.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop(); // Close the dialog
+                                  },
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
                     },
                     child: const Text('Update'),
                   ),
