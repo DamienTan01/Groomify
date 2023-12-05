@@ -83,8 +83,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
         }
 
         // Check if contact is null or empty
-        if (contact == null || contact!.isEmpty) {
-          errorMessage = 'Not Available';
+        if (contact == null || contact!.isEmpty|| operatingHours['openingTime'] == null || operatingHours['closingTime'] == null) {
           showBookNowButton = false;
         } else {
           errorMessage = null;
@@ -198,6 +197,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                       ),
                     ),
                     const SizedBox(height: 20),
+                    // Rating
                     Row(
                       children: [
                         const Text(
@@ -225,6 +225,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                       ],
                     ),
                     const SizedBox(height: 15),
+                    // Location
                     const Text(
                       'Location: ',
                       style:
@@ -236,21 +237,24 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                       style: const TextStyle(fontSize: 20),
                     ),
                     const SizedBox(height: 15),
+                    // Operating Hours
                     const Text(
                       'Operating Hours: ',
                       style:
                           TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5),
-                    operatingHours['openingTime'] != null &&
-                            operatingHours['closingTime'] != null
+                    errorMessage != null ||
+                            operatingHours['openingTime'] == null ||
+                            operatingHours['closingTime'] == null
                         ? Text(
+                            errorMessage ?? 'Not Available',
+                            style: const TextStyle(
+                                fontSize: 20, color: Colors.red),
+                          )
+                        : Text(
                             '${formatTimeOfDay(operatingHours['openingTime']!)} - ${formatTimeOfDay(operatingHours['closingTime']!)}',
                             style: const TextStyle(fontSize: 20),
-                          )
-                        : const Text(
-                            'Not Available',
-                            style: TextStyle(fontSize: 20, color: Colors.red),
                           ),
                     const SizedBox(height: 15),
                     const Text(
@@ -283,7 +287,7 @@ class _GroomerDetailsState extends State<GroomerDetails> {
                     const SizedBox(height: 5),
                     errorMessage != null
                         ? Text(
-                            errorMessage!,
+                            errorMessage ?? 'Not Available',
                             style: const TextStyle(
                                 fontSize: 20, color: Colors.red),
                           )
